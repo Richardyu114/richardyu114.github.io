@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="About IML的A.J.Davison教授是visual SLAM领域里的奠基人之一，近期抽空看了他在推特上置顶的有关SLAM未来的一些思考的论文：  FutureMapping: The Computational Structure of Spatial AI Systems。对于做SLAM的同学，感觉这篇论文还是值得一看的，这里有个博主将该论文翻成了中文。 实际上，通篇读下来我的感受是并">
+<meta name="keywords" content="computer vision,SLAM,mapping,AI system,hardware">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FutureMapping by A.J.Davison">
+<meta property="og:url" content="http://richardyu114.github.io/2019/04/16/FutureMapping-by-A-J-Davison/index.html">
+<meta property="og:site_name" content="自拙集">
+<meta property="og:description" content="About IML的A.J.Davison教授是visual SLAM领域里的奠基人之一，近期抽空看了他在推特上置顶的有关SLAM未来的一些思考的论文：  FutureMapping: The Computational Structure of Spatial AI Systems。对于做SLAM的同学，感觉这篇论文还是值得一看的，这里有个博主将该论文翻成了中文。 实际上，通篇读下来我的感受是并">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://richardyu114.github.io/2019/04/16/FutureMapping-by-A-J-Davison/yanlecun_lesson1.jpeg">
+<meta property="og:image" content="http://richardyu114.github.io/2019/04/16/FutureMapping-by-A-J-Davison/some_elements_of_computation_graph.PNG">
+<meta property="og:updated_time" content="2019-05-13T08:47:15.042Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="FutureMapping by A.J.Davison">
+<meta name="twitter:description" content="About IML的A.J.Davison教授是visual SLAM领域里的奠基人之一，近期抽空看了他在推特上置顶的有关SLAM未来的一些思考的论文：  FutureMapping: The Computational Structure of Spatial AI Systems。对于做SLAM的同学，感觉这篇论文还是值得一看的，这里有个博主将该论文翻成了中文。 实际上，通篇读下来我的感受是并">
+<meta name="twitter:image" content="http://richardyu114.github.io/2019/04/16/FutureMapping-by-A-J-Davison/yanlecun_lesson1.jpeg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="自拙集" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="http://richardyu114.github.io/2019/04/16/FutureMapping-by-A-J-Davison/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>FutureMapping by A.J.Davison | 自拙集</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">自拙集</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Work cures everything</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-paperweekly">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/PaperWeekly/" rel="section"><i class="menu-item-icon fa fa-fw fa-edit"></i> <br>PaperWeekly</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://richardyu114.github.io/2019/04/16/FutureMapping-by-A-J-Davison/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Richard YU">
+      <meta itemprop="description" content="Today everything exists to end in a photograph">
+      <meta itemprop="image" content="/uploads/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="自拙集">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">FutureMapping by A.J.Davison
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-16 16:24:31" itemprop="dateCreated datePublished" datetime="2019-04-16T16:24:31+08:00">2019-04-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-13 16:47:15" itemprop="dateModified" datetime="2019-05-13T16:47:15+08:00">2019-05-13</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/04/16/FutureMapping-by-A-J-Davison/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/16/FutureMapping-by-A-J-Davison/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/2019/04/16/FutureMapping-by-A-J-Davison/" class="leancloud_visitors" data-flag-title="FutureMapping by A.J.Davison">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="About"><a href="#About" class="headerlink" title="About"></a>About</h2><hr>
+<p>IML的<a href="https://www.imperial.ac.uk/people/a.davison" target="_blank" rel="noopener">A.J.Davison</a>教授是visual SLAM领域里的奠基人之一，近期抽空看了他在推特上置顶的有关SLAM未来的一些思考的论文：  <strong>FutureMapping: The Computational Structure of Spatial AI Systems</strong>。对于做SLAM的同学，感觉这篇论文还是值得一看的，这里有个博主将该论文翻成了<a href="https://blog.csdn.net/cicibabe/article/details/79846466" target="_blank" rel="noopener">中文</a>。</p>
+<p>实际上，通篇读下来我的感受是并没有发现Davison提出了比较吸引人眼球的见解，不过有不少亮点，也让我加深了对SLAM这个东西的理解。虽然他对未来visual SLAM的功能性估计也和综述<strong>Past, Present, and Future of Simultaneous Localization And Mapping: Towards the Robust-Perception Age</strong>  里描述得差不多，只不过后者说的比较“大而空”，都是一些常见的想法，什么动态啦，语义融合啦，模仿生物视觉啦，地图表征与更新等等，但是在Davison的这篇论文里，他以一个机器人学者的角度出发，试图从硬件和软件这两个方面去思考，未来的需求下机器人应该如何完成视觉任务，硬件应该如何发展去支持算法有效的计算，以及整个系统该有怎样的结构，才能使得机器人更好地在不同的场景下，甚至是大场景中完成不同的任务。</p>
+<p>作为一个入门SLAM不算太久的工科学生来说，虽然不少技术知识还未掌握，但是偶尔看看这样的文章和思考也不是未尝不可，至少能激发我思考什么样的东西是值得做的，哪一个技术是未来需求的？</p>
+<p>不过有一个疑问是一直存在我心中的，大家都谈到了未来的visual SLAM会结合机器学习或者模仿生物视觉机制和大脑存储记忆的机制，这个我是赞同的，<strong>但是对于三维地图而言，是否是有必要去重建的</strong>，除了它们在AR上的一些应用？大家都说想要融合语义标签，物体分类与识别融合到三维图里面，有的人可能还想让地图进行实时更新，容纳动态物体（至少我曾经是这样想的），但是这样的做的目的和意义到底是什么？单纯说目的是为了让机器进一步理解环境是无法让我满足的，所以我也试图在寻找和思考这个问题的答案。遗憾的是，Davison在这篇文章里面也没有提到此类问题，不过也没有夸大三维地图的作用，而是强调图模型的作用，这一点我是赞同的。也就是说，类似人一样，我们利用视觉和计算完成任务时，”graph”这个东西是肯定发挥了很大的作用，但是却没必要“事无巨细”的记下来，我们大多是提取重要的特征，压缩下来，然后进行推断，从而得出各种预测和结论，而且事后也可以在脑海中回忆重建出场景的三维模型，此外，这些压缩信息也会随时间及时进行更迭，经常重访的则会记得牢固一些，调取起来也很快，那些不常去的可能就会进一步压缩或者删除了。</p>
+<p>Davison在论文是这样描述地图表征的利用形式的：</p>
+<blockquote>
+<p>In real-time, the system must maintain and update a world model, with geometric and semantic information, and estimate its position within that model, from primarily or only measurements from its on-board sensors.</p>
+<p>The system should provide a wide variety of taskuseful information about <strong>‘what’ is ‘where’ in the scene</strong>. Ideally, <strong>it will provide a full semantic level model of the identities, positions, shapes and motion of all of the objects and other entities in the surroundings</strong>.</p>
+<p>The representation of the world model will <strong>be close to metric</strong>, at least locally, to enable rapid reasoning about arbitrary predictions and measurements of interest to an AI or IA system.</p>
+<p>It will probably <strong>retain a maximum quality representation of geometry and semantics only in a focused manner</strong>; most obviously for the part of the scene currently observed and relevant for near-future interaction. <strong>The rest of the model will be stored at a hierarchy of residual quality levels, which can be rapidly upgraded when revisited.</strong></p>
+<p>The system will be generally alert, in the sense that every incoming piece of visual data is checked against a forward predictive scene model: for tracking, and for detecting changes in the environment and independent motion. The system will be able to <strong>respond to changes</strong> in its environment.</p>
+</blockquote>
+<p>所以我的意思是，在进行视觉任务时，重建三维地图应该不是必要的，至少在实际任务上目前可能起不到很大的作用，可能需要的是一种更加简洁凝练的图表征模式，这种模式更适合机器去认识环境，去进行编码，解码，计算，存储以及维护，而不是像人一样以为这样看到的是环境的理解方式，毕竟我们看到的是已经经过大脑处理的“人机交互结果”，并不是最核心的表征方式。但是大家为什么现在都比较热衷与做3D视觉，3D重建，我想可能是计算机视觉的一个难题吧，毕竟计算机图形学还是很有魅力的，毕竟未来的应用谁也说不准，只希望最后不要让这些技术让人类迷失在虚拟世界里。。。在这个方面，还得多一些<a href="https://www.technologyreview.com/s/613311/mapping-the-world-in-3d-will-let-us-paint-streets-with-augmented-reality/?utm_campaign=the_download.unpaid.engagement&amp;utm_source=hs_email&amp;utm_medium=email&amp;utm_content=71836962&amp;_hsenc=p2ANqtz-8xmRJCA-lRmkREUy6bMXIyqkH3NbAngJgynjDgBx2V-dGw-HLkRxMi3j1Z2izhsqPrpw6txfcuN5lVt9tU4FFzZ1ggiw&amp;_hsmi=71836962" target="_blank" rel="noopener">产品层面的思考</a>。</p>
+<p>以上只是我的一点不成熟的想法，还需要多去阅读思考和交流。</p>
+<hr>
+<a id="more"></a>
+<h2 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h2><p>这篇的文章的摘要如下：</p>
+<blockquote>
+<p>We discuss and predict the evolution of Simultaneous Localization and Mapping (SLAM) into a <strong>general geometric and semantic ‘Spatial AI’ perception capability for intelligent embodied devices</strong>. A big gap remains between the visual perception performance that devices such as augmented reality eyewear or consumer robots will require and what is possible within the constraints imposed by real products. Co-design of algorithms, processors and sensors will be needed. We <strong>explore the computational structure of current and future Spatial AI algorithms and consider this within the landscape of ongoing hardware developments.</strong></p>
+</blockquote>
+<p>可以看到Davison教授关注的是<strong>general geometric and semantic ‘Spatial AI’ perception capability for intelligent embodied devices</strong>。首先介绍了Spatial AI system的相关概念，<code>the goal of a Spatial AI system is not abstract scene understanding, but continuously to capture the right information, and to build the right representations, to enable real-time interpretation and action.</code> 然后分别从算法层面和硬件层面去探讨，什么样的元素应该具备，什么样的结构是合理的，什么样的计算方式和维护更新方式可能被采用，以及从被动的分析到主动的分析预测的思考（感觉这才是有点智能的味道），最后还批判现在的计算机视觉研究者都热衷于刷点，而不去思考架构本身的问题，这个吐槽很准了，毕竟听说今年CVPR2019刷点，刷速率的文章接受率都显著下降了，我们读者都疲劳了，更何况评委。当然教授最后吐槽的重点是为了思考Benchmark对visual SLAM的意义，因为visual SLAM是一个实践性很强的系统，是为了解决实际机器人问题而生的，因此在实际的实时实验中效果好才是真的好，一味地去比较各个指标没有太大的意义，而且也很难比较，指标又很多，比如最后文末列的：</p>
+<blockquote>
+<p>• Local pose accuracy in newly explored ares (visual odometry drift rate).<br>• Long term metric pose repeatability in well mapped areas.<br>• Tracking robustness percentage.<br>• Relocalisation robustness percentage.<br>• SLAM system latency.<br>• Dense distance prediction accuracy at every pixel.<br>• Object segmentation accuracy.<br>• Object classification accuracy.<br>• AR pixel registration accuracy.<br>• Scene change detection accuracy.<br>• Power usage.<br>• Data movement (bits×millimetres).</p>
+</blockquote>
+<p>文中的具体内容不再一一讲了，这里主要讲几个文章中让我感兴趣的点。</p>
+<h3 id="ML-或者-DL能为Spatial-AI-system做什么"><a href="#ML-或者-DL能为Spatial-AI-system做什么" class="headerlink" title="ML 或者 DL能为Spatial AI system做什么"></a>ML 或者 DL能为Spatial AI system做什么</h3><p>传统机器学习算法和深度学习中的神经网络擅长做分类和回归，它们在对图像的特征学习上有着得天独厚的优势。近些年也有好多工作是利用CNN和RNN，以及unsupervised learning等深度学习的方法来进行位姿估计和深度估计，也取得了不错的效果。不过有些人认为深度学习在已经研究差不多的3D Geometry上并没有什么意义，况且数学模型我们都知道，没必要去及蹭热度利用深度学习来做，相反那些现有的算法无法处理的图像问题，比如鲁棒性好的特征点提取，光照的变化，纹理的单一，场景的识别以及运动模糊等可以尝试利用深度学习隐式地解决。此外，深度学习在object detection，semantic segmentation等都有很好的成果，可以进行应用。</p>
+<blockquote>
+<p>These are learning architectures which use the designer’s knowledge of the structure of the underlying estimation problem to increase what can be gained from training data, and can be seen as hybrids between pure black box learning and hand-built estimation.     …   Why should a neural network have to use some of its capacity to learn a well understood and modelled concept like 3D geometry? Instead it can focus its learning on the harder to capture factors such as correspondence of surfaces under varying lighting.</p>
+<p>These insights support our first hypothesis that future Spatial AI systems will have recognisable and general map-ping capability which builds a close to metric 3D model. This ‘SLAM’ element may either be embedded within a specially architected neural network, or be more explicitly separated from machine learning in another module which stores and updates map properties using standard estimation methods (as in SemanticFusion for instance). In both cases, there should be an identifiable region of memory which contains a representation of space with some recognisable geometric structure.</p>
+</blockquote>
+<p>个人感觉机器学习以及现在，未来可能出现的一系列理论可能对Spatial AI system帮助最大地可能就是图像理解和环境表征方面了，另外长时间运行带来的认识融合和更新。以及压缩等，可能也会有帮助。有关这个方面的思考目前不是很深，因为我现在还没开始学习机器学习，所以对技术了解不深，但是我感觉这东西是个“万精油”，在SLAM上的应用很大程度上可能归功于设计者怎么用，用在哪里，也就是说怎么设计网络，然后通过什么去学习什么功能，而不是紧紧盯着传统的方法然后去想方设法实现它。</p>
+<h3 id="硬件与云端"><a href="#硬件与云端" class="headerlink" title="硬件与云端"></a>硬件与云端</h3><p>硬件方面Davison教授主要探讨了装载该Spatial AI System的嵌入式硬件应该具有什么样的结构，而且还具有匹配视觉计算特点的算力，同时还得有一定的存储能力。他肯定了分割计算，并行计算，多核心，多线程，神经形态硬件架构的需求，也列出了一些正在研究的例子，具体的内容可以参见文章内容。</p>
+<p>实际上，硬件对算法的促进具有着决定性的作用，从Yann Lecun在2019年的ISSCC上做的<a href="https://pan.baidu.com/s/1lXv0aDSEKXKYQVhJc5X6-A" target="_blank" rel="noopener">报告</a>就可以看出</p>
+<p>，没有良好的硬件支持，算法根本没办法进行实验验证，就很难进步。因此，硬件方面的迫切需求是现在整个智能行业的燃眉之急。</p>
+<p><img src="/2019/04/16/FutureMapping-by-A-J-Davison/yanlecun_lesson1.jpeg" alt="yan lecun lesson1 about hardware"></p>
+<p>另外，Davison教授也肯定了云端的重要性。因为云端相当于一个存储中心，可以存储环境表征这样的信息，而且可以同时对环境分布中的机器人进行通信和数据传输，这对机器人在大场景中，长时间执行任务起到“预热”等辅助性作用。</p>
+<blockquote>
+<p>Finally, when considering the evolution of the computing resources for Spatial AI, we should never forget that, cloud computing resources will continue to expand in capacity and reduce in cost. All future Spatial AI systems will likely be cloud-connected most of the time, and from their point of view the processing and memory resources of the cloud can be assumed to be close to infinite and free. What is not free is communication between an embedded device and the cloud, which can be expensive in power terms, particularly if high bandwidthdata such as video is transmitted. The other important consideration is the time delay, typically of significant fractions of a second, in sending data to the cloud for processing.</p>
+<p>The long term potential for cloud-connected Spatial AI is clearly enormous. The vision of Richard Newcombe, Director of Research Science at Oculus, is that all of these devices should communicate and collaborate to build and maintain shared a ‘machine perception map’ of the whole world. The master map will be stored in the cloud, and individual devices will interact with parts of it as needed. A<br>shared map can be much more complete and detailed than that build by any individual device, due to both sensor coverage and the computing resources which can be put into it. A particularly interesting point is that the Spatial AI work which each individual device needs to do in this setup can in theory be much reduced. Having estimated its location within the global map, it would not need to densely map<br>or semantically label its surrounding if other devices had already done that job and their maps could simply be projected into its field of view. It would only need to be alert for changes, and in turn play its part in returning updates.</p>
+</blockquote>
+<h3 id="Graphs"><a href="#Graphs" class="headerlink" title="Graphs"></a>Graphs</h3><p>Davison在论文的第5节讲了很多有关”Graphs”的东西，我们知道，现在的visual SLAM框架都开始逐渐认同将图优化作为减小估计误差的手段要比滤波器估计的效果好得多，因为”graphs”本身就是视觉的一种表征方式，而且在约束上具有非线性性，能更好地模拟现实情况。</p>
+<p>在SLAM方面，教授主要提出了geometry和local appearance两者是否可以联系起来的观点：</p>
+<blockquote>
+<p>We have not yet discovered a <strong>suitable feature representation which describes both local appearance and geometry in such a way that a relatively sparse feature set can provide a dense scene prediction.</strong> We believe that learned features arising from ongoing geometric deep learning research will provide the path towards this.</p>
+<p>Some very promising recent work which we believe is heading in the right direction Bloesch et al.’s CodeSLAM. This method uses an image-conditioned autoencoder to discover an optimisable code with a small number of parameters which describes the dense depth map at a keyframe. <strong>In SLAM, camera poses and these depth codes can be jointly optimised to estimate dense scene shape which is represented by relatively few parameters.</strong> In this method, the scene geometryis stilllocked to keyframes, but we believe that the next step is to discover learned codes which can efficiently represent both appearance and 3D shape, and to make these the elements of a graph SLAM system.</p>
+</blockquote>
+<p>Davison教授另外一个观点是该实时系统中的”Computation Graph”，并且再次提出了”object-oriented SLAM”的概念。</p>
+<blockquote>
+<p> How can we get back to this ‘object-oriented SLAM’ capability in the much more general sense, where a wide range of object classes of varying style and details could be dealt with? As discussed before, <strong>SLAM maps of the future will probably be represented as multi-scale graphs of learned features which describe geometry, appearance and semantics</strong>. Some of these features will represent immediately recognised whole objects as in SLAM++. <strong>Others will represent generic semantic elements or geometric parts (planes, corners, legs, lids?</strong>) which are part of objects either already known or yet to be discovered. Others may approach surfels or other standard dense geometric elements in representing the geometry and appearance of pieces whose semantic identity is not yet known, or does not need to be known.</p>
+<p><strong>Recognition, and unsupervised learning, will operate on these feature maps to cluster, label and segment them</strong>. The machine learning methods which do this job will themselves improve by selfsupervision during the SLAM process, taking advantage of dense SLAM’s properties as a “correspondence engine”.</p>
+</blockquote>
+<p><img src="/2019/04/16/FutureMapping-by-A-J-Davison/some_elements_of_computation_graph.PNG" alt="some elements of computation graph"></p>
+<p>这个图基本上等于是把系统算法的框架给列出来了，可以看出，核心还是”定位“（camera state）和”建图“（world model）。只不过里面加入了深度学习来提高系统的性能。</p>
+<blockquote>
+<p><strong>Most computation relates to the world model</strong>, which is a persistent, continuously changing and <strong>improving data store</strong> where the system’s generative representation of the important elements of the scene is held; and the input camera data stream. Some of the main computational elements are:</p>
+<p>• Empirical labelling of images to features (e.g. via a CNN).<br>• <strong>Rendering</strong>: getting a dense prediction from the world map to image space.<br>• Tracking: aligning a prediction with new image data, including finding outliers and detecting independent movement.<br>• <strong>Fusion</strong>: fusing updated geometry and labels back into the map.<br>• <strong>Map consolidation: fusing elements into objects, or imposing smoothing, regularisation</strong>.<br>• Relocalisation/loop closure detection: detecting self similarity in the map.<br>• Map consistency optimization, for instance after confirming a loop closure.<br>• <strong>Self-supervised learning of correspondence information from the running system.</strong></p>
+</blockquote>
+<p>这些都是当前比较主流的观点，而且里面涉及的知识体系比较庞大，因此大部分都是先针对一个来展开研究，不过我觉得要想对其进行突破，最大的，也是最有挑战性的问题应该就是世界模型表征问题了，对于机器来讲，这个应当是个非常简洁和高效的表征方式，同时也易于存储，调用，翻译和编码。</p>
+<h3 id="地图的处理，表示，预测和更新"><a href="#地图的处理，表示，预测和更新" class="headerlink" title="地图的处理，表示，预测和更新"></a>地图的处理，表示，预测和更新</h3><p>其实这个部分前面已经提及了不少了，而Davison教授也单独在第6节讲了这个问题，对里面的几个关键问题进行了总结和思考：一个是硬件支持，一个是地图存储，一个是实时回环。</p>
+<p>地图表征方面：</p>
+<blockquote>
+<p>There is a large degreeof choice possible in the representation of a 3D scene, but as explained in Section 5.1.2, we envision maps which <strong>consist of graphs of learned features, which are linked in multi-scale patterns relating to camera motion</strong>. These features must <strong>represent geometry as well as appearance,</strong> such that they can be used to render a dense predicted view of the scene from a novel viewpoint. It may be that they <strong>do not need to represent full photometric appearance</strong>, and that a somewhat abstracted view is sufficient as long as it captures geometric detail.</p>
+</blockquote>
+<p>地图存储与维持方面（更新）：</p>
+<blockquote>
+<p>Within the main processor, a major area will be devoted to storing this map, in a manner which is <strong>distributed around potentially a large number of individual cores which are strongly connected in a topology to mirror the map graph topology</strong>. In SLAM, of course the map is defined and <strong>grown dynamically</strong>, so the graph within the processor must either be able to change dynamically as well, or must be initially defined with a large unused capacity which is filled as SLAM progresses.</p>
+<p>Importantly, a significant portion of the processing associated with large scale SLAM can be built directly into this graph. This is mainly the sort of ‘maintenance’ processing via which the map optimises and refines itself; including:</p>
+<p>• <strong>Feature clustering; object segmentation and identification.</strong><br>• Loop closure detection.<br>• Loop closure optimization.<br>• <strong>Map regularisation (smoothing).</strong><br>• <strong>Unsupervised clustering to discover new semantic categories.</strong></p>
+<p>With time, data and processing, a map which starts off as dense geometry and low level features can be refined towards an efficient object level map. Some of these operations will run with very high parallelism, as each part of the map is refined on its local core(s), while other operations such as loop closure detection and optimisation will require message passing around large parts of the graph. Still, importantly, they can take place in a manner which is internal to the map store itself.</p>
+</blockquote>
+<p>实时回环方面，教授提出了地图的存储与场景识别方面的一些难点，即“翻译”和“融合”之间协作的问题。因为相机的运动会对地图进行实时更新，该模块的重心在于维持，而不是比较数据，因此可能会对场景识别造成一定的影响。教授在这里提出了可以利用节点（node），海马体结构，以及小世界拓扑结构地图等来解决。我想可能是模仿人的记忆功能。</p>
+<blockquote>
+<p>Instead, a possible solution is to <strong>define special interface nodes which sit between the real-time loop block and the map store</strong>. These are nodes focused on <strong>communication</strong>, which are connected to the relevant components of real-time loop processing and then also to various sites in the map graph, and <strong>may have some analogue in the hippocampus of mammal brains</strong>. If the map store is <strong>organised such that it has a ‘small world’ topology</strong>, meaning that any part is joined to any other part by a small number of edge hops, then the interface nodes should be able to access (copy) any relevant map data in a small number of operations and serve them up to the real-time loop.</p>
+<p><strong>Each node in the map store will also have to play some part in this communication procedure, where it will sometimes beused as part of the route for copying map databackwards and forwards.</strong></p>
+</blockquote>
+<h3 id="注意力机制，主动视觉"><a href="#注意力机制，主动视觉" class="headerlink" title="注意力机制，主动视觉"></a>注意力机制，主动视觉</h3><p>这里的主动视觉是指机器人主动移动相机去采集和任务有关的信息，是一种“top-down”的执行方式。</p>
+<blockquote>
+<p>The active vision paradigm advocates using sensing resources, such as the directions that a camera points towards or the processing applied to its feed, <strong>in a way which is controlled depending on the task at hand and prior knowledge available</strong>. <strong>This ‘top-down’ approach contrasts with ‘bottom-up’, blanket processing of all of the data received from a camera.</strong></p>
+</blockquote>
+<p>Davison提到人的视觉机制是“bottom-up”和”top-down“并存的，而且现在的”bottom-up“的图像处理机制也有很不错的发展，而且在处理很多问题上都很有效，因此两者的结合应当也是一种必然，毕竟”top-down“的执行是需要信息和预测来作为先决条件的。主动视觉在系统的实时性上会有很大的帮助，因为减少了信息和数据处理的冗余度，只分析我需要的数据，因此会大大减小对算力的需求。</p>
+<blockquote>
+<p><strong>It is important that when assessing the relative efficiency of bottom-up versus top-down vision, we take into account not just processing operations but also data transfer, and to what extent memory locality and graph-based computation can be achieved by each alternative.</strong> This will make certain possibilities in model-based prediction unattractive, such as searching large global maps or databases. The amazing advances in <strong>CNN-based vision</strong> means that we have to raise our sights when it comes to what we can expect from <strong>pure bottom-up image processing</strong>. But also, <strong>graph processing will surely permit new ways to store and retrieve model data efficiently,</strong> and will favour keeping and updating world models (such as graph SLAM maps) which have data locality.</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Davison这篇论文提出的思考和观点还是比较符合现在的主流认知的，而且在技术上，教授也给出了一些比较具体的方案。不过这个目标比较长远，目前其中的小环节可能都还没处理好，而且还需要硬件铺路，因此想要彻底实现难度还是有点大的。总之，这样的系统我估计未来都是模块化的，分布式的，并且是多协作的，以任务为中心的，毕竟现在的AI还没有大的突破，因此想要实现像人类那样的视觉机制还比较困难，得需要很多个学科的大佬共同研究努力才行。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Richard YU</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://richardyu114.github.io/2019/04/16/FutureMapping-by-A-J-Davison/" title="FutureMapping by A.J.Davison">http://richardyu114.github.io/2019/04/16/FutureMapping-by-A-J-Davison/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/computer-vision/" rel="tag"><i class="fa fa-tag"></i> computer vision</a>
+          
+            <a href="/tags/SLAM/" rel="tag"><i class="fa fa-tag"></i> SLAM</a>
+          
+            <a href="/tags/mapping/" rel="tag"><i class="fa fa-tag"></i> mapping</a>
+          
+            <a href="/tags/AI-system/" rel="tag"><i class="fa fa-tag"></i> AI system</a>
+          
+            <a href="/tags/hardware/" rel="tag"><i class="fa fa-tag"></i> hardware</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/26/visual-SLAM-by-Gaoxiang-3/" rel="next" title="visual SLAM by Gaoxiang(3)">
+                <i class="fa fa-chevron-left"></i> visual SLAM by Gaoxiang(3)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/11/往者不谏，来者可追/" rel="prev" title="往者不谏，来者可追">
+                往者不谏，来者可追 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/header.jpg" alt="Richard YU">
+            
+              <p class="site-author-name" itemprop="name">Richard YU</p>
+              <div class="site-description motion-element" itemprop="description">Today everything exists to end in a photograph</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/richardyu114" title="GitHub &rarr; https://github.com/richardyu114" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://twitter.com/Yu1145635107" title="Twitter &rarr; https://twitter.com/Yu1145635107" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://instagram.com/d.h.richard" title="Instagram &rarr; https://instagram.com/d.h.richard" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/5211687990" title="Weibo &rarr; https://weibo.com/u/5211687990" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.douban.com/people/161993653/" title="豆瓣 &rarr; https://www.douban.com/people/161993653/" rel="noopener" target="_blank"><i class="fa fa-fw fa-paperclip"></i>豆瓣</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#About"><span class="nav-number">1.</span> <span class="nav-text">About</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Content"><span class="nav-number">2.</span> <span class="nav-text">Content</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ML-或者-DL能为Spatial-AI-system做什么"><span class="nav-number">2.1.</span> <span class="nav-text">ML 或者 DL能为Spatial AI system做什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件与云端"><span class="nav-number">2.2.</span> <span class="nav-text">硬件与云端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Graphs"><span class="nav-number">2.3.</span> <span class="nav-text">Graphs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地图的处理，表示，预测和更新"><span class="nav-number">2.4.</span> <span class="nav-text">地图的处理，表示，预测和更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意力机制，主动视觉"><span class="nav-number">2.5.</span> <span class="nav-text">注意力机制，主动视觉</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Richard YU</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: '0dPFtfvMW3unG026ng9mltSq-gzGzoHsz',
+    appKey: 'PMHx38PGqlVax1npmbxpY2ig',
+    placeholder: '欢迎评论！请留下你的邮箱',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+        // ref: https://github.com/ForbesLindesay/unescape-html
+        var unescapeHtml = function(html) {
+          return String(html)
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, '\'')
+            .replace(/&#x3A;/g, ':')
+            // replace all the other &#x; chars
+            .replace(/&#(\d+);/g, function (m, p) { return String.fromCharCode(p); })
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&amp;/g, '&');
+        };
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                content = unescapeHtml(content);
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
