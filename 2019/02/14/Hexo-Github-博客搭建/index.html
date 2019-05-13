@@ -127,7 +127,7 @@
 <meta property="og:site_name" content="自拙集">
 <meta property="og:description" content="完整搭建过程参考此系列博客（环境win10） 我的写作编辑器用的是typora Next主题配置Next主题是本人比较中意的hexo主题，所以在此只记录Next主题的配置过程 下载建议安装6.0版本。利用git bash here,输入命令：git clone https://github.com/theme-next/hexo-theme-next themes/next 配置与个性化">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-13T10:47:06.011Z">
+<meta property="og:updated_time" content="2019-05-13T12:03:18.867Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo+Github 博客搭建">
 <meta name="twitter:description" content="完整搭建过程参考此系列博客（环境win10） 我的写作编辑器用的是typora Next主题配置Next主题是本人比较中意的hexo主题，所以在此只记录Next主题的配置过程 下载建议安装6.0版本。利用git bash here,输入命令：git clone https://github.com/theme-next/hexo-theme-next themes/next 配置与个性化">
@@ -476,7 +476,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-13 18:47:06" itemprop="dateModified" datetime="2019-05-13T18:47:06+08:00">2019-05-13</time>
+                <time title="修改时间：2019-05-13 20:03:18" itemprop="dateModified" datetime="2019-05-13T20:03:18+08:00">2019-05-13</time>
               
             
           </span>
@@ -603,12 +603,14 @@
 <p>13.NEXT主题<a href="http://theme-next.iissnan.com/tag-plugins.html" target="_blank" rel="noopener">内置标签</a>（包括引用文本居中，图片最大化引用等），更详细的标签见hexo<a href="https://hexo.io/zh-cn/docs/tag-plugins.html" target="_blank" rel="noopener">官网</a>。注意在本地利用这些标签不会出现相应的结果，只有上传到博客上才能看到。</p>
 <p>14.添加emoji表情功能</p>
 <p><a href="https://www.webfx.com/tools/emoji-cheat-sheet/" target="_blank" rel="noopener">emoji大全</a></p>
-<p>关于加入表表情功能，我一共找到了两种方法，一种是基于修改渲染引擎的，然后加入twemoji插件，但是我在之前为了支持mathjax已经更换了渲染引擎，结果导致我在按照<a href="https://chaxiaoniu.oschina.io/2017/07/10/HexoAddEmoji/" target="_blank" rel="noopener">博客1</a>和<a href="https://www.cnblogs.com/fsong/p/5929773.html" target="_blank" rel="noopener">博客2</a>的操作进行时出现了fancybox图片放大和图片内部插入的问题，有时候甚至会影响到html语句，后来倒退删除的时候，想要恢复到原来的状态，结果hexo g可以成功，本地却无法显示不出内容，结果只好重装。。目前原因未知。</p>
-<p>此外，第二种方法是安装<code>hexo-filter-github-emojis</code>插件，可参考<a href="https://novnan.github.io/Hexo/emojis-for-hexo-next/" target="_blank" rel="noopener">博客3</a>和<a href="[https://www.biueo.com/2018/01/12/Hexo%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0emoji%E8%A1%A8%E6%83%85/](https://www.biueo.com/2018/01/12/Hexo文章添加emoji表情/">博客4</a>)，但是我看博客中也提到了图片干扰的问题，就没再继续试下去了。。。</p>
+<p>关于加入表情的功能，我一共找到了两种方法，一种是基于修改渲染引擎的，然后加入twemoji插件，但是我在之前为了支持mathjax已经更换了渲染引擎，结果导致我在按照<a href="https://chaxiaoniu.oschina.io/2017/07/10/HexoAddEmoji/" target="_blank" rel="noopener">博客1</a>和<a href="https://www.cnblogs.com/fsong/p/5929773.html" target="_blank" rel="noopener">博客2</a>的操作进行时出现了fancybox图片放大和图片内部插入的问题，有时候甚至会影响到html语句，后来倒退删除渲染引擎和插件的时候，想要恢复到原来的状态，结果hexo g可以成功，本地却无法显示不出内容，结果只好重装。。目前原因未知。</p>
+<p>此外，第二种方法是安装<code>hexo-filter-github-emojis</code>插件，可参考<a href="https://novnan.github.io/Hexo/emojis-for-hexo-next/" target="_blank" rel="noopener">博客3</a>和<a href="https://www.biueo.com/2018/01/12/Hexo文章添加emoji表情/" target="_blank" rel="noopener">博客4</a>，但是我看博客中也提到了图片干扰的问题，就没再继续试下去了。。。</p>
 <p>下次看到更好的解决办法再来更新。</p>
 <p>15.加入RSS订阅</p>
 <p>直接在NEXT主题配置文件里面更改，在这之前先在博客站点目录下安装<code>npm install hexo-generator-feed --save</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">feed:</span><br><span class="line">    type: rss2</span><br><span class="line">    path: rss2.xml</span><br><span class="line">    limit: 5</span><br><span class="line">    hub:</span><br><span class="line">    content: &apos;true&apos;</span><br></pre></td></tr></table></figure>
+<p>16.博客被谷歌和百度收录</p>
+<p>参考这个<a href="https://www.cnblogs.com/php-linux/p/8493346.html" target="_blank" rel="noopener">博客</a>的做法</p>
 
       
     </div>
