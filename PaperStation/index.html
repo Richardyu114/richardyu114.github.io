@@ -127,13 +127,13 @@
 <meta property="og:site_name" content="自拙集">
 <meta property="og:description" content="About记录自己看到的与计算机视觉，视觉SLAM，机器人，机器学习等相关的论文。如果是比较重要的和自己感兴趣的论文会另开一篇post详细介绍。 2019.8Focal Loss paper code  loss的具体形式为：$criterion= \alpha(1-a)^{\gamma}y \ln a + (1-\alpha)a^{\gamma}(1-y) \ln (1-a)$，主要的作用就是提">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/Richardyu114/copies-of-posts-of-my-personal-blog/master/images/model_Thoracic%20Disease%20Identification%20and%20Localization%20with%20Limited%20Supervision.PNG">
+<meta property="og:image" content="https://raw.githubusercontent.com/Richardyu114/copies-of-posts-of-my-personal-blog/master/images/model_Thoracic%20Disease%20Identification%20and%20Localization%20with%20Limited%20Supervisio.PNG">
 <meta property="og:image" content="https://raw.githubusercontent.com/Richardyu114/copies-of-posts-of-my-personal-blog/master/images/model_FCN.PNG">
-<meta property="og:updated_time" content="2019-08-22T08:34:19.410Z">
+<meta property="og:updated_time" content="2019-08-22T08:38:27.057Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PaperStation">
 <meta name="twitter:description" content="About记录自己看到的与计算机视觉，视觉SLAM，机器人，机器学习等相关的论文。如果是比较重要的和自己感兴趣的论文会另开一篇post详细介绍。 2019.8Focal Loss paper code  loss的具体形式为：$criterion= \alpha(1-a)^{\gamma}y \ln a + (1-\alpha)a^{\gamma}(1-y) \ln (1-a)$，主要的作用就是提">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/Richardyu114/copies-of-posts-of-my-personal-blog/master/images/model_Thoracic%20Disease%20Identification%20and%20Localization%20with%20Limited%20Supervision.PNG">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Richardyu114/copies-of-posts-of-my-personal-blog/master/images/model_Thoracic%20Disease%20Identification%20and%20Localization%20with%20Limited%20Supervisio.PNG">
 
 
 
@@ -484,7 +484,7 @@
 <blockquote>
 <p>Given images with disease labels and limited bounding box information, we aim to design a unified model that simultaneously produces disease identification and localization.</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/Richardyu114/copies-of-posts-of-my-personal-blog/master/images/model_Thoracic%20Disease%20Identification%20and%20Localization%20with%20Limited%20Supervision.PNG" alt="model_overview"></p>
+<p><img src="https://raw.githubusercontent.com/Richardyu114/copies-of-posts-of-my-personal-blog/master/images/model_Thoracic%20Disease%20Identification%20and%20Localization%20with%20Limited%20Supervisio.PNG" alt="model_overview"></p>
 <p>大致的网络结构是利用resnet backbone进行下采样，生成$P \times P$的feature map，然后对应原图的空间尺寸，有框的话就进行像素级的比对预测，没框但是有图片级的label的话那么这张图片中肯定存在至少一个patch对应于这种疾病，就直接根据概率进行预测。（多实例学习）</p>
 <ul>
 <li>利用resnet结构，去掉global pooling和fc层，利用卷积block下采样图片，得到feature map</li>
