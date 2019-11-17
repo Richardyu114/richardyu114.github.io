@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://richardyu114.github.io/"/>
-  <updated>2019-10-04T11:54:20.439Z</updated>
+  <updated>2019-11-17T09:29:16.835Z</updated>
   <id>http://richardyu114.github.io/</id>
   
   <author>
@@ -15,6 +15,39 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>FutureMapping2</title>
+    <link href="http://richardyu114.github.io/2019/11/17/FutureMapping2/"/>
+    <id>http://richardyu114.github.io/2019/11/17/FutureMapping2/</id>
+    <published>2019-11-17T08:24:29.000Z</published>
+    <updated>2019-11-17T09:29:16.835Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="About"><a href="#About" class="headerlink" title="About"></a>About</h2><p>继第一篇<a href="https://arxiv.org/abs/1803.11288" target="_blank" rel="noopener">FutureMapping</a>之后，视觉SLAM领域内的奠基者Andrew Davison最近又将他的和别人讨论的有关未来空间AI对地图构建，机器人协同定位，以及动态问题等新想法撰写成了新的论文<a href="https://arxiv.org/abs/1910.14139" target="_blank" rel="noopener">FutureMapping2</a>，置顶在了自己的推特上，表示欢迎大家交流自己的想法。</p><p><img src="/2019/11/17/FutureMapping2/Andrew-twitter.PNG" alt="Andrew-twitter"></p><p>总的来说，这篇文章干货还算是很多的，主要是着眼于factor graph（因子图）和Gaussian Belief Propagation（GBP，高斯置信传播）对整体，动态机器人建图等问题的潜力和前景，不仅在数学上进行一些tutorial，还给出了三个python demos。由于我对视觉SLAM只是了解整体特点，其中各种计算细节和优化方法并没有认真看过和代码书写过，因此读完这篇充满amazing reflections的文章之后我只能把握到整体的idea和一些实现方法。对于GBP和factor graph 结合构建的数学模型，我将在后续花时间弄懂后再对该blog进行补充。</p><p><strong>非常建议对SLAM或者机器视觉领域感兴趣的同行阅读此论文，相信会帮助您开阔思路！</strong></p><a id="more"></a><h2 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h2><h3 id="Idea"><a href="#Idea" class="headerlink" title="Idea"></a>Idea</h3><blockquote><p>Abstract:  We argue the case for Gaussian Belief Propagation (GBP) as a strong algorithmic framework for the distributed, generic and incremental probabilistic estimation we need in Spatial AI as we aim at high performance smart robots and devices which operate within the constraints of real products. Processor hardware is changing rapidly, and GBP has the right character to take advantage of highly distributed processing and storage while estimating global quantities, as well as great flexibility. We present a detailed tutorial on GBP, relating to the standard factor graph formulation used in robotics and computer vision, and give several simulation examples with code which demonstrate its properties.  </p></blockquote><p>关键词：分布式，边缘计算，局部估计，GBP，因子图，概率模型</p><p><strong>（边缘计算，分布式的，局部计算和存储，整体计算和构建以一种‘graph’的方式展开）</strong></p><p>首先，背景是现在的spatial AI系统要试着处理异质的数据，通过不同的估计手段将其转换成一致性的表示方式，但是这受限于现在的处理器性能（实时，持续地处理带来计算负担，存储负担和转换负担）。Andrew认为目前有两种方式可以对此进行提升：</p><ul><li>One is to focus on scene representation, and to find new parameterisations of world models which allow high quality scene models to be built and maintained much more efficiently. 这是表征方式的问题，这也是学术界都在解决的问题，representation learning. 机器人，计算机如何利用自己的硬件特点来认识和表征周围的世界，这跟人认识世界不一定是一样的。</li><li>The other is to look towards the changing landscape in computing and sensing hardware. 另一个就是硬件设计，比如现在视觉SLAM中的“event camera”，利用事件来记录。这里Andrew也推荐了ETH苏黎世联邦理工大学 J. Martel的phD thesis，<a href="https://www.research-collection.ethz.ch/handle/20.500.11850/362900" target="_blank" rel="noopener">传送门</a></li></ul><p>硬件问题上，Andrew并没有说太多，大都还是一些常见的设想，在后续的section中，Andrew主要是是针对第一点来说的。</p><blockquote><p>The purest representation of the knowledge in a <strong>Spatial AI problem is the factor graph itself, rather than probability distributions derived from it, which will always have to be stored with some approximation</strong>. What we are really seeking is an algorithm which implements Spatial AI in a distributed way on a computational resource like a graph processor, by storing the factor graph as the master representation and operating on it in place using local computation and message passing to implement estimation of variables as needed but taking account of global influence. </p></blockquote><p>(有关因子图的资料，推荐<a href="http://www.cs.cmu.edu/~kaess/pub/Dellaert17fnt.pdf" target="_blank" rel="noopener">Factor Graphs for Robot Perception</a>， 关于高斯置信传播，Andrew是根据bishop的PRML一书来的，此外他在文中推荐的是比较老的参考文献<a href="http://web.cs.iastate.edu/~honavar/factorgraphs.pdf" target="_blank" rel="noopener">Factor Graphs and the Sum-Product Algorithm</a>，我自己也在网上发现了一篇伯希来大学的phD论文<a href="https://arxiv.org/pdf/0811.2518.pdf" target="_blank" rel="noopener"> Gaussian Belief Propagation: Theory and Application </a>，希望对后续理解有所帮助。）</p><p>Andrew认为可以通过因子图来进行局部估计，进行边缘计算，然后进行信息传递，通过这种方法来构建分布式和全局上的计算，从而达到认知和执行任务的目的。</p><p>—-to be continued</p><h3 id="Mathematics-models"><a href="#Mathematics-models" class="headerlink" title="Mathematics models"></a>Mathematics models</h3><h4 id="factor-graph"><a href="#factor-graph" class="headerlink" title="factor graph"></a>factor graph</h4><h4 id="GBP"><a href="#GBP" class="headerlink" title="GBP"></a>GBP</h4><h3 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h3>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;About&quot;&gt;&lt;a href=&quot;#About&quot; class=&quot;headerlink&quot; title=&quot;About&quot;&gt;&lt;/a&gt;About&lt;/h2&gt;&lt;p&gt;继第一篇&lt;a href=&quot;https://arxiv.org/abs/1803.11288&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;FutureMapping&lt;/a&gt;之后，视觉SLAM领域内的奠基者Andrew Davison最近又将他的和别人讨论的有关未来空间AI对地图构建，机器人协同定位，以及动态问题等新想法撰写成了新的论文&lt;a href=&quot;https://arxiv.org/abs/1910.14139&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;FutureMapping2&lt;/a&gt;，置顶在了自己的推特上，表示欢迎大家交流自己的想法。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2019/11/17/FutureMapping2/Andrew-twitter.PNG&quot; alt=&quot;Andrew-twitter&quot;&gt;&lt;/p&gt;
+&lt;p&gt;总的来说，这篇文章干货还算是很多的，主要是着眼于factor graph（因子图）和Gaussian Belief Propagation（GBP，高斯置信传播）对整体，动态机器人建图等问题的潜力和前景，不仅在数学上进行一些tutorial，还给出了三个python demos。由于我对视觉SLAM只是了解整体特点，其中各种计算细节和优化方法并没有认真看过和代码书写过，因此读完这篇充满amazing reflections的文章之后我只能把握到整体的idea和一些实现方法。对于GBP和factor graph 结合构建的数学模型，我将在后续花时间弄懂后再对该blog进行补充。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;非常建议对SLAM或者机器视觉领域感兴趣的同行阅读此论文，相信会帮助您开阔思路！&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="http://richardyu114.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="SLAM" scheme="http://richardyu114.github.io/tags/SLAM/"/>
+    
+      <category term="mapping" scheme="http://richardyu114.github.io/tags/mapping/"/>
+    
+      <category term="AI system" scheme="http://richardyu114.github.io/tags/AI-system/"/>
+    
+      <category term="computer vision" scheme="http://richardyu114.github.io/tags/computer-vision/"/>
+    
+      <category term="hardware" scheme="http://richardyu114.github.io/tags/hardware/"/>
+    
+  </entry>
   
   <entry>
     <title>实习痰涂片项目总结</title>
@@ -37,9 +70,9 @@
       <category term="工作总结" scheme="http://richardyu114.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
     
     
-      <category term="deep learning" scheme="http://richardyu114.github.io/tags/deep-learning/"/>
-    
       <category term="computer vision" scheme="http://richardyu114.github.io/tags/computer-vision/"/>
+    
+      <category term="deep learning" scheme="http://richardyu114.github.io/tags/deep-learning/"/>
     
       <category term="CNN" scheme="http://richardyu114.github.io/tags/CNN/"/>
     
@@ -65,13 +98,13 @@
       <category term="随笔杂谈" scheme="http://richardyu114.github.io/categories/%E9%9A%8F%E7%AC%94%E6%9D%82%E8%B0%88/"/>
     
     
+      <category term="computer vision" scheme="http://richardyu114.github.io/tags/computer-vision/"/>
+    
       <category term="reflections" scheme="http://richardyu114.github.io/tags/reflections/"/>
     
       <category term="job" scheme="http://richardyu114.github.io/tags/job/"/>
     
       <category term="coding" scheme="http://richardyu114.github.io/tags/coding/"/>
-    
-      <category term="computer vision" scheme="http://richardyu114.github.io/tags/computer-vision/"/>
     
   </entry>
   
@@ -143,13 +176,13 @@
       <category term="论文阅读" scheme="http://richardyu114.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
     
     
-      <category term="computer vision" scheme="http://richardyu114.github.io/tags/computer-vision/"/>
-    
       <category term="SLAM" scheme="http://richardyu114.github.io/tags/SLAM/"/>
     
       <category term="mapping" scheme="http://richardyu114.github.io/tags/mapping/"/>
     
       <category term="AI system" scheme="http://richardyu114.github.io/tags/AI-system/"/>
+    
+      <category term="computer vision" scheme="http://richardyu114.github.io/tags/computer-vision/"/>
     
       <category term="hardware" scheme="http://richardyu114.github.io/tags/hardware/"/>
     
@@ -350,9 +383,9 @@ R \in SO(3), t \in {\mathbb R}^{3}
       <category term="科研记录" scheme="http://richardyu114.github.io/categories/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/"/>
     
     
-      <category term="deep learning" scheme="http://richardyu114.github.io/tags/deep-learning/"/>
-    
       <category term="computer vision" scheme="http://richardyu114.github.io/tags/computer-vision/"/>
+    
+      <category term="deep learning" scheme="http://richardyu114.github.io/tags/deep-learning/"/>
     
       <category term="object detection" scheme="http://richardyu114.github.io/tags/object-detection/"/>
     

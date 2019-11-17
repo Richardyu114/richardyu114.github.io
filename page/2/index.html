@@ -416,6 +416,245 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://richardyu114.github.io/2019/02/18/Ubuntu16-04下安装NVIDIA最新驱动以及深度学习环境配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Richard YU">
+      <meta itemprop="description" content="Today everything exists to end in a photograph">
+      <meta itemprop="image" content="/uploads/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="自拙集">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/02/18/Ubuntu16-04下安装NVIDIA最新驱动以及深度学习环境配置/" class="post-title-link" itemprop="url">Ubuntu16.04下安装NVIDIA最新驱动以及深度学习环境配置</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-18 18:15:39" itemprop="dateCreated datePublished" datetime="2019-02-18T18:15:39+08:00">2019-02-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-13 16:47:41" itemprop="dateModified" datetime="2019-05-13T16:47:41+08:00">2019-05-13</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/深度学习环境配置/" itemprop="url" rel="index"><span itemprop="name">深度学习环境配置</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/02/18/Ubuntu16-04下安装NVIDIA最新驱动以及深度学习环境配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/18/Ubuntu16-04下安装NVIDIA最新驱动以及深度学习环境配置/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/2019/02/18/Ubuntu16-04下安装NVIDIA最新驱动以及深度学习环境配置/" class="leancloud_visitors" data-flag-title="Ubuntu16.04下安装NVIDIA最新驱动以及深度学习环境配置">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <hr>
+<hr>
+<hr>
+<center>2019.3.8日来更，可以不用看以前下面写的内容了，因为不是很完整。。。</center>
+
+<p>如果按照之前说的通过官网下载的run文件来手动安装驱动，可能出现nvidia-settings打不开的情况，比如我就是输出信息：“ERROR: Unable to load info from any available system”，这样会导致我的电脑识别不了外接显示器。。。</p>
+<p>后来在网上看了一些人的回答，大致的原因是官网的run文件在安装时后会默认更改一些系统配置，因此可能会导致一些错误。。</p>
+<p><strong>解决办法：通过Ubuntu自动的install功能进行安装</strong></p>
+<p>1.先按照这个<a href="https://blog.csdn.net/u014561933/article/details/79958017" target="_blank" rel="noopener">教程</a>卸载驱动，然后禁用好nouveau；</p>
+<p>2.重启后确认nouveau已禁用，关闭图形界面，进入命令行界面；</p>
+<p>3.输入下面的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:graphics-drivers/ppa</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install nvidia- #这里选择你要安装的版本，最新的应该也没问题，我就是直接装的410，省得到时候又得重装CUDA和CUDNN</span><br><span class="line">reboot #重启</span><br></pre></td></tr></table></figure>
+<p>4.再次开机后应该就没问题了，nvidia-smi, nvidia-settings都没问题了，外接显示器也正常了。</p>
+<hr>
+<hr>
+<hr>
+<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>本人电脑是战神神舟Z7M-KP5GZ，显卡是GTX1050TI，按照以前利用liveusb的方法安装了Ubuntu16.04双系统，然而第一次安装NVIDIA驱动的时候有些问题，直接是在软件更新里面安装的系统自带驱动，版本384。后来配置深度学习环境需要安装CUDA和CUDNN，由于安装最新版本的CUDA需要相应的驱动版本对应，因此需要对NVIDIA驱动进行更新。</p>
+<p>在安装过程中，遇到了一些问题，主要是：</p>
+<ul>
+<li><p>驱动安装后Ubuntu系统无法进入，卡在启动界面的5个原点；</p>
+</li>
+<li><p>成功进入系统后，分辨率低；</p>
+</li>
+</ul>
+<p>后来根据几篇博客解决了上述问题：</p>
+<ul>
+<li><p><a href="https://blog.csdn.net/wang_ys121/article/details/82881716" target="_blank" rel="noopener">博客1</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/xunan003/article/details/81665835" target="_blank" rel="noopener">博客2</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/ezhchai/article/details/78788564" target="_blank" rel="noopener">博客3</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/yinxingtianxia/article/details/82503388" target="_blank" rel="noopener">博客4</a></p>
+</li>
+</ul>
+<p>后来总结了下，<strong>最主要的问题是一定要禁用nouveau</strong>，可以通过下面的命令看是否禁用，如果不输出信息则是成功禁用。。一定要注意，如果之前装过了NVIDIA驱动，然后卸载重装了一定要记得再次禁用！！！！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep nouveau</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/02/18/Ubuntu16-04下安装NVIDIA最新驱动以及深度学习环境配置/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://richardyu114.github.io/2019/02/14/Linear-Algebra-of-MIT/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -873,7 +1112,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1629,6 +1868,8 @@
     
       
         
+      
+    
       
     
       
