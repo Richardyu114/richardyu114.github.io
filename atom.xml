@@ -5,9 +5,9 @@
   <subtitle>Work cures everything</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://richardyu114.github.io/"/>
-  <updated>2019-11-17T09:29:16.835Z</updated>
-  <id>http://richardyu114.github.io/</id>
+  <link href="http://densecollections.top/"/>
+  <updated>2019-11-28T07:24:52.270Z</updated>
+  <id>http://densecollections.top/</id>
   
   <author>
     <name>Richard YU</name>
@@ -17,9 +17,39 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>paper reading and coding of RCNN series</title>
+    <link href="http://densecollections.top/2019/11/28/paper-reading-and-coding-of-RCNN-series/"/>
+    <id>http://densecollections.top/2019/11/28/paper-reading-and-coding-of-RCNN-series/</id>
+    <published>2019-11-28T07:19:07.000Z</published>
+    <updated>2019-11-28T07:24:52.270Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="About"><a href="#About" class="headerlink" title="About"></a>About</h2><p>Faster  R-CNN是目标检测领域中”two-stage”的代表性方法，其精度高，适应性强，兼具学术和工程价值。整个框架由于吸取了很多先前工作的经验，因此比较庞大，而且细节很多，因此需要认真研读下相关paper和Faster R-CNN的python代码。</p><p>在此之前，先贴上一位博主做的“<a href="https://nikasa1889.github.io/2017/05/02/The-Modern-History-of-Object-Recognition-—-Infographic-1/" target="_blank" rel="noopener">The Modern History of Object Recognition — Infographic</a>”，其中也包括了“one-stage”的方法，不过2017年以后的没再更新了。</p><p><img src="/2019/11/28/paper-reading-and-coding-of-RCNN-series/HistoryOfObjectRecognition.PNG" alt="modern history of object recognition"></p><a id="more"></a><h3 id="R-CNN"><a href="#R-CNN" class="headerlink" title="R-CNN"></a><a href="https://arxiv.org/pdf/1311.2524.pdf" target="_blank" rel="noopener">R-CNN</a></h3><p>R-CNN(Rich feature hierarchies for accurate object detection and semantic segmentation)是将深度学习应用于目标检测的开山之作，以前传统的目标检测算法使用滑动窗口法依次判断所有的可能区域，在该文章中，采用selective search方法先预先提取一系列可能是物体的候选区域（foreground），之后将这些候选区域（proposals）整合成固定的大小送到预训练的CNN模型上提取特征然后进行fine-tuning，迁移学习，进而达到比较好的识别检测效果。</p><p><a href="https://www.cnblogs.com/zyly/p/9259392.html" target="_blank" rel="noopener">selective search</a></p><p>three modules:</p><p>regional proposals</p><p>CNN feature extract</p><p>linear-SVMs classify and why —appendix B</p><p>wrap —how  appendix A</p><p>ablation studies—-why cnn better</p><p>pre-trained model and fine-tune matters</p><p>detection errors analysis    <a href="http://dhoiem.web.engr.illinois.edu/publications/eccv2012_detanalysis_derek.pdf" target="_blank" rel="noopener">http://dhoiem.web.engr.illinois.edu/publications/eccv2012_detanalysis_derek.pdf</a> </p><p>how to do experiments and writing paper,or how to express your ideas and thoughts</p><p>实验做的好</p><p>各向同性与各向异性图像缩放： <a href="https://blog.csdn.net/qq_30122883/article/details/89363900" target="_blank" rel="noopener">https://blog.csdn.net/qq_30122883/article/details/89363900</a> </p><p><a href="https://arxiv.org/abs/1604.03540" target="_blank" rel="noopener">OHEM</a></p><h3 id="SSPNet"><a href="#SSPNet" class="headerlink" title="SSPNet"></a><a href="https://arxiv.org/pdf/1406.4729.pdf" target="_blank" rel="noopener">SSPNet</a></h3><h3 id="Fast-R-CNN"><a href="#Fast-R-CNN" class="headerlink" title="[Fast R-CNN]"></a>[Fast R-CNN]</h3><p>代码解析：<a href="https://blog.csdn.net/weixin_43872578/article/details/86607742" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43872578/article/details/86607742</a></p><h3 id><a href="#" class="headerlink" title=" "></a> </h3><h3 id="Faster-R-NN"><a href="#Faster-R-NN" class="headerlink" title="Faster R-NN"></a><a href="https://arxiv.org/pdf/1506.01497.pdf" target="_blank" rel="noopener">Faster R-NN</a></h3><p>anchors的思想</p><p>pyramid of feature map/filters/anchors</p><p><a href="http://www.telesens.co/2018/03/11/object-detection-and-classification-using-r-cnns/" target="_blank" rel="noopener">http://www.telesens.co/2018/03/11/object-detection-and-classification-using-r-cnns/</a></p><p><a href="https://blog.csdn.net/u014365862/article/details/77887230" target="_blank" rel="noopener">https://blog.csdn.net/u014365862/article/details/77887230</a></p><p><a href="https://zhuanlan.zhihu.com/p/23006190?refer=xiaoleimlnote" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/23006190?refer=xiaoleimlnote</a></p><p> <a href="https://blog.csdn.net/v_july_v/article/details/80170182" target="_blank" rel="noopener">https://blog.csdn.net/v_july_v/article/details/80170182</a> </p><p> <a href="https://zhuanlan.zhihu.com/p/31426458" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/31426458</a> </p><p><a href="https://blog.csdn.net/hsqyc/article/details/81702437" target="_blank" rel="noopener">mAP</a></p><p><a href="https://blog.csdn.net/lanran2/article/details/79057994" target="_blank" rel="noopener">用res101是在conv4x之后</a></p><p>机器学习笔记：</p><p> <a href="https://campoo.cc/category/机器学习/" target="_blank" rel="noopener">https://campoo.cc/category/%e6%9c%ba%e5%99%a8%e5%ad%a6%e4%b9%a0/</a> </p><p>为什么需要anchor：  <a href="https://zhuanlan.zhihu.com/p/73024408" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/73024408</a> </p><h2 id="code-architecture"><a href="#code-architecture" class="headerlink" title="code architecture"></a>code architecture</h2><p>1.<a href="https://arxiv.org/pdf/1311.2524.pdf" target="_blank" rel="noopener">R-CNN</a></p><p>2.<a href="https://arxiv.org/pdf/1504.08083.pdf" target="_blank" rel="noopener">Fast R-CNN</a></p><p>3.<a href="https://arxiv.org/pdf/1506.01497.pdf" target="_blank" rel="noopener">Faster R-CNN</a></p><p>4.<a href="https://arxiv.org/pdf/1506.02025.pdf" target="_blank" rel="noopener">Spatial Transformer Networks</a> </p><p>roi pooling, roi align, crop pooling的区别的作用</p><blockquote><p>The crop pooling layer takes the ROI boxes output by the proposal target layer and the convolutional feature maps output by the “head” network and outputs square feature maps</p></blockquote><p><a href="http://www.telesens.co/2018/03/11/object-detection-and-classification-using-r-cnns/" target="_blank" rel="noopener">http://www.telesens.co/2018/03/11/object-detection-and-classification-using-r-cnns/</a></p><p>cvpr2019 tutorial： <a href="http://feichtenhofer.github.io/cvpr2019-recognition-tutorial/" target="_blank" rel="noopener">http://feichtenhofer.github.io/cvpr2019-recognition-tutorial/</a></p><p>数据预处理部分会减去pixel mean value，作为数据标准化的一部分，但是对图像不需要再去除以标准差，是因为平稳性的存在，<a href="https://blog.csdn.net/liuxiangxxl/article/details/86605429" target="_blank" rel="noopener">blog</a>，对RGB图像来说，mean pixel value 是个$3 \times 1$的vector: [R_mean, G_mean, B_mean]</p><p>head network(pretrained model first few layers)—RPN(region proposal network)—classification network</p><p>ROI(region o interests) — crop olling—classification</p><p>bounding box回归的系数并不是单纯意义上的坐标，而且相对的系数，这样会使得图像再进行rescale之后不会使系数发生变化</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;About&quot;&gt;&lt;a href=&quot;#About&quot; class=&quot;headerlink&quot; title=&quot;About&quot;&gt;&lt;/a&gt;About&lt;/h2&gt;&lt;p&gt;Faster  R-CNN是目标检测领域中”two-stage”的代表性方法，其精度高，适应性强，兼具学术和工程价值。整个框架由于吸取了很多先前工作的经验，因此比较庞大，而且细节很多，因此需要认真研读下相关paper和Faster R-CNN的python代码。&lt;/p&gt;
+&lt;p&gt;在此之前，先贴上一位博主做的“&lt;a href=&quot;https://nikasa1889.github.io/2017/05/02/The-Modern-History-of-Object-Recognition-—-Infographic-1/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;The Modern History of Object Recognition — Infographic&lt;/a&gt;”，其中也包括了“one-stage”的方法，不过2017年以后的没再更新了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2019/11/28/paper-reading-and-coding-of-RCNN-series/HistoryOfObjectRecognition.PNG&quot; alt=&quot;modern history of object recognition&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="科研记录" scheme="http://densecollections.top/categories/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/"/>
+    
+    
+      <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
+    
+      <category term="deep learning" scheme="http://densecollections.top/tags/deep-learning/"/>
+    
+      <category term="object detection" scheme="http://densecollections.top/tags/object-detection/"/>
+    
+      <category term="semantic segmentation" scheme="http://densecollections.top/tags/semantic-segmentation/"/>
+    
+  </entry>
+  
+  <entry>
     <title>FutureMapping2</title>
-    <link href="http://richardyu114.github.io/2019/11/17/FutureMapping2/"/>
-    <id>http://richardyu114.github.io/2019/11/17/FutureMapping2/</id>
+    <link href="http://densecollections.top/2019/11/17/FutureMapping2/"/>
+    <id>http://densecollections.top/2019/11/17/FutureMapping2/</id>
     <published>2019-11-17T08:24:29.000Z</published>
     <updated>2019-11-17T09:29:16.835Z</updated>
     
@@ -34,25 +64,25 @@
     
     </summary>
     
-      <category term="论文阅读" scheme="http://richardyu114.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+      <category term="论文阅读" scheme="http://densecollections.top/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
     
     
-      <category term="SLAM" scheme="http://richardyu114.github.io/tags/SLAM/"/>
+      <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
     
-      <category term="mapping" scheme="http://richardyu114.github.io/tags/mapping/"/>
+      <category term="SLAM" scheme="http://densecollections.top/tags/SLAM/"/>
     
-      <category term="AI system" scheme="http://richardyu114.github.io/tags/AI-system/"/>
+      <category term="mapping" scheme="http://densecollections.top/tags/mapping/"/>
     
-      <category term="computer vision" scheme="http://richardyu114.github.io/tags/computer-vision/"/>
+      <category term="AI system" scheme="http://densecollections.top/tags/AI-system/"/>
     
-      <category term="hardware" scheme="http://richardyu114.github.io/tags/hardware/"/>
+      <category term="hardware" scheme="http://densecollections.top/tags/hardware/"/>
     
   </entry>
   
   <entry>
     <title>实习痰涂片项目总结</title>
-    <link href="http://richardyu114.github.io/2019/10/04/%E5%AE%9E%E4%B9%A0%E7%97%B0%E6%B6%82%E7%89%87%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/"/>
-    <id>http://richardyu114.github.io/2019/10/04/实习痰涂片项目总结/</id>
+    <link href="http://densecollections.top/2019/10/04/%E5%AE%9E%E4%B9%A0%E7%97%B0%E6%B6%82%E7%89%87%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/"/>
+    <id>http://densecollections.top/2019/10/04/实习痰涂片项目总结/</id>
     <published>2019-10-04T07:47:17.000Z</published>
     <updated>2019-10-04T11:54:20.439Z</updated>
     
@@ -67,23 +97,23 @@
     
     </summary>
     
-      <category term="工作总结" scheme="http://richardyu114.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
+      <category term="工作总结" scheme="http://densecollections.top/categories/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
     
     
-      <category term="computer vision" scheme="http://richardyu114.github.io/tags/computer-vision/"/>
+      <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
     
-      <category term="deep learning" scheme="http://richardyu114.github.io/tags/deep-learning/"/>
+      <category term="deep learning" scheme="http://densecollections.top/tags/deep-learning/"/>
     
-      <category term="CNN" scheme="http://richardyu114.github.io/tags/CNN/"/>
+      <category term="CNN" scheme="http://densecollections.top/tags/CNN/"/>
     
-      <category term="medical image analysis" scheme="http://richardyu114.github.io/tags/medical-image-analysis/"/>
+      <category term="medical image analysis" scheme="http://densecollections.top/tags/medical-image-analysis/"/>
     
   </entry>
   
   <entry>
     <title>实习见闻及其他</title>
-    <link href="http://richardyu114.github.io/2019/10/03/%E5%AE%9E%E4%B9%A0%E8%A7%81%E9%97%BB%E5%8F%8A%E5%85%B6%E4%BB%96/"/>
-    <id>http://richardyu114.github.io/2019/10/03/实习见闻及其他/</id>
+    <link href="http://densecollections.top/2019/10/03/%E5%AE%9E%E4%B9%A0%E8%A7%81%E9%97%BB%E5%8F%8A%E5%85%B6%E4%BB%96/"/>
+    <id>http://densecollections.top/2019/10/03/实习见闻及其他/</id>
     <published>2019-10-03T07:13:24.000Z</published>
     <updated>2019-10-04T03:32:01.135Z</updated>
     
@@ -95,23 +125,23 @@
     
     </summary>
     
-      <category term="随笔杂谈" scheme="http://richardyu114.github.io/categories/%E9%9A%8F%E7%AC%94%E6%9D%82%E8%B0%88/"/>
+      <category term="随笔杂谈" scheme="http://densecollections.top/categories/%E9%9A%8F%E7%AC%94%E6%9D%82%E8%B0%88/"/>
     
     
-      <category term="computer vision" scheme="http://richardyu114.github.io/tags/computer-vision/"/>
+      <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
     
-      <category term="reflections" scheme="http://richardyu114.github.io/tags/reflections/"/>
+      <category term="reflections" scheme="http://densecollections.top/tags/reflections/"/>
     
-      <category term="job" scheme="http://richardyu114.github.io/tags/job/"/>
+      <category term="job" scheme="http://densecollections.top/tags/job/"/>
     
-      <category term="coding" scheme="http://richardyu114.github.io/tags/coding/"/>
+      <category term="coding" scheme="http://densecollections.top/tags/coding/"/>
     
   </entry>
   
   <entry>
     <title>往者不谏，来者可追</title>
-    <link href="http://richardyu114.github.io/2019/05/11/%E5%BE%80%E8%80%85%E4%B8%8D%E8%B0%8F%EF%BC%8C%E6%9D%A5%E8%80%85%E5%8F%AF%E8%BF%BD/"/>
-    <id>http://richardyu114.github.io/2019/05/11/往者不谏，来者可追/</id>
+    <link href="http://densecollections.top/2019/05/11/%E5%BE%80%E8%80%85%E4%B8%8D%E8%B0%8F%EF%BC%8C%E6%9D%A5%E8%80%85%E5%8F%AF%E8%BF%BD/"/>
+    <id>http://densecollections.top/2019/05/11/往者不谏，来者可追/</id>
     <published>2019-05-11T07:07:13.000Z</published>
     <updated>2019-05-13T12:00:17.365Z</updated>
     
@@ -130,23 +160,23 @@
     
     </summary>
     
-      <category term="随笔杂谈" scheme="http://richardyu114.github.io/categories/%E9%9A%8F%E7%AC%94%E6%9D%82%E8%B0%88/"/>
+      <category term="随笔杂谈" scheme="http://densecollections.top/categories/%E9%9A%8F%E7%AC%94%E6%9D%82%E8%B0%88/"/>
     
     
-      <category term="reflections" scheme="http://richardyu114.github.io/tags/reflections/"/>
+      <category term="reflections" scheme="http://densecollections.top/tags/reflections/"/>
     
-      <category term="thoughts" scheme="http://richardyu114.github.io/tags/thoughts/"/>
+      <category term="thoughts" scheme="http://densecollections.top/tags/thoughts/"/>
     
-      <category term="feelings" scheme="http://richardyu114.github.io/tags/feelings/"/>
+      <category term="feelings" scheme="http://densecollections.top/tags/feelings/"/>
     
-      <category term="emotions" scheme="http://richardyu114.github.io/tags/emotions/"/>
+      <category term="emotions" scheme="http://densecollections.top/tags/emotions/"/>
     
   </entry>
   
   <entry>
     <title>FutureMapping by A.J.Davison</title>
-    <link href="http://richardyu114.github.io/2019/04/16/FutureMapping-by-A-J-Davison/"/>
-    <id>http://richardyu114.github.io/2019/04/16/FutureMapping-by-A-J-Davison/</id>
+    <link href="http://densecollections.top/2019/04/16/FutureMapping-by-A-J-Davison/"/>
+    <id>http://densecollections.top/2019/04/16/FutureMapping-by-A-J-Davison/</id>
     <published>2019-04-16T08:24:31.000Z</published>
     <updated>2019-05-13T08:47:15.042Z</updated>
     
@@ -173,25 +203,25 @@
     
     </summary>
     
-      <category term="论文阅读" scheme="http://richardyu114.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+      <category term="论文阅读" scheme="http://densecollections.top/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
     
     
-      <category term="SLAM" scheme="http://richardyu114.github.io/tags/SLAM/"/>
+      <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
     
-      <category term="mapping" scheme="http://richardyu114.github.io/tags/mapping/"/>
+      <category term="SLAM" scheme="http://densecollections.top/tags/SLAM/"/>
     
-      <category term="AI system" scheme="http://richardyu114.github.io/tags/AI-system/"/>
+      <category term="mapping" scheme="http://densecollections.top/tags/mapping/"/>
     
-      <category term="computer vision" scheme="http://richardyu114.github.io/tags/computer-vision/"/>
+      <category term="AI system" scheme="http://densecollections.top/tags/AI-system/"/>
     
-      <category term="hardware" scheme="http://richardyu114.github.io/tags/hardware/"/>
+      <category term="hardware" scheme="http://densecollections.top/tags/hardware/"/>
     
   </entry>
   
   <entry>
     <title>visual SLAM by Gaoxiang(3)</title>
-    <link href="http://richardyu114.github.io/2019/03/26/visual-SLAM-by-Gaoxiang-3/"/>
-    <id>http://richardyu114.github.io/2019/03/26/visual-SLAM-by-Gaoxiang-3/</id>
+    <link href="http://densecollections.top/2019/03/26/visual-SLAM-by-Gaoxiang-3/"/>
+    <id>http://densecollections.top/2019/03/26/visual-SLAM-by-Gaoxiang-3/</id>
     <published>2019-03-26T09:14:25.000Z</published>
     <updated>2019-05-13T08:48:10.476Z</updated>
     
@@ -224,25 +254,25 @@ R \in SO(3), t \in {\mathbb R}^{3}
     
     </summary>
     
-      <category term="科研记录" scheme="http://richardyu114.github.io/categories/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/"/>
+      <category term="科研记录" scheme="http://densecollections.top/categories/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/"/>
     
     
-      <category term="visual SLAM" scheme="http://richardyu114.github.io/tags/visual-SLAM/"/>
+      <category term="visual SLAM" scheme="http://densecollections.top/tags/visual-SLAM/"/>
     
-      <category term="Linux" scheme="http://richardyu114.github.io/tags/Linux/"/>
+      <category term="Linux" scheme="http://densecollections.top/tags/Linux/"/>
     
-      <category term="C++11" scheme="http://richardyu114.github.io/tags/C-11/"/>
+      <category term="C++11" scheme="http://densecollections.top/tags/C-11/"/>
     
-      <category term="Computer vision" scheme="http://richardyu114.github.io/tags/Computer-vision/"/>
+      <category term="Computer vision" scheme="http://densecollections.top/tags/Computer-vision/"/>
     
-      <category term="Sophus" scheme="http://richardyu114.github.io/tags/Sophus/"/>
+      <category term="Sophus" scheme="http://densecollections.top/tags/Sophus/"/>
     
   </entry>
   
   <entry>
     <title>visual SLAM by Gaoxiang(2)</title>
-    <link href="http://richardyu114.github.io/2019/03/12/visual-SLAM-by-Gaoxiang-2/"/>
-    <id>http://richardyu114.github.io/2019/03/12/visual-SLAM-by-Gaoxiang-2/</id>
+    <link href="http://densecollections.top/2019/03/12/visual-SLAM-by-Gaoxiang-2/"/>
+    <id>http://densecollections.top/2019/03/12/visual-SLAM-by-Gaoxiang-2/</id>
     <published>2019-03-12T13:04:11.000Z</published>
     <updated>2019-05-13T08:47:57.892Z</updated>
     
@@ -257,25 +287,25 @@ R \in SO(3), t \in {\mathbb R}^{3}
     
     </summary>
     
-      <category term="科研记录" scheme="http://richardyu114.github.io/categories/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/"/>
+      <category term="科研记录" scheme="http://densecollections.top/categories/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/"/>
     
     
-      <category term="visual SLAM" scheme="http://richardyu114.github.io/tags/visual-SLAM/"/>
+      <category term="visual SLAM" scheme="http://densecollections.top/tags/visual-SLAM/"/>
     
-      <category term="Linux" scheme="http://richardyu114.github.io/tags/Linux/"/>
+      <category term="Linux" scheme="http://densecollections.top/tags/Linux/"/>
     
-      <category term="C++11" scheme="http://richardyu114.github.io/tags/C-11/"/>
+      <category term="C++11" scheme="http://densecollections.top/tags/C-11/"/>
     
-      <category term="Computer vision" scheme="http://richardyu114.github.io/tags/Computer-vision/"/>
+      <category term="Computer vision" scheme="http://densecollections.top/tags/Computer-vision/"/>
     
-      <category term="Eigen" scheme="http://richardyu114.github.io/tags/Eigen/"/>
+      <category term="Eigen" scheme="http://densecollections.top/tags/Eigen/"/>
     
   </entry>
   
   <entry>
     <title>visual SLAM by Gaoxiang(1)</title>
-    <link href="http://richardyu114.github.io/2019/03/12/visual-SLAM-by-Gaoxiang-1/"/>
-    <id>http://richardyu114.github.io/2019/03/12/visual-SLAM-by-Gaoxiang-1/</id>
+    <link href="http://densecollections.top/2019/03/12/visual-SLAM-by-Gaoxiang-1/"/>
+    <id>http://densecollections.top/2019/03/12/visual-SLAM-by-Gaoxiang-1/</id>
     <published>2019-03-12T01:10:21.000Z</published>
     <updated>2019-05-13T08:47:49.214Z</updated>
     
@@ -303,25 +333,25 @@ R \in SO(3), t \in {\mathbb R}^{3}
     
     </summary>
     
-      <category term="科研记录" scheme="http://richardyu114.github.io/categories/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/"/>
+      <category term="科研记录" scheme="http://densecollections.top/categories/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/"/>
     
     
-      <category term="visual SLAM" scheme="http://richardyu114.github.io/tags/visual-SLAM/"/>
+      <category term="visual SLAM" scheme="http://densecollections.top/tags/visual-SLAM/"/>
     
-      <category term="Linux" scheme="http://richardyu114.github.io/tags/Linux/"/>
+      <category term="Linux" scheme="http://densecollections.top/tags/Linux/"/>
     
-      <category term="C++11" scheme="http://richardyu114.github.io/tags/C-11/"/>
+      <category term="C++11" scheme="http://densecollections.top/tags/C-11/"/>
     
-      <category term="Computer vision" scheme="http://richardyu114.github.io/tags/Computer-vision/"/>
+      <category term="Computer vision" scheme="http://densecollections.top/tags/Computer-vision/"/>
     
-      <category term="OpenCV" scheme="http://richardyu114.github.io/tags/OpenCV/"/>
+      <category term="OpenCV" scheme="http://densecollections.top/tags/OpenCV/"/>
     
   </entry>
   
   <entry>
     <title>Beyond Supervised Learning-A Computer Vision Perspective</title>
-    <link href="http://richardyu114.github.io/2019/03/02/Beyond-Supervised-Learning-A-Computer-Vision-Perspective/"/>
-    <id>http://richardyu114.github.io/2019/03/02/Beyond-Supervised-Learning-A-Computer-Vision-Perspective/</id>
+    <link href="http://densecollections.top/2019/03/02/Beyond-Supervised-Learning-A-Computer-Vision-Perspective/"/>
+    <id>http://densecollections.top/2019/03/02/Beyond-Supervised-Learning-A-Computer-Vision-Perspective/</id>
     <published>2019-03-02T12:34:28.000Z</published>
     <updated>2019-05-13T08:47:07.233Z</updated>
     
@@ -341,23 +371,23 @@ R \in SO(3), t \in {\mathbb R}^{3}
     
     </summary>
     
-      <category term="论文阅读" scheme="http://richardyu114.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+      <category term="论文阅读" scheme="http://densecollections.top/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
     
     
-      <category term="survey" scheme="http://richardyu114.github.io/tags/survey/"/>
+      <category term="survey" scheme="http://densecollections.top/tags/survey/"/>
     
-      <category term="supervised learning" scheme="http://richardyu114.github.io/tags/supervised-learning/"/>
+      <category term="supervised learning" scheme="http://densecollections.top/tags/supervised-learning/"/>
     
-      <category term="domain adaptation" scheme="http://richardyu114.github.io/tags/domain-adaptation/"/>
+      <category term="domain adaptation" scheme="http://densecollections.top/tags/domain-adaptation/"/>
     
-      <category term="deep neural network" scheme="http://richardyu114.github.io/tags/deep-neural-network/"/>
+      <category term="deep neural network" scheme="http://densecollections.top/tags/deep-neural-network/"/>
     
   </entry>
   
   <entry>
     <title>A Brief Review of Object Detection and Semantic Segmentation</title>
-    <link href="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/"/>
-    <id>http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/</id>
+    <link href="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/"/>
+    <id>http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/</id>
     <published>2019-02-27T06:58:38.000Z</published>
     <updated>2019-05-13T08:46:59.519Z</updated>
     
@@ -380,23 +410,23 @@ R \in SO(3), t \in {\mathbb R}^{3}
     
     </summary>
     
-      <category term="科研记录" scheme="http://richardyu114.github.io/categories/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/"/>
+      <category term="科研记录" scheme="http://densecollections.top/categories/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/"/>
     
     
-      <category term="computer vision" scheme="http://richardyu114.github.io/tags/computer-vision/"/>
+      <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
     
-      <category term="deep learning" scheme="http://richardyu114.github.io/tags/deep-learning/"/>
+      <category term="deep learning" scheme="http://densecollections.top/tags/deep-learning/"/>
     
-      <category term="object detection" scheme="http://richardyu114.github.io/tags/object-detection/"/>
+      <category term="object detection" scheme="http://densecollections.top/tags/object-detection/"/>
     
-      <category term="semantic segmentation" scheme="http://richardyu114.github.io/tags/semantic-segmentation/"/>
+      <category term="semantic segmentation" scheme="http://densecollections.top/tags/semantic-segmentation/"/>
     
   </entry>
   
   <entry>
     <title>Ubuntu16.04下安装NVIDIA最新驱动以及深度学习环境配置</title>
-    <link href="http://richardyu114.github.io/2019/02/18/Ubuntu16-04%E4%B8%8B%E5%AE%89%E8%A3%85NVIDIA%E6%9C%80%E6%96%B0%E9%A9%B1%E5%8A%A8%E4%BB%A5%E5%8F%8A%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
-    <id>http://richardyu114.github.io/2019/02/18/Ubuntu16-04下安装NVIDIA最新驱动以及深度学习环境配置/</id>
+    <link href="http://densecollections.top/2019/02/18/Ubuntu16-04%E4%B8%8B%E5%AE%89%E8%A3%85NVIDIA%E6%9C%80%E6%96%B0%E9%A9%B1%E5%8A%A8%E4%BB%A5%E5%8F%8A%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
+    <id>http://densecollections.top/2019/02/18/Ubuntu16-04下安装NVIDIA最新驱动以及深度学习环境配置/</id>
     <published>2019-02-18T10:15:39.000Z</published>
     <updated>2019-05-13T08:47:41.888Z</updated>
     
@@ -444,21 +474,21 @@ R \in SO(3), t \in {\mathbb R}^{3}
     
     </summary>
     
-      <category term="深度学习环境配置" scheme="http://richardyu114.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
+      <category term="深度学习环境配置" scheme="http://densecollections.top/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
     
     
-      <category term="deep learning" scheme="http://richardyu114.github.io/tags/deep-learning/"/>
+      <category term="deep learning" scheme="http://densecollections.top/tags/deep-learning/"/>
     
-      <category term="linux" scheme="http://richardyu114.github.io/tags/linux/"/>
+      <category term="linux" scheme="http://densecollections.top/tags/linux/"/>
     
-      <category term="nvidia driver" scheme="http://richardyu114.github.io/tags/nvidia-driver/"/>
+      <category term="nvidia driver" scheme="http://densecollections.top/tags/nvidia-driver/"/>
     
   </entry>
   
   <entry>
     <title>Linear Algebra of MIT</title>
-    <link href="http://richardyu114.github.io/2019/02/14/Linear-Algebra-of-MIT/"/>
-    <id>http://richardyu114.github.io/2019/02/14/Linear-Algebra-of-MIT/</id>
+    <link href="http://densecollections.top/2019/02/14/Linear-Algebra-of-MIT/"/>
+    <id>http://densecollections.top/2019/02/14/Linear-Algebra-of-MIT/</id>
     <published>2019-02-14T10:40:57.000Z</published>
     <updated>2019-05-13T08:47:34.983Z</updated>
     
@@ -484,25 +514,25 @@ R \in SO(3), t \in {\mathbb R}^{3}
     
     </summary>
     
-      <category term="基础数学" scheme="http://richardyu114.github.io/categories/%E5%9F%BA%E7%A1%80%E6%95%B0%E5%AD%A6/"/>
+      <category term="基础数学" scheme="http://densecollections.top/categories/%E5%9F%BA%E7%A1%80%E6%95%B0%E5%AD%A6/"/>
     
     
-      <category term="mathematics" scheme="http://richardyu114.github.io/tags/mathematics/"/>
+      <category term="mathematics" scheme="http://densecollections.top/tags/mathematics/"/>
     
-      <category term="linear algebra" scheme="http://richardyu114.github.io/tags/linear-algebra/"/>
+      <category term="linear algebra" scheme="http://densecollections.top/tags/linear-algebra/"/>
     
-      <category term="MIT" scheme="http://richardyu114.github.io/tags/MIT/"/>
+      <category term="MIT" scheme="http://densecollections.top/tags/MIT/"/>
     
   </entry>
   
   <entry>
     <title>Hexo+Github 博客搭建</title>
-    <link href="http://richardyu114.github.io/2019/02/14/Hexo-Github-%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"/>
-    <id>http://richardyu114.github.io/2019/02/14/Hexo-Github-博客搭建/</id>
+    <link href="http://densecollections.top/2019/02/14/Hexo-Github-%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"/>
+    <id>http://densecollections.top/2019/02/14/Hexo-Github-博客搭建/</id>
     <published>2019-02-14T09:26:38.000Z</published>
-    <updated>2019-05-13T12:03:18.867Z</updated>
+    <updated>2019-11-28T07:12:27.129Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>完整搭建过程参考<a href="https://eirunye.github.io/categories/Hexo/" target="_blank" rel="noopener">此系列博客</a>（环境win10）</strong></p><p>我的写作编辑器用的是<a href="https://www.typora.io/" target="_blank" rel="noopener">typora</a></p><h2 id="Next主题配置"><a href="#Next主题配置" class="headerlink" title="Next主题配置"></a>Next主题配置</h2><p>Next主题是本人比较中意的hexo主题，所以在此只记录Next主题的配置过程</p><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>建议安装6.0版本。利用git bash here,输入命令：git clone <a href="https://github.com/theme-next/hexo-theme-next" target="_blank" rel="noopener">https://github.com/theme-next/hexo-theme-next</a> themes/next</p><h2 id="配置与个性化"><a href="#配置与个性化" class="headerlink" title="配置与个性化"></a>配置与个性化</h2><a id="more"></a><p>1.添加作者头像并设置旋转效果</p><p><strong>注意：最新版本的next主题已经添加了头像动画功能，直接在主题的配置文件里面修改，因此头像添加（路径）也是在主题配置文件里面添加，而不是在根目录的配置文件添加</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># Sidebar Avatar</span><br><span class="line">avatar: </span><br><span class="line">  # in theme directory(source/images): /images/avatar.gif</span><br><span class="line">  # in site  directory(source/uploads): /uploads/avatar.gif</span><br><span class="line">  # You can also use other linking images.</span><br><span class="line">  url: /uploads/header.jpg     #/images/avatar.gif</span><br><span class="line">  # If true, the avatar would be dispalyed in circle.</span><br><span class="line">  rounded: true</span><br><span class="line">  # The value of opacity should be choose from 0 to 1 to set the opacity of the avatar.</span><br><span class="line">  opacity: 1</span><br><span class="line">  # If true, the avatar would be rotated with the cursor.</span><br><span class="line">  rotated: true</span><br></pre></td></tr></table></figure><p>2.修改标签“#”符号和<a href="https://blog.csdn.net/qq_37497322/article/details/80628713" target="_blank" rel="noopener">插入图片</a></p><p>3.添加社交账号 </p><p>如果遇到没有的社交图标，可以在<a href="https://fontawesome.com/icons?from=io" target="_blank" rel="noopener">fontawesome</a>中寻找添加。 ||后面的是图标名，建议不要找最新的。</p><p>4.菜单设置</p><p>本地搜索一旦开启会自动添加”搜索“菜单</p><p>5.添加版权信息。参考该<a href="http://stevenshi.me/2017/05/26/hexo-add-copyright/" target="_blank" rel="noopener">文章</a></p><p>上面的链接是手动添加，现在可以在NEXT主题配置文件中进行修改</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">creative_commons:</span><br><span class="line">  license: by-nc-sa</span><br><span class="line">  sidebar: true</span><br><span class="line">  post: true</span><br><span class="line">  language:</span><br></pre></td></tr></table></figure><p>6.利用leancloud加入阅读计数功能</p><p>若页面LeanCloud访问统计提示’Counter not initialized! See more at console err msg.’</p><p>参考该<a href="https://leaferx.online/2018/02/11/lc-security/" target="_blank" rel="noopener">博客</a>解决</p><p><strong>问题</strong>：安装hexo-leancloud-counter-security报错：npm WARN babel-eslint@10.0.1 requires a peer of eslint@&gt;= 4.12.1 but none is installed. You must install peer dependencies yourself.</p><p>因此缺什么就安装什么，在这里我是安装：npm install eslint@&gt;= 4.12.1,之后再安装hexo-leancloud-counter-security就成功了。</p><p>另外最后在修正deploy的时候注意tab的控制，不然编译会报错</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  #type: git</span><br><span class="line">  #repository: git@github.com:x695/thinkee.github.io.git</span><br><span class="line">  #repository: https://github.com/x695/thinkee.github.io.git  </span><br><span class="line">  #branch: master</span><br><span class="line">  - type: git</span><br><span class="line">    #repository: git@e.coding.net:yangshixian/blog.git</span><br><span class="line">    repository: git@git.coding.net:thinkee/blog.coding.me.git</span><br><span class="line">    branch: master</span><br><span class="line">  - type: leancloud_counter_security_sync</span><br></pre></td></tr></table></figure><p>然而，十分尴尬的是，阅读数依然没有显示，后来参考这篇<a href="https://leflacon.github.io/52b56662/" target="_blank" rel="noopener">博客</a>得到了解决</p><p>7.利用valine+leancloud添加评论功能</p><p>8.网站背景动画</p><p>如果修改主题配置文件之后不出现动画，建议下载主要的库到/source/lib中</p><p>9.加入本地搜索功能</p><p>10.加入Latex数学公式</p><p>这个除了在主题配置文件修改mathjax: true之外，<strong>还需要在每个post的博客里的头代码里面加入mathjax: true才可以正常显示</strong>。如果嫌每次书写都得添加麻烦，可以直接在根目录的scaffolds文件夹里的post.m文件夹直接加入mathjax: true，之后每次新建都会自动添加了。</p><p>不过再后续使用Latex语句的时候，发现博客上还是会显示源码，后来发现应该是渲染引擎的问题，根据<a href="https://blog.csdn.net/qq_34229391/article/details/82725229" target="_blank" rel="noopener">这篇博客</a>的指导修改后就好了。</p><hr><hr><p>2019.3.5日来更新，写完一篇blog进行generate时候出现了错误：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Template render error: (unknown path) [Line 62, Column 32]</span><br><span class="line">  expected variable end</span><br><span class="line">    at Object.exports.prettifyError</span><br></pre></td></tr></table></figure><p>出现的原因要么是主题配置文件忘了打空格，要么就是自己写的blog文件里面用的符号与其他hexo配置文件语法有冲突，后来发现原因是我打公式时出现了两个“}}”，前面一个”}”是latex语法，后面是”\}”，目的是为了输出括号“}”，之后参照latex的另一种打法“\lbrace \rbrace”就好了</p><hr><hr><hr><p>2019.4.17日来更</p><p>公式直接用<a href="https://mathpix.com/" target="_blank" rel="noopener">Mathpix</a>进行LaTex命令复制吧吧，非常方便，也几乎没出现什么错误，还省时间。</p><hr><p>11.博客图片点击放大</p><p>在NEXT主题的配置文件里面有fancybox选项，直接改为true就好了，不过在这之前要下载fancybox包到<code>next/source/lib</code>文件夹里面，即：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd next/source/lib</span><br><span class="line">git clone https://github.com/theme-next/theme-next-fancybox3 fancybox</span><br></pre></td></tr></table></figure><p>12.并排插入两张图片</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;figure class=&quot;half&quot;&gt;</span><br><span class="line">    &lt;img src=&quot;xxx.jpg&quot; width=&quot;400&quot;/&gt;</span><br><span class="line">    &lt;img src=&quot;xxx.jpg&quot; width=&quot;400&quot;/&gt;</span><br><span class="line">&lt;/figure&gt;</span><br></pre></td></tr></table></figure><p>不过这只能在.md文件中实现，博客中还是上下各一张。</p><p>13.NEXT主题<a href="http://theme-next.iissnan.com/tag-plugins.html" target="_blank" rel="noopener">内置标签</a>（包括引用文本居中，图片最大化引用等），更详细的标签见hexo<a href="https://hexo.io/zh-cn/docs/tag-plugins.html" target="_blank" rel="noopener">官网</a>。注意在本地利用这些标签不会出现相应的结果，只有上传到博客上才能看到。</p><p>14.添加emoji表情功能</p><p><a href="https://www.webfx.com/tools/emoji-cheat-sheet/" target="_blank" rel="noopener">emoji大全</a></p><p>关于加入表情的功能，我一共找到了两种方法，一种是基于修改渲染引擎的，然后加入twemoji插件，但是我在之前为了支持mathjax已经更换了渲染引擎，结果导致我在按照<a href="https://chaxiaoniu.oschina.io/2017/07/10/HexoAddEmoji/" target="_blank" rel="noopener">博客1</a>和<a href="https://www.cnblogs.com/fsong/p/5929773.html" target="_blank" rel="noopener">博客2</a>的操作进行时出现了fancybox图片放大和图片内部插入的问题，有时候甚至会影响到html语句，后来倒退删除渲染引擎和插件的时候，想要恢复到原来的状态，结果hexo g可以成功，本地却无法显示不出内容，结果只好重装。。目前原因未知。</p><p>此外，第二种方法是安装<code>hexo-filter-github-emojis</code>插件，可参考<a href="https://novnan.github.io/Hexo/emojis-for-hexo-next/" target="_blank" rel="noopener">博客3</a>和<a href="https://www.biueo.com/2018/01/12/Hexo文章添加emoji表情/" target="_blank" rel="noopener">博客4</a>，但是我看博客中也提到了图片干扰的问题，就没再继续试下去了。。。</p><p>下次看到更好的解决办法再来更新。</p><p>15.加入RSS订阅</p><p>直接在NEXT主题配置文件里面更改，在这之前先在博客站点目录下安装<code>npm install hexo-generator-feed --save</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">feed:</span><br><span class="line">    type: rss2</span><br><span class="line">    path: rss2.xml</span><br><span class="line">    limit: 5</span><br><span class="line">    hub:</span><br><span class="line">    content: &apos;true&apos;</span><br></pre></td></tr></table></figure><p>16.博客被谷歌和百度收录</p><p>参考这个<a href="https://www.cnblogs.com/php-linux/p/8493346.html" target="_blank" rel="noopener">博客</a>的做法</p>]]></content>
+    <content type="html"><![CDATA[<p><strong>完整搭建过程参考<a href="https://eirunye.github.io/categories/Hexo/" target="_blank" rel="noopener">此系列博客</a>（环境win10）</strong></p><p>我的写作编辑器用的是<a href="https://www.typora.io/" target="_blank" rel="noopener">typora</a></p><h2 id="Next主题配置"><a href="#Next主题配置" class="headerlink" title="Next主题配置"></a>Next主题配置</h2><p>Next主题是本人比较中意的hexo主题，所以在此只记录Next主题的配置过程</p><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>建议安装6.0版本。利用git bash here,输入命令：git clone <a href="https://github.com/theme-next/hexo-theme-next" target="_blank" rel="noopener">https://github.com/theme-next/hexo-theme-next</a> themes/next</p><h2 id="配置与个性化"><a href="#配置与个性化" class="headerlink" title="配置与个性化"></a>配置与个性化</h2><a id="more"></a><p>1.添加作者头像并设置旋转效果</p><p><strong>注意：最新版本的next主题已经添加了头像动画功能，直接在主题的配置文件里面修改，因此头像添加（路径）也是在主题配置文件里面添加，而不是在根目录的配置文件添加</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># Sidebar Avatar</span><br><span class="line">avatar: </span><br><span class="line">  # in theme directory(source/images): /images/avatar.gif</span><br><span class="line">  # in site  directory(source/uploads): /uploads/avatar.gif</span><br><span class="line">  # You can also use other linking images.</span><br><span class="line">  url: /uploads/header.jpg     #/images/avatar.gif</span><br><span class="line">  # If true, the avatar would be dispalyed in circle.</span><br><span class="line">  rounded: true</span><br><span class="line">  # The value of opacity should be choose from 0 to 1 to set the opacity of the avatar.</span><br><span class="line">  opacity: 1</span><br><span class="line">  # If true, the avatar would be rotated with the cursor.</span><br><span class="line">  rotated: true</span><br></pre></td></tr></table></figure><p>2.修改标签“#”符号和<a href="https://blog.csdn.net/qq_37497322/article/details/80628713" target="_blank" rel="noopener">插入图片</a></p><p>3.添加社交账号 </p><p>如果遇到没有的社交图标，可以在<a href="https://fontawesome.com/icons?from=io" target="_blank" rel="noopener">fontawesome</a>中寻找添加。 ||后面的是图标名，建议不要找最新的。</p><p>4.菜单设置</p><p>本地搜索一旦开启会自动添加”搜索“菜单</p><p>5.添加版权信息。参考该<a href="http://stevenshi.me/2017/05/26/hexo-add-copyright/" target="_blank" rel="noopener">文章</a></p><p>上面的链接是手动添加，现在可以在NEXT主题配置文件中进行修改</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">creative_commons:</span><br><span class="line">  license: by-nc-sa</span><br><span class="line">  sidebar: true</span><br><span class="line">  post: true</span><br><span class="line">  language:</span><br></pre></td></tr></table></figure><p>6.利用leancloud加入阅读计数功能</p><p>若页面LeanCloud访问统计提示’Counter not initialized! See more at console err msg.’</p><p>参考该<a href="https://leaferx.online/2018/02/11/lc-security/" target="_blank" rel="noopener">博客</a>解决</p><p><strong>问题</strong>：安装hexo-leancloud-counter-security报错：npm WARN babel-eslint@10.0.1 requires a peer of eslint@&gt;= 4.12.1 but none is installed. You must install peer dependencies yourself.</p><p>因此缺什么就安装什么，在这里我是安装：npm install eslint@&gt;= 4.12.1,之后再安装hexo-leancloud-counter-security就成功了。</p><p>另外最后在修正deploy的时候注意tab的控制，不然编译会报错</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  #type: git</span><br><span class="line">  #repository: git@github.com:x695/thinkee.github.io.git</span><br><span class="line">  #repository: https://github.com/x695/thinkee.github.io.git  </span><br><span class="line">  #branch: master</span><br><span class="line">  - type: git</span><br><span class="line">    #repository: git@e.coding.net:yangshixian/blog.git</span><br><span class="line">    repository: git@git.coding.net:thinkee/blog.coding.me.git</span><br><span class="line">    branch: master</span><br><span class="line">  - type: leancloud_counter_security_sync</span><br></pre></td></tr></table></figure><p>然而，十分尴尬的是，阅读数依然没有显示，后来参考这篇<a href="https://leflacon.github.io/52b56662/" target="_blank" rel="noopener">博客</a>得到了解决</p><p>7.利用valine+leancloud添加评论功能</p><p>8.网站背景动画</p><p>如果修改主题配置文件之后不出现动画，建议下载主要的库到/source/lib中</p><p>9.加入本地搜索功能</p><p>10.加入Latex数学公式</p><p>这个除了在主题配置文件修改mathjax: true之外，<strong>还需要在每个post的博客里的头代码里面加入mathjax: true才可以正常显示</strong>。如果嫌每次书写都得添加麻烦，可以直接在根目录的scaffolds文件夹里的post.m文件夹直接加入mathjax: true，之后每次新建都会自动添加了。</p><p>不过再后续使用Latex语句的时候，发现博客上还是会显示源码，后来发现应该是渲染引擎的问题，根据<a href="https://blog.csdn.net/qq_34229391/article/details/82725229" target="_blank" rel="noopener">这篇博客</a>的指导修改后就好了。</p><hr><hr><p>2019.3.5日来更新，写完一篇blog进行generate时候出现了错误：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Template render error: (unknown path) [Line 62, Column 32]</span><br><span class="line">  expected variable end</span><br><span class="line">    at Object.exports.prettifyError</span><br></pre></td></tr></table></figure><p>出现的原因要么是主题配置文件忘了打空格，要么就是自己写的blog文件里面用的符号与其他hexo配置文件语法有冲突，后来发现原因是我打公式时出现了两个“}}”，前面一个”}”是latex语法，后面是”\}”，目的是为了输出括号“}”，之后参照latex的另一种打法“\lbrace \rbrace”就好了</p><hr><hr><hr><p>2019.4.17日来更</p><p>公式直接用<a href="https://mathpix.com/" target="_blank" rel="noopener">Mathpix</a>进行LaTex命令复制吧吧，非常方便，也几乎没出现什么错误，还省时间。</p><hr><p>11.博客图片点击放大</p><p>在NEXT主题的配置文件里面有fancybox选项，直接改为true就好了，不过在这之前要下载fancybox包到<code>next/source/lib</code>文件夹里面，即：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd next/source/lib</span><br><span class="line">git clone https://github.com/theme-next/theme-next-fancybox3 fancybox</span><br></pre></td></tr></table></figure><p>12.并排插入两张图片</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;figure class=&quot;half&quot;&gt;</span><br><span class="line">    &lt;img src=&quot;xxx.jpg&quot; width=&quot;400&quot;/&gt;</span><br><span class="line">    &lt;img src=&quot;xxx.jpg&quot; width=&quot;400&quot;/&gt;</span><br><span class="line">&lt;/figure&gt;</span><br></pre></td></tr></table></figure><p>不过这只能在.md文件中实现，博客中还是上下各一张。</p><p>13.NEXT主题<a href="http://theme-next.iissnan.com/tag-plugins.html" target="_blank" rel="noopener">内置标签</a>（包括引用文本居中，图片最大化引用等），更详细的标签见hexo<a href="https://hexo.io/zh-cn/docs/tag-plugins.html" target="_blank" rel="noopener">官网</a>。注意在本地利用这些标签不会出现相应的结果，只有上传到博客上才能看到。</p><p>14.添加emoji表情功能</p><p><a href="https://www.webfx.com/tools/emoji-cheat-sheet/" target="_blank" rel="noopener">emoji大全</a></p><p>关于加入表情的功能，我一共找到了两种方法，一种是基于修改渲染引擎的，然后加入twemoji插件，但是我在之前为了支持mathjax已经更换了渲染引擎，结果导致我在按照<a href="https://chaxiaoniu.oschina.io/2017/07/10/HexoAddEmoji/" target="_blank" rel="noopener">博客1</a>和<a href="https://www.cnblogs.com/fsong/p/5929773.html" target="_blank" rel="noopener">博客2</a>的操作进行时出现了fancybox图片放大和图片内部插入的问题，有时候甚至会影响到html语句，后来倒退删除渲染引擎和插件的时候，想要恢复到原来的状态，结果hexo g可以成功，本地却无法显示不出内容，结果只好重装。。目前原因未知。</p><p>此外，第二种方法是安装<code>hexo-filter-github-emojis</code>插件，可参考<a href="https://novnan.github.io/Hexo/emojis-for-hexo-next/" target="_blank" rel="noopener">博客3</a>和<a href="https://www.biueo.com/2018/01/12/Hexo文章添加emoji表情/" target="_blank" rel="noopener">博客4</a>，但是我看博客中也提到了图片干扰的问题，就没再继续试下去了。。。</p><p>下次看到更好的解决办法再来更新。</p><p>15.加入RSS订阅</p><p>直接在NEXT主题配置文件里面更改，在这之前先在博客站点目录下安装<code>npm install hexo-generator-feed --save</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">feed:</span><br><span class="line">    type: rss2</span><br><span class="line">    path: rss2.xml</span><br><span class="line">    limit: 5</span><br><span class="line">    hub:</span><br><span class="line">    content: &apos;true&apos;</span><br></pre></td></tr></table></figure><p>16.博客被谷歌和百度收录</p><p>参考这个<a href="https://www.cnblogs.com/php-linux/p/8493346.html" target="_blank" rel="noopener">博客</a>的做法</p><p>17.购买自己的阿里云域名并设置</p><p><a href="https://zhuanlan.zhihu.com/p/54575457" target="_blank" rel="noopener">参考</a></p>]]></content>
     
     <summary type="html">
     
@@ -514,14 +544,14 @@ R \in SO(3), t \in {\mathbb R}^{3}
     
     </summary>
     
-      <category term="博客搭建" scheme="http://richardyu114.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"/>
+      <category term="博客搭建" scheme="http://densecollections.top/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"/>
     
     
-      <category term="hexo" scheme="http://richardyu114.github.io/tags/hexo/"/>
+      <category term="hexo" scheme="http://densecollections.top/tags/hexo/"/>
     
-      <category term="leancloud" scheme="http://richardyu114.github.io/tags/leancloud/"/>
+      <category term="leancloud" scheme="http://densecollections.top/tags/leancloud/"/>
     
-      <category term="next" scheme="http://richardyu114.github.io/tags/next/"/>
+      <category term="next" scheme="http://densecollections.top/tags/next/"/>
     
   </entry>
   

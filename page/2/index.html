@@ -123,7 +123,7 @@
   <meta name="description" content="Today everything exists to end in a photograph">
 <meta property="og:type" content="website">
 <meta property="og:title" content="自拙集">
-<meta property="og:url" content="http://richardyu114.github.io/page/2/index.html">
+<meta property="og:url" content="http://densecollections.top/page/2/index.html">
 <meta property="og:site_name" content="自拙集">
 <meta property="og:description" content="Today everything exists to end in a photograph">
 <meta property="og:locale" content="zh-CN">
@@ -139,7 +139,7 @@
 
   
   
-  <link rel="canonical" href="http://richardyu114.github.io/page/2/">
+  <link rel="canonical" href="http://densecollections.top/page/2/">
 
 
 
@@ -416,7 +416,221 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://richardyu114.github.io/2019/02/18/Ubuntu16-04下安装NVIDIA最新驱动以及深度学习环境配置/">
+    <link itemprop="mainEntityOfPage" href="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Richard YU">
+      <meta itemprop="description" content="Today everything exists to end in a photograph">
+      <meta itemprop="image" content="/uploads/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="自拙集">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/" class="post-title-link" itemprop="url">A Brief Review of Object Detection and Semantic Segmentation</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-27 14:58:38" itemprop="dateCreated datePublished" datetime="2019-02-27T14:58:38+08:00">2019-02-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-13 16:46:59" itemprop="dateModified" datetime="2019-05-13T16:46:59+08:00">2019-05-13</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/科研记录/" itemprop="url" rel="index"><span itemprop="name">科研记录</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/" class="leancloud_visitors" data-flag-title="A Brief Review of Object Detection and Semantic Segmentation">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>​                          </p>
+<h2 id="About"><a href="#About" class="headerlink" title="About"></a>About</h2><p>目标检测（object detection）和语义分割（semantic segmentation）是计算机视觉的两个重要研究内容，在人脸检测，视频监控和自动驾驶中都有很多的应用，它们对于机器理解环境也具有一定的作用。在视觉SLAM上，已经有科研工作者将这些研究成果加入到现有的SLAM系统中，以提高系统的鲁棒性，同时促进语义SLAM的发展。因此，需要对这些工作进行一些调研总结和学习理解。由于对深度学习不了解，还未系统地进行学习，所以写的内容可能幼稚了些，后续会再进行更新。</p>
+<p>值得注意的是，目标检测在经典计算机视觉中也已经提出了一些特征描述的方法，在此不涉及，只涉及基于深度学习的目标检测方法，毕竟神经网络在图片特征的学习上比较擅长。</p>
+<p>本博客将基于文末给出的参考文献来进行总结和学习，尽力把这些问题和技术梳理清楚，同时加入一些自己的思考和不成熟的想法。</p>
+<p><img src="/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/focus_of_object_detection_based_on_DL.PNG" alt="focus on method based on deep learning"></p>
+<h2 id="Task-Definition"><a href="#Task-Definition" class="headerlink" title="Task Definition"></a>Task Definition</h2><ol>
+<li>image classification—multi level  图像分类，这个任务指的是给出一张图片，要识别出哪张图片属于哪个类别；</li>
+<li>object detection—what categories and location  物体检测，这个任务除了需要识别出图片属于哪个类别，还需要对相应的物体进行具体位置的定位，我们通常用矩形框来框出这个物体；</li>
+<li>semantic segmentation—pixel wise, but does not distinct everything in one category   语义分割，这个任务是指对图片中的每个 pixel 打上标签，比如这里要给它们打上 person、sheep、dog 的标签，需要进行非常精细的分类；</li>
+<li>instance segmentation—object detection+semantic segmentation   实例分割，可以理解为进行物体检测后，对每个矩形框中的物体进行语义分割，该任务除了需要找到物体的类别和位置之外，还需要分辨出不同物体的 pixel；</li>
+</ol>
+<p><img src="/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/task definition.png" alt="task definition"></p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://densecollections.top/2019/02/18/Ubuntu16-04下安装NVIDIA最新驱动以及深度学习环境配置/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Richard YU">
@@ -655,7 +869,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://richardyu114.github.io/2019/02/14/Linear-Algebra-of-MIT/">
+    <link itemprop="mainEntityOfPage" href="http://densecollections.top/2019/02/14/Linear-Algebra-of-MIT/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Richard YU">
@@ -872,7 +1086,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://richardyu114.github.io/2019/02/14/Hexo-Github-博客搭建/">
+    <link itemprop="mainEntityOfPage" href="http://densecollections.top/2019/02/14/Hexo-Github-博客搭建/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Richard YU">
@@ -934,7 +1148,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-13 20:03:18" itemprop="dateModified" datetime="2019-05-13T20:03:18+08:00">2019-05-13</time>
+                <time title="修改时间：2019-11-28 15:12:27" itemprop="dateModified" datetime="2019-11-28T15:12:27+08:00">2019-11-28</time>
               
             
           </span>
@@ -1112,7 +1326,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1868,6 +2082,8 @@
     
       
         
+      
+    
       
     
       

@@ -124,34 +124,34 @@
 <meta name="keywords" content="computer vision,deep learning,object detection,semantic segmentation">
 <meta property="og:type" content="article">
 <meta property="og:title" content="A Brief Review of Object Detection and Semantic Segmentation">
-<meta property="og:url" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/index.html">
+<meta property="og:url" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/index.html">
 <meta property="og:site_name" content="自拙集">
 <meta property="og:description" content="​                           About目标检测（object detection）和语义分割（semantic segmentation）是计算机视觉的两个重要研究内容，在人脸检测，视频监控和自动驾驶中都有很多的应用，它们对于机器理解环境也具有一定的作用。在视觉SLAM上，已经有科研工作者将这些研究成果加入到现有的SLAM系统中，以提高系统的鲁棒性，同时促进语义SLAM">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/focus_of_object_detection_based_on_DL.PNG">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/task%20definition.png">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/developing_route_of_object_detection.jpeg">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/recent%20progress%20in%20object%20detection.png">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/two-stage%20detector.png">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/single-stage%20detector.png">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/one_two_stage_comparison.PNG">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/architecture_of_refinedet.PNG">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/RPN.png">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/alternating%20training.png">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/joint%20training.png">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/four%20ways%20of%20FPN.png">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/pipeline%20of%20FPN.png">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/mask%20branch.png">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/cascade%20architecture.png">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/RetinaNet.png">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/relation%20network.png">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/SNIP.png">
-<meta property="og:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/cornerNet.png">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/focus_of_object_detection_based_on_DL.PNG">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/task%20definition.png">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/developing_route_of_object_detection.jpeg">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/recent%20progress%20in%20object%20detection.png">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/two-stage%20detector.png">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/single-stage%20detector.png">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/one_two_stage_comparison.PNG">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/architecture_of_refinedet.PNG">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/RPN.png">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/alternating%20training.png">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/joint%20training.png">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/four%20ways%20of%20FPN.png">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/pipeline%20of%20FPN.png">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/mask%20branch.png">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/cascade%20architecture.png">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/RetinaNet.png">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/relation%20network.png">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/SNIP.png">
+<meta property="og:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/cornerNet.png">
 <meta property="og:updated_time" content="2019-05-13T08:46:59.519Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="A Brief Review of Object Detection and Semantic Segmentation">
 <meta name="twitter:description" content="​                           About目标检测（object detection）和语义分割（semantic segmentation）是计算机视觉的两个重要研究内容，在人脸检测，视频监控和自动驾驶中都有很多的应用，它们对于机器理解环境也具有一定的作用。在视觉SLAM上，已经有科研工作者将这些研究成果加入到现有的SLAM系统中，以提高系统的鲁棒性，同时促进语义SLAM">
-<meta name="twitter:image" content="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/focus_of_object_detection_based_on_DL.PNG">
+<meta name="twitter:image" content="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/focus_of_object_detection_based_on_DL.PNG">
 
 
 
@@ -161,7 +161,7 @@
 
   
   
-  <link rel="canonical" href="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/">
+  <link rel="canonical" href="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/">
 
 
 
@@ -437,7 +437,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/">
+    <link itemprop="mainEntityOfPage" href="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Richard YU">
@@ -746,7 +746,7 @@
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
     
-    <a href="http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/" title="A Brief Review of Object Detection and Semantic Segmentation">http://richardyu114.github.io/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/</a>
+    <a href="http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/" title="A Brief Review of Object Detection and Semantic Segmentation">http://densecollections.top/2019/02/27/A-Brief-Review-of-Object-Detection-and-Semantic-Segmentation/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -865,7 +865,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
