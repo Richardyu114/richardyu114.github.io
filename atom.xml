@@ -36,9 +36,9 @@
       <category term="科研记录" scheme="http://densecollections.top/categories/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/"/>
     
     
-      <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
-    
       <category term="deep learning" scheme="http://densecollections.top/tags/deep-learning/"/>
+    
+      <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
     
       <category term="object detection" scheme="http://densecollections.top/tags/object-detection/"/>
     
@@ -100,9 +100,9 @@
       <category term="工作总结" scheme="http://densecollections.top/categories/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
     
     
-      <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
-    
       <category term="deep learning" scheme="http://densecollections.top/tags/deep-learning/"/>
+    
+      <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
     
       <category term="CNN" scheme="http://densecollections.top/tags/CNN/"/>
     
@@ -413,9 +413,9 @@ R \in SO(3), t \in {\mathbb R}^{3}
       <category term="科研记录" scheme="http://densecollections.top/categories/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/"/>
     
     
-      <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
-    
       <category term="deep learning" scheme="http://densecollections.top/tags/deep-learning/"/>
+    
+      <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
     
       <category term="object detection" scheme="http://densecollections.top/tags/object-detection/"/>
     
