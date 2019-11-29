@@ -128,7 +128,7 @@
 <meta property="og:site_name" content="自拙集">
 <meta property="og:description" content="完整搭建过程参考此系列博客（环境win10） 我的写作编辑器用的是typora Next主题配置Next主题是本人比较中意的hexo主题，所以在此只记录Next主题的配置过程 下载建议安装6.0版本。利用git bash here,输入命令：git clone https://github.com/theme-next/hexo-theme-next themes/next 配置与个性化">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-28T11:21:52.100Z">
+<meta property="og:updated_time" content="2019-11-29T09:18:02.488Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo+Github 博客搭建">
 <meta name="twitter:description" content="完整搭建过程参考此系列博客（环境win10） 我的写作编辑器用的是typora Next主题配置Next主题是本人比较中意的hexo主题，所以在此只记录Next主题的配置过程 下载建议安装6.0版本。利用git bash here,输入命令：git clone https://github.com/theme-next/hexo-theme-next themes/next 配置与个性化">
@@ -477,7 +477,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-11-28 19:21:52" itemprop="dateModified" datetime="2019-11-28T19:21:52+08:00">2019-11-28</time>
+                <time title="修改时间：2019-11-29 17:18:02" itemprop="dateModified" datetime="2019-11-29T17:18:02+08:00">2019-11-29</time>
               
             
           </span>
@@ -547,7 +547,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">3.5k</span>
+                <span title="本文字数">3.8k</span>
               
 
               
@@ -606,6 +606,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  #type: git</span><br><span class="line">  #repository: git@github.com:x695/thinkee.github.io.git</span><br><span class="line">  #repository: https://github.com/x695/thinkee.github.io.git  </span><br><span class="line">  #branch: master</span><br><span class="line">  - type: git</span><br><span class="line">    #repository: git@e.coding.net:yangshixian/blog.git</span><br><span class="line">    repository: git@git.coding.net:thinkee/blog.coding.me.git</span><br><span class="line">    branch: master</span><br><span class="line">  - type: leancloud_counter_security_sync</span><br></pre></td></tr></table></figure>
 <p>然而，十分尴尬的是，阅读数依然没有显示，后来参考这篇<a href="https://leflacon.github.io/52b56662/" target="_blank" rel="noopener">博客</a>得到了解决</p>
 <p>7.利用valine+leancloud添加评论功能</p>
+<p><a href="https://bigwin.ml/2018/11/29/valine-for-next/" target="_blank" rel="noopener">参考</a></p>
 <p>8.网站背景动画</p>
 <p>如果修改主题配置文件之后不出现动画，建议下载主要的库到/source/lib中</p>
 <p>9.加入本地搜索功能</p>
@@ -642,9 +643,12 @@
 <p>参考这个<a href="https://www.cnblogs.com/php-linux/p/8493346.html" target="_blank" rel="noopener">博客</a>的做法</p>
 <p>17.购买自己的阿里云域名并设置</p>
 <p><a href="https://zhuanlan.zhihu.com/p/54575457" target="_blank" rel="noopener">参考</a></p>
-<p>出现问题：<code>leancloud阅读统计和评论系统出现问题</code>，在<code>安全中心</code>更换了域名之后，deploy时出现Error，too much request，得知时免费版的限制导致错误，按照<a href="https://yunhao.space/2018/06/27/hexo-leancloud-plugin-installation-tutor/" target="_blank" rel="noopener">此博客</a>修改未能解决</p>
-<p>18.更换评论系统</p>
-<p>由于leancloud经常出现问题，不易维护，所以更换评论系统为Gitalk，虽然评论必须登陆GitHub账号，但是可以接受，毕竟现在理工科都有Github账号，此外还加了字数统计和阅读时长等信息。具体操作参见<a href="https://yunhao.space/2018/06/29/hexo-next-function-setting/" target="_blank" rel="noopener">链接</a></p>
+<p>出现问题：<code>leancloud阅读统计和评论系统出现问题</code>，在<code>安全中心</code>更换了域名之后，deploy时出现Error，too much request，得知时免费版的限制导致错误，按照<a href="https://yunhao.space/2018/06/27/hexo-leancloud-plugin-installation-tutor/" target="_blank" rel="noopener">此博客</a>修改并重新配置了一个leancloud Counter应用未能解决问题。</p>
+<p><strong>偶然通过换回valine+leancloud评论系统出现<code>code 403</code>问题进行改正时也顺便解决了这个问题。</strong></p>
+<p>个人GitHub博客的<code>settings</code>页面的<code>Github Pages</code>有个<code>Enforce HTTPS</code>选项，我没勾，所以<a href="http://或者https://都可以访问我的域名，而我的leancloud`安全中心`中的安全域名只加了https://的，在加一个http://就好了。。" target="_blank" rel="noopener">http://或者https://都可以访问我的域名，而我的leancloud`安全中心`中的安全域名只加了https://的，在加一个http://就好了。。</a></p>
+<p>但是deploy时依然会有些莫名其妙的错误，比如<code>ERROR Password must be string</code>，但是既然正常显示了，我就没再管了。。</p>
+<p>18.更换评论Gitalk系统</p>
+<p>由于leancloud经常出现问题，不易维护，所以可以考虑更换评论系统为Gitalk，虽然评论必须登陆GitHub账号，但是可以接受，毕竟现在理工科都有Github账号，此外还加了字数统计和阅读时长等信息。具体操作参见<a href="https://yunhao.space/2018/06/29/hexo-next-function-setting/" target="_blank" rel="noopener">链接</a>。</p>
 <p><strong>需要注意，使用Gitalk评论系统时，每次deploy都需要在博客下登陆自己的账号初始化下</strong></p>
 
       
@@ -1057,7 +1061,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">147k</span>
+    <span title="站点总字数">148k</span>
   
 
   
