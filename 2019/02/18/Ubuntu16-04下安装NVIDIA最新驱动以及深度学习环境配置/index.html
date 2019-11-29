@@ -505,6 +505,19 @@
           
             
             
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/02/18/Ubuntu16-04下安装NVIDIA最新驱动以及深度学习环境配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/18/Ubuntu16-04下安装NVIDIA最新驱动以及深度学习环境配置/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -742,6 +755,10 @@
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
 
   
 
@@ -1009,31 +1026,6 @@
             
           
           
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-  <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-  <script src="//cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
-  <script>
-      var gitalk = new Gitalk({
-        clientID: 'a52457c2a03ca335204f',
-        clientSecret: 'a40a36598c82771ca4feba4937f3d14c7d81dd9d',
-        repo: 'Richardyu114.github.io',
-        owner: 'Richardyu114',
-        admin: 'Richardyu114',
-        id: md5(location.pathname),
-        distractionFreeMode: 'true'
-      });
-      var div = document.createElement('div');
-      div.setAttribute("id", "gitalk_comments");
-      div.setAttribute("class", "post-nav");
-      var bro = document.getElementById('posts').getElementsByTagName('article');
-      bro = bro[0].getElementsByClassName('post-block');
-      bro = bro[0].getElementsByTagName('footer');
-      bro = bro[0];
-      bro.appendChild(div);
-      gitalk.render('gitalk_comments');
-  </script>
-
-
         </div>
       </div>
 
@@ -1222,6 +1214,36 @@
   
 
   
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'duGoywhUmLrx9pM6qQhmf47c-gzGzoHsz',
+    appKey: 'm7fc8w4Di5qnAXXaJ5Gp3Pgg',
+    placeholder: '欢迎评论！请留下你的邮箱',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
 
 
   

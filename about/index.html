@@ -135,8 +135,6 @@
 <meta name="twitter:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557052455658&di=9784493a158e094e66fd5b1d440d429c&imgtype=0&src=http%3A%2F%2Fwx2.sinaimg.cn%2Flarge%2F6c3e6b13gy1ffkz643tiuj21780t1asm.jpg">
 
 
-  
-
 
   <link rel="alternate" href="/atom.xml" title="自拙集" type="application/atom+xml">
 
@@ -748,7 +746,6 @@
             
           
           
-
         </div>
       </div>
 
@@ -937,6 +934,36 @@
   
 
   
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'duGoywhUmLrx9pM6qQhmf47c-gzGzoHsz',
+    appKey: 'm7fc8w4Di5qnAXXaJ5Gp3Pgg',
+    placeholder: '欢迎评论！请留下你的邮箱',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
 
 
 
