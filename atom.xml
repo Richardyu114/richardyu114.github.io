@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://densecollections.top/"/>
-  <updated>2019-11-30T07:25:32.009Z</updated>
+  <updated>2019-11-30T07:32:52.921Z</updated>
   <id>http://densecollections.top/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>RCNN series in object detection</title>
+    <link href="http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/"/>
+    <id>http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/</id>
+    <published>2019-11-30T07:30:42.000Z</published>
+    <updated>2019-11-30T07:32:52.921Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="About"><a href="#About" class="headerlink" title="About"></a>About</h2><p>Faster  R-CNN是目标检测领域中”two-stage”的代表性方法，其精度高，适应性强，兼具学术和工程价值。整个框架由于吸取了很多先前工作的经验，因此比较庞大，而且细节很多，因此需要认真研读下相关paper和Faster R-CNN的python代码。</p><p>在此之前，先贴上一位博主做的“<a href="https://nikasa1889.github.io/2017/05/02/The-Modern-History-of-Object-Recognition-—-Infographic-1/" target="_blank" rel="noopener">The Modern History of Object Recognition — Infographic</a>”，其中也包括了“one-stage”的方法，不过2017年以后的没再更新了。</p><p><img src="/2019/11/30/RCNN-series-in-object-detection/HistoryOfObjectRecognition.png" alt="modern history of object recognition"></p><a id="more"></a><h3 id="R-CNN"><a href="#R-CNN" class="headerlink" title="R-CNN"></a><a href="https://arxiv.org/pdf/1311.2524.pdf" target="_blank" rel="noopener">R-CNN</a></h3><p>内容有参考<a href="https://zhuanlan.zhihu.com/p/23006190?refer=xiaoleimlnote" target="_blank" rel="noopener">blog1</a>和<a href="https://blog.csdn.net/WoPawn/article/details/52133338" target="_blank" rel="noopener">blog2</a>。</p><p>R-CNN(Rich feature hierarchies for accurate object detection and semantic segmentation)是将深度学习应用于目标检测的开山之作，以前传统的目标检测算法使用滑动窗口法依次判断所有的可能区域，在该文章中，采用selective search方法先预先提取一系列可能是物体的候选区域（foreground），之后将这些候选区域（proposals）整合成固定的大小（$227 \times 227$， 采用AlexNet）送到预训练的CNN模型上提取特征然后进行fine-tuning迁移学习，然后通过fc6和fc7层，得到了针对目标检测任务的特征向量，然后再过SVM二分类器得到物体的每个类别分数（至于为什么用了两层fc，不直接用fc得到softmax分数，Ross他也在论文中作了说明和实验，主要原因就是proposal的筛选更加严格点，mAP更高点），得到2K个左右proposal的所属类别之后再做非极大抑制(NMS)，去掉那些多余的框，留下局部最优的建议框，然后根据这些剩下的框再去训练20个类别（针对pascal VOC数据）的regression器，最后终于得到图像中物体的种类和矩形框坐标信息。</p><p>下面对一些重点内容进行分析，同时由于是object detection based CNN开篇，所以也顺便加上评价指标等细节。</p><p><strong>IoU(insertion of union).</strong>中文名为交并比，主要用来衡量框与框的重合程度，计算公式为$\frac{A \cap B}{A \cup B}$</p><p><img src="RCNN-series-in-object-detection//iou.png" alt="IoU"></p><p>AP与mAP</p><p><strong>Region prposals—Selective Search(<a href="https://www.koen.me/research/pub/uijlings-ijcv2013-draft.pdf" target="_blank" rel="noopener">paper</a>, <a href="https://blog.csdn.net/mao_kun/article/details/50576003" target="_blank" rel="noopener">blog</a>,<a href="https://www.cnblogs.com/zyly/p/9259392.html" target="_blank" rel="noopener">code</a>).</strong>最开始的阶段，算法要通过该方法提取出每张图像上存在物体的可能区域，即建议框，每张图片大概会提取2k左右。Selective Search算法属于经典计算机视觉范畴，主要是利用不同的尺度（颜色，纹理，大小等），采用图像分割，层次算法等，先分割成小区域，然后通过颜色直方图相近（颜色相似），梯度直方图相近（纹理相似）等规则合并，得到最终的proposals，由于这个方法严重限制了整体框架的速度，而且后面也被Faster R-CNN中的RPN取代，因此我也没有兴趣深究，感兴趣的读者可以通过原论文和代码进一步了解。</p><p><strong>CNN feature extraction.</strong>利用selective search得到的预选框由于大小不一，不方便过卷积层后reshape成统一维度的矩阵，因此需要进行resize等预处理。变形操作方面主要就是拉伸和填充的组合。</p><p>如下图所示，(A)是原图，(B)，(C)是各向同性变形，(D)是各项异性变形。(B)考虑了proposal周围的纹理内容（context），利用其扩充到$227 \times 227$，如果遇到了图像边界就利用proposal的像素均值填充；(C)不考虑proposal周围的像素信息，直接用其像素均值填充到$227 \times 227$；(D)是直接对proposal resize到$227 \times 227$，不过在此之前先进行padding处理，padding的尺寸分别为0和16，像素值为proposal的像素均值。论文给出的结论是padding=16加各向异性缩放的效果最好。</p><p><img src="/2019/11/30/RCNN-series-in-object-detection/different object proposal transformations.png" alt="different object proposal transformations"></p><p>网络层面，R-CNN选用了Alexnet和VGG这两个网络，由于VGG采用了更小的卷积核和小的stride，因此最后的检测mAP也更高。在训练方面，R-CNN利用的是在ILSVC数据集上的预训练分类模型，等于是进行了较好的初始化，有了一个比较通用的特征提取器，然后在Pascal VOC这样的小数据集上进行fine-tuning，这样的迁移学习也算当时的一个contribution，但是现在来看已经属于比较正常的操作了。以Alexnet为例，proposal经过其中的5个卷积层之后，得到的是$6 \times 6 \times 256$的特征图矩阵，再经过fc6和fc7之后得到了4096个神经元，最后再经过一个有21个神经元的fc，即分类数，最终得到了适合该数据样本的分类器（和GT的IOU大于0.5的那些proposals都会标为正样本，否则为负样本）,但是并不能准确预测位置。</p><p><strong>SVM classification.</strong>一般来说，根据图像分类的操作，都是将最后的全连接层改成需要分类个数的神经元，因此针对Pascal VOC来说，可以将最后的fc进行softmax，但是R-CNN却在fc7后面加了个SVM分类器，是什么原因导致这样做精度更高呢？根据论文的说法，Ross在微调CNN的时候，和GT的IOU大于0.5的那些proposals都会标为正样本，否则为负样本，这样的话对bndbox的限制非常宽松，也就是说监督信息不是严格有效的，因为CNN对小样本容易过拟合，因此这样的操作只是为了微调网络，尤其是最后的fc6和fc7，使其能够得到针对Pascal VOC数据的分类特征。采用SVM是因为SVM适用于少样本训练，而且由于是最后的分类，所以IOU的阈值设定也比较严格，目的是为了提供尽量正确的监督信息（GT为正样本，IOU小于0.3的负样本，这个0.3也是调参试出来的）。SVM分类器其实就是$4096 \times N$的权值矩阵，最后得到了每类的置信值，这样就得到了类别结果。此外还需注意的是，由于GT只有一个，而IOU小于0.3的proposal可能会有很多，这样就导致了训练SVM分类器的时候正负样本不均衡，论文中也提到，SVM的负样本是经过hard negative mining筛选的（负样本的处理是object detection中的一个技术细节和难点），具体怎么做的，我没有继续深究，我准备在Ross的下一篇文章“OHEM”进行梳理。</p><p><strong>Bounding box regression.</strong></p><p>three modules:</p><p>regional proposals</p><p>CNN feature extract</p><p>linear-SVMs classify and why —appendix B</p><p>wrap —how  appendix A</p><p>ablation studies—-why cnn better</p><p>pre-trained model and fine-tune matters</p><p>detection errors analysis    <a href="http://dhoiem.web.engr.illinois.edu/publications/eccv2012_detanalysis_derek.pdf" target="_blank" rel="noopener">http://dhoiem.web.engr.illinois.edu/publications/eccv2012_detanalysis_derek.pdf</a> </p><p>how to do experiments and writing paper,or how to express your ideas and thoughts</p><p>实验做的好</p><p>各向同性与各向异性图像缩放： <a href="https://blog.csdn.net/qq_30122883/article/details/89363900" target="_blank" rel="noopener">https://blog.csdn.net/qq_30122883/article/details/89363900</a> </p><p><a href="https://arxiv.org/abs/1604.03540" target="_blank" rel="noopener">OHEM</a></p><h3 id="SSPNet"><a href="#SSPNet" class="headerlink" title="SSPNet"></a><a href="https://arxiv.org/pdf/1406.4729.pdf" target="_blank" rel="noopener">SSPNet</a></h3><h3 id="Fast-R-CNN"><a href="#Fast-R-CNN" class="headerlink" title="[Fast R-CNN]"></a>[Fast R-CNN]</h3><p>代码解析：<a href="https://blog.csdn.net/weixin_43872578/article/details/86607742" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43872578/article/details/86607742</a></p><h3 id><a href="#" class="headerlink" title=" "></a> </h3><h3 id="Faster-R-NN"><a href="#Faster-R-NN" class="headerlink" title="Faster R-NN"></a><a href="https://arxiv.org/pdf/1506.01497.pdf" target="_blank" rel="noopener">Faster R-NN</a></h3><p>anchors的思想</p><p>pyramid of feature map/filters/anchors</p><p><a href="http://www.telesens.co/2018/03/11/object-detection-and-classification-using-r-cnns/" target="_blank" rel="noopener">http://www.telesens.co/2018/03/11/object-detection-and-classification-using-r-cnns/</a></p><p><a href="https://blog.csdn.net/u014365862/article/details/77887230" target="_blank" rel="noopener">https://blog.csdn.net/u014365862/article/details/77887230</a></p><p><a href="https://zhuanlan.zhihu.com/p/23006190?refer=xiaoleimlnote" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/23006190?refer=xiaoleimlnote</a></p><p> <a href="https://blog.csdn.net/v_july_v/article/details/80170182" target="_blank" rel="noopener">https://blog.csdn.net/v_july_v/article/details/80170182</a> </p><p> <a href="https://zhuanlan.zhihu.com/p/31426458" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/31426458</a> </p><p><a href="https://blog.csdn.net/hsqyc/article/details/81702437" target="_blank" rel="noopener">mAP</a></p><p><a href="https://blog.csdn.net/lanran2/article/details/79057994" target="_blank" rel="noopener">用res101是在conv4x之后</a></p><p>机器学习笔记：</p><p> <a href="https://campoo.cc/category/机器学习/" target="_blank" rel="noopener">https://campoo.cc/category/%e6%9c%ba%e5%99%a8%e5%ad%a6%e4%b9%a0/</a> </p><p>为什么需要anchor：  <a href="https://zhuanlan.zhihu.com/p/73024408" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/73024408</a> </p><h2 id="code-architecture"><a href="#code-architecture" class="headerlink" title="code architecture"></a>code architecture</h2><p>1.<a href="https://arxiv.org/pdf/1311.2524.pdf" target="_blank" rel="noopener">R-CNN</a></p><p>2.<a href="https://arxiv.org/pdf/1504.08083.pdf" target="_blank" rel="noopener">Fast R-CNN</a></p><p>3.<a href="https://arxiv.org/pdf/1506.01497.pdf" target="_blank" rel="noopener">Faster R-CNN</a></p><p>4.<a href="https://arxiv.org/pdf/1506.02025.pdf" target="_blank" rel="noopener">Spatial Transformer Networks</a> </p><p>roi pooling, roi align, crop pooling的区别的作用</p><blockquote><p>The crop pooling layer takes the ROI boxes output by the proposal target layer and the convolutional feature maps output by the “head” network and outputs square feature maps</p></blockquote><p><a href="http://www.telesens.co/2018/03/11/object-detection-and-classification-using-r-cnns/" target="_blank" rel="noopener">http://www.telesens.co/2018/03/11/object-detection-and-classification-using-r-cnns/</a></p><p>cvpr2019 tutorial： <a href="http://feichtenhofer.github.io/cvpr2019-recognition-tutorial/" target="_blank" rel="noopener">http://feichtenhofer.github.io/cvpr2019-recognition-tutorial/</a></p><p>数据预处理部分会减去pixel mean value，作为数据标准化的一部分，但是对图像不需要再去除以标准差，是因为平稳性的存在，<a href="https://blog.csdn.net/liuxiangxxl/article/details/86605429" target="_blank" rel="noopener">blog</a>，对RGB图像来说，mean pixel value 是个$3 \times 1$的vector: [R_mean, G_mean, B_mean]</p><p>head network(pretrained model first few layers)—RPN(region proposal network)—classification network</p><p>ROI(region o interests) — crop olling—classification</p><p>bounding box回归的系数并不是单纯意义上的坐标，而且相对的系数，这样会使得图像再进行rescale之后不会使系数发生变化</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;About&quot;&gt;&lt;a href=&quot;#About&quot; class=&quot;headerlink&quot; title=&quot;About&quot;&gt;&lt;/a&gt;About&lt;/h2&gt;&lt;p&gt;Faster  R-CNN是目标检测领域中”two-stage”的代表性方法，其精度高，适应性强，兼具学术和工程价值。整个框架由于吸取了很多先前工作的经验，因此比较庞大，而且细节很多，因此需要认真研读下相关paper和Faster R-CNN的python代码。&lt;/p&gt;
+&lt;p&gt;在此之前，先贴上一位博主做的“&lt;a href=&quot;https://nikasa1889.github.io/2017/05/02/The-Modern-History-of-Object-Recognition-—-Infographic-1/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;The Modern History of Object Recognition — Infographic&lt;/a&gt;”，其中也包括了“one-stage”的方法，不过2017年以后的没再更新了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2019/11/30/RCNN-series-in-object-detection/HistoryOfObjectRecognition.png&quot; alt=&quot;modern history of object recognition&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="http://densecollections.top/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
+    
+      <category term="deep learning" scheme="http://densecollections.top/tags/deep-learning/"/>
+    
+      <category term="object detection" scheme="http://densecollections.top/tags/object-detection/"/>
+    
+      <category term="semantic segmentation" scheme="http://densecollections.top/tags/semantic-segmentation/"/>
+    
+  </entry>
   
   <entry>
     <title>paper reading and coding of RCNN series</title>
@@ -36,9 +66,9 @@
       <category term="科研记录" scheme="http://densecollections.top/categories/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/"/>
     
     
-      <category term="deep learning" scheme="http://densecollections.top/tags/deep-learning/"/>
-    
       <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
+    
+      <category term="deep learning" scheme="http://densecollections.top/tags/deep-learning/"/>
     
       <category term="object detection" scheme="http://densecollections.top/tags/object-detection/"/>
     
@@ -100,9 +130,9 @@
       <category term="工作总结" scheme="http://densecollections.top/categories/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"/>
     
     
-      <category term="deep learning" scheme="http://densecollections.top/tags/deep-learning/"/>
-    
       <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
+    
+      <category term="deep learning" scheme="http://densecollections.top/tags/deep-learning/"/>
     
       <category term="CNN" scheme="http://densecollections.top/tags/CNN/"/>
     
@@ -413,9 +443,9 @@ R \in SO(3), t \in {\mathbb R}^{3}
       <category term="科研记录" scheme="http://densecollections.top/categories/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/"/>
     
     
-      <category term="deep learning" scheme="http://densecollections.top/tags/deep-learning/"/>
-    
       <category term="computer vision" scheme="http://densecollections.top/tags/computer-vision/"/>
+    
+      <category term="deep learning" scheme="http://densecollections.top/tags/deep-learning/"/>
     
       <category term="object detection" scheme="http://densecollections.top/tags/object-detection/"/>
     

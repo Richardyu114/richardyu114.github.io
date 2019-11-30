@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+  <meta name="google-site-verification" content="true">
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="0bqk4mbBLD">
+
+
+
+  <meta name="google-site-verification" content="FvMbHVgnH7FO0GFRzTmOevjSaFwvzIQZv94LdufMMPY">
+
+
+  <meta name="description" content="AboutFaster  R-CNN是目标检测领域中”two-stage”的代表性方法，其精度高，适应性强，兼具学术和工程价值。整个框架由于吸取了很多先前工作的经验，因此比较庞大，而且细节很多，因此需要认真研读下相关paper和Faster R-CNN的python代码。 在此之前，先贴上一位博主做的“The Modern History of Object Recognition — Infog">
+<meta name="keywords" content="computer vision,deep learning,object detection,semantic segmentation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RCNN series in object detection">
+<meta property="og:url" content="http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/index.html">
+<meta property="og:site_name" content="自拙集">
+<meta property="og:description" content="AboutFaster  R-CNN是目标检测领域中”two-stage”的代表性方法，其精度高，适应性强，兼具学术和工程价值。整个框架由于吸取了很多先前工作的经验，因此比较庞大，而且细节很多，因此需要认真研读下相关paper和Faster R-CNN的python代码。 在此之前，先贴上一位博主做的“The Modern History of Object Recognition — Infog">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/HistoryOfObjectRecognition.png">
+<meta property="og:image" content="http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/RCNN-series-in-object-detection//iou.png">
+<meta property="og:image" content="http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/different%20object%20proposal%20transformations.png">
+<meta property="og:updated_time" content="2019-11-30T07:32:52.921Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RCNN series in object detection">
+<meta name="twitter:description" content="AboutFaster  R-CNN是目标检测领域中”two-stage”的代表性方法，其精度高，适应性强，兼具学术和工程价值。整个框架由于吸取了很多先前工作的经验，因此比较庞大，而且细节很多，因此需要认真研读下相关paper和Faster R-CNN的python代码。 在此之前，先贴上一位博主做的“The Modern History of Object Recognition — Infog">
+<meta name="twitter:image" content="http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/HistoryOfObjectRecognition.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="自拙集" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>RCNN series in object detection | 自拙集</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">自拙集</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Work cures everything</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-paperstation">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/PaperStation/" rel="section"><i class="menu-item-icon fa fa-fw fa-edit"></i> <br>PaperStation</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Richard YU">
+      <meta itemprop="description" content="Today everything exists to end in a photograph">
+      <meta itemprop="image" content="/uploads/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="自拙集">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RCNN series in object detection
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-30 15:30:42 / 修改时间：15:32:52" itemprop="dateCreated datePublished" datetime="2019-11-30T15:30:42+08:00">2019-11-30</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/11/30/RCNN-series-in-object-detection/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/30/RCNN-series-in-object-detection/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/2019/11/30/RCNN-series-in-object-detection/" class="leancloud_visitors" data-flag-title="RCNN series in object detection">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">4.4k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">4 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="About"><a href="#About" class="headerlink" title="About"></a>About</h2><p>Faster  R-CNN是目标检测领域中”two-stage”的代表性方法，其精度高，适应性强，兼具学术和工程价值。整个框架由于吸取了很多先前工作的经验，因此比较庞大，而且细节很多，因此需要认真研读下相关paper和Faster R-CNN的python代码。</p>
+<p>在此之前，先贴上一位博主做的“<a href="https://nikasa1889.github.io/2017/05/02/The-Modern-History-of-Object-Recognition-—-Infographic-1/" target="_blank" rel="noopener">The Modern History of Object Recognition — Infographic</a>”，其中也包括了“one-stage”的方法，不过2017年以后的没再更新了。</p>
+<p><img src="/2019/11/30/RCNN-series-in-object-detection/HistoryOfObjectRecognition.png" alt="modern history of object recognition"></p>
+<a id="more"></a>
+<h3 id="R-CNN"><a href="#R-CNN" class="headerlink" title="R-CNN"></a><a href="https://arxiv.org/pdf/1311.2524.pdf" target="_blank" rel="noopener">R-CNN</a></h3><p>内容有参考<a href="https://zhuanlan.zhihu.com/p/23006190?refer=xiaoleimlnote" target="_blank" rel="noopener">blog1</a>和<a href="https://blog.csdn.net/WoPawn/article/details/52133338" target="_blank" rel="noopener">blog2</a>。</p>
+<p>R-CNN(Rich feature hierarchies for accurate object detection and semantic segmentation)是将深度学习应用于目标检测的开山之作，以前传统的目标检测算法使用滑动窗口法依次判断所有的可能区域，在该文章中，采用selective search方法先预先提取一系列可能是物体的候选区域（foreground），之后将这些候选区域（proposals）整合成固定的大小（$227 \times 227$， 采用AlexNet）送到预训练的CNN模型上提取特征然后进行fine-tuning迁移学习，然后通过fc6和fc7层，得到了针对目标检测任务的特征向量，然后再过SVM二分类器得到物体的每个类别分数（至于为什么用了两层fc，不直接用fc得到softmax分数，Ross他也在论文中作了说明和实验，主要原因就是proposal的筛选更加严格点，mAP更高点），得到2K个左右proposal的所属类别之后再做非极大抑制(NMS)，去掉那些多余的框，留下局部最优的建议框，然后根据这些剩下的框再去训练20个类别（针对pascal VOC数据）的regression器，最后终于得到图像中物体的种类和矩形框坐标信息。</p>
+<p>下面对一些重点内容进行分析，同时由于是object detection based CNN开篇，所以也顺便加上评价指标等细节。</p>
+<p><strong>IoU(insertion of union).</strong>中文名为交并比，主要用来衡量框与框的重合程度，计算公式为$\frac{A \cap B}{A \cup B}$</p>
+<p><img src="RCNN-series-in-object-detection//iou.png" alt="IoU"></p>
+<p>AP与mAP</p>
+<p><strong>Region prposals—Selective Search(<a href="https://www.koen.me/research/pub/uijlings-ijcv2013-draft.pdf" target="_blank" rel="noopener">paper</a>, <a href="https://blog.csdn.net/mao_kun/article/details/50576003" target="_blank" rel="noopener">blog</a>,<a href="https://www.cnblogs.com/zyly/p/9259392.html" target="_blank" rel="noopener">code</a>).</strong>最开始的阶段，算法要通过该方法提取出每张图像上存在物体的可能区域，即建议框，每张图片大概会提取2k左右。Selective Search算法属于经典计算机视觉范畴，主要是利用不同的尺度（颜色，纹理，大小等），采用图像分割，层次算法等，先分割成小区域，然后通过颜色直方图相近（颜色相似），梯度直方图相近（纹理相似）等规则合并，得到最终的proposals，由于这个方法严重限制了整体框架的速度，而且后面也被Faster R-CNN中的RPN取代，因此我也没有兴趣深究，感兴趣的读者可以通过原论文和代码进一步了解。</p>
+<p><strong>CNN feature extraction.</strong>利用selective search得到的预选框由于大小不一，不方便过卷积层后reshape成统一维度的矩阵，因此需要进行resize等预处理。变形操作方面主要就是拉伸和填充的组合。</p>
+<p>如下图所示，(A)是原图，(B)，(C)是各向同性变形，(D)是各项异性变形。(B)考虑了proposal周围的纹理内容（context），利用其扩充到$227 \times 227$，如果遇到了图像边界就利用proposal的像素均值填充；(C)不考虑proposal周围的像素信息，直接用其像素均值填充到$227 \times 227$；(D)是直接对proposal resize到$227 \times 227$，不过在此之前先进行padding处理，padding的尺寸分别为0和16，像素值为proposal的像素均值。论文给出的结论是padding=16加各向异性缩放的效果最好。</p>
+<p><img src="/2019/11/30/RCNN-series-in-object-detection/different object proposal transformations.png" alt="different object proposal transformations"></p>
+<p>网络层面，R-CNN选用了Alexnet和VGG这两个网络，由于VGG采用了更小的卷积核和小的stride，因此最后的检测mAP也更高。在训练方面，R-CNN利用的是在ILSVC数据集上的预训练分类模型，等于是进行了较好的初始化，有了一个比较通用的特征提取器，然后在Pascal VOC这样的小数据集上进行fine-tuning，这样的迁移学习也算当时的一个contribution，但是现在来看已经属于比较正常的操作了。以Alexnet为例，proposal经过其中的5个卷积层之后，得到的是$6 \times 6 \times 256$的特征图矩阵，再经过fc6和fc7之后得到了4096个神经元，最后再经过一个有21个神经元的fc，即分类数，最终得到了适合该数据样本的分类器（和GT的IOU大于0.5的那些proposals都会标为正样本，否则为负样本）,但是并不能准确预测位置。</p>
+<p><strong>SVM classification.</strong>一般来说，根据图像分类的操作，都是将最后的全连接层改成需要分类个数的神经元，因此针对Pascal VOC来说，可以将最后的fc进行softmax，但是R-CNN却在fc7后面加了个SVM分类器，是什么原因导致这样做精度更高呢？根据论文的说法，Ross在微调CNN的时候，和GT的IOU大于0.5的那些proposals都会标为正样本，否则为负样本，这样的话对bndbox的限制非常宽松，也就是说监督信息不是严格有效的，因为CNN对小样本容易过拟合，因此这样的操作只是为了微调网络，尤其是最后的fc6和fc7，使其能够得到针对Pascal VOC数据的分类特征。采用SVM是因为SVM适用于少样本训练，而且由于是最后的分类，所以IOU的阈值设定也比较严格，目的是为了提供尽量正确的监督信息（GT为正样本，IOU小于0.3的负样本，这个0.3也是调参试出来的）。SVM分类器其实就是$4096 \times N$的权值矩阵，最后得到了每类的置信值，这样就得到了类别结果。此外还需注意的是，由于GT只有一个，而IOU小于0.3的proposal可能会有很多，这样就导致了训练SVM分类器的时候正负样本不均衡，论文中也提到，SVM的负样本是经过hard negative mining筛选的（负样本的处理是object detection中的一个技术细节和难点），具体怎么做的，我没有继续深究，我准备在Ross的下一篇文章“OHEM”进行梳理。</p>
+<p><strong>Bounding box regression.</strong></p>
+<p>three modules:</p>
+<p>regional proposals</p>
+<p>CNN feature extract</p>
+<p>linear-SVMs classify and why —appendix B</p>
+<p>wrap —how  appendix A</p>
+<p>ablation studies—-why cnn better</p>
+<p>pre-trained model and fine-tune matters</p>
+<p>detection errors analysis    <a href="http://dhoiem.web.engr.illinois.edu/publications/eccv2012_detanalysis_derek.pdf" target="_blank" rel="noopener">http://dhoiem.web.engr.illinois.edu/publications/eccv2012_detanalysis_derek.pdf</a> </p>
+<p>how to do experiments and writing paper,or how to express your ideas and thoughts</p>
+<p>实验做的好</p>
+<p>各向同性与各向异性图像缩放： <a href="https://blog.csdn.net/qq_30122883/article/details/89363900" target="_blank" rel="noopener">https://blog.csdn.net/qq_30122883/article/details/89363900</a> </p>
+<p><a href="https://arxiv.org/abs/1604.03540" target="_blank" rel="noopener">OHEM</a></p>
+<h3 id="SSPNet"><a href="#SSPNet" class="headerlink" title="SSPNet"></a><a href="https://arxiv.org/pdf/1406.4729.pdf" target="_blank" rel="noopener">SSPNet</a></h3><h3 id="Fast-R-CNN"><a href="#Fast-R-CNN" class="headerlink" title="[Fast R-CNN]"></a>[Fast R-CNN]</h3><p>代码解析：<a href="https://blog.csdn.net/weixin_43872578/article/details/86607742" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43872578/article/details/86607742</a></p>
+<h3 id><a href="#" class="headerlink" title=" "></a> </h3><h3 id="Faster-R-NN"><a href="#Faster-R-NN" class="headerlink" title="Faster R-NN"></a><a href="https://arxiv.org/pdf/1506.01497.pdf" target="_blank" rel="noopener">Faster R-NN</a></h3><p>anchors的思想</p>
+<p>pyramid of feature map/filters/anchors</p>
+<p><a href="http://www.telesens.co/2018/03/11/object-detection-and-classification-using-r-cnns/" target="_blank" rel="noopener">http://www.telesens.co/2018/03/11/object-detection-and-classification-using-r-cnns/</a></p>
+<p><a href="https://blog.csdn.net/u014365862/article/details/77887230" target="_blank" rel="noopener">https://blog.csdn.net/u014365862/article/details/77887230</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/23006190?refer=xiaoleimlnote" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/23006190?refer=xiaoleimlnote</a></p>
+<p> <a href="https://blog.csdn.net/v_july_v/article/details/80170182" target="_blank" rel="noopener">https://blog.csdn.net/v_july_v/article/details/80170182</a> </p>
+<p> <a href="https://zhuanlan.zhihu.com/p/31426458" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/31426458</a> </p>
+<p><a href="https://blog.csdn.net/hsqyc/article/details/81702437" target="_blank" rel="noopener">mAP</a></p>
+<p><a href="https://blog.csdn.net/lanran2/article/details/79057994" target="_blank" rel="noopener">用res101是在conv4x之后</a></p>
+<p>机器学习笔记：</p>
+<p> <a href="https://campoo.cc/category/机器学习/" target="_blank" rel="noopener">https://campoo.cc/category/%e6%9c%ba%e5%99%a8%e5%ad%a6%e4%b9%a0/</a> </p>
+<p>为什么需要anchor：  <a href="https://zhuanlan.zhihu.com/p/73024408" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/73024408</a> </p>
+<h2 id="code-architecture"><a href="#code-architecture" class="headerlink" title="code architecture"></a>code architecture</h2><p>1.<a href="https://arxiv.org/pdf/1311.2524.pdf" target="_blank" rel="noopener">R-CNN</a></p>
+<p>2.<a href="https://arxiv.org/pdf/1504.08083.pdf" target="_blank" rel="noopener">Fast R-CNN</a></p>
+<p>3.<a href="https://arxiv.org/pdf/1506.01497.pdf" target="_blank" rel="noopener">Faster R-CNN</a></p>
+<p>4.<a href="https://arxiv.org/pdf/1506.02025.pdf" target="_blank" rel="noopener">Spatial Transformer Networks</a> </p>
+<p>roi pooling, roi align, crop pooling的区别的作用</p>
+<blockquote>
+<p>The crop pooling layer takes the ROI boxes output by the proposal target layer and the convolutional feature maps output by the “head” network and outputs square feature maps</p>
+</blockquote>
+<p><a href="http://www.telesens.co/2018/03/11/object-detection-and-classification-using-r-cnns/" target="_blank" rel="noopener">http://www.telesens.co/2018/03/11/object-detection-and-classification-using-r-cnns/</a></p>
+<p>cvpr2019 tutorial： <a href="http://feichtenhofer.github.io/cvpr2019-recognition-tutorial/" target="_blank" rel="noopener">http://feichtenhofer.github.io/cvpr2019-recognition-tutorial/</a></p>
+<p>数据预处理部分会减去pixel mean value，作为数据标准化的一部分，但是对图像不需要再去除以标准差，是因为平稳性的存在，<a href="https://blog.csdn.net/liuxiangxxl/article/details/86605429" target="_blank" rel="noopener">blog</a>，对RGB图像来说，mean pixel value 是个$3 \times 1$的vector: [R_mean, G_mean, B_mean]</p>
+<p>head network(pretrained model first few layers)—RPN(region proposal network)—classification network</p>
+<p>ROI(region o interests) — crop olling—classification</p>
+<p>bounding box回归的系数并不是单纯意义上的坐标，而且相对的系数，这样会使得图像再进行rescale之后不会使系数发生变化</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Richard YU</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/" title="RCNN series in object detection">http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/computer-vision/" rel="tag"><i class="fa fa-tag"></i> computer vision</a>
+          
+            <a href="/tags/deep-learning/" rel="tag"><i class="fa fa-tag"></i> deep learning</a>
+          
+            <a href="/tags/object-detection/" rel="tag"><i class="fa fa-tag"></i> object detection</a>
+          
+            <a href="/tags/semantic-segmentation/" rel="tag"><i class="fa fa-tag"></i> semantic segmentation</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/28/paper-reading-and-coding-of-RCNN-series/" rel="next" title="paper reading and coding of RCNN series">
+                <i class="fa fa-chevron-left"></i> paper reading and coding of RCNN series
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/header.jpg" alt="Richard YU">
+            
+              <p class="site-author-name" itemprop="name">Richard YU</p>
+              <div class="site-description motion-element" itemprop="description">Today everything exists to end in a photograph</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/richardyu114" title="GitHub &rarr; https://github.com/richardyu114" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://twitter.com/Yu1145635107" title="Twitter &rarr; https://twitter.com/Yu1145635107" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://instagram.com/d.h.richard" title="Instagram &rarr; https://instagram.com/d.h.richard" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/u/5211687990" title="Weibo &rarr; https://weibo.com/u/5211687990" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.douban.com/people/161993653/" title="豆瓣 &rarr; https://www.douban.com/people/161993653/" rel="noopener" target="_blank"><i class="fa fa-fw fa-paperclip"></i>豆瓣</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+
+          
+            
+          
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#About"><span class="nav-number">1.</span> <span class="nav-text">About</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#R-CNN"><span class="nav-number">1.1.</span> <span class="nav-text">R-CNN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSPNet"><span class="nav-number">1.2.</span> <span class="nav-text">SSPNet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fast-R-CNN"><span class="nav-number">1.3.</span> <span class="nav-text">[Fast R-CNN]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">1.4.</span> <span class="nav-text"> </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Faster-R-NN"><span class="nav-number">1.5.</span> <span class="nav-text">Faster R-NN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#code-architecture"><span class="nav-number">2.</span> <span class="nav-text">code architecture</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Richard YU</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">154k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">2:20</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'duGoywhUmLrx9pM6qQhmf47c-gzGzoHsz',
+    appKey: 'm7fc8w4Di5qnAXXaJ5Gp3Pgg',
+    placeholder: '欢迎评论！请留下你的邮箱',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+        // ref: https://github.com/ForbesLindesay/unescape-html
+        var unescapeHtml = function(html) {
+          return String(html)
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, '\'')
+            .replace(/&#x3A;/g, ':')
+            // replace all the other &#x; chars
+            .replace(/&#(\d+);/g, function (m, p) { return String.fromCharCode(p); })
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&amp;/g, '&');
+        };
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                content = unescapeHtml(content);
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

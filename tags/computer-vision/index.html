@@ -564,7 +564,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -811,7 +811,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">150k</span>
+    <span title="站点总字数">154k</span>
   
 
   
@@ -820,7 +820,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">2:16</span>
+    <span title="站点阅读时长">2:20</span>
   
 </div>
 
@@ -1403,7 +1403,34 @@
 
 </body>
 </html>
-gation();
+
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
     });
     $(document).on('keyup', function (event) {
       var shouldDismissSearchPopup = event.which === 27 &&
