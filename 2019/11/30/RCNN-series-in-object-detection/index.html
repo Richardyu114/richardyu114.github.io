@@ -138,7 +138,7 @@
 <meta property="og:image" content="http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/SPP-object-detection.PNG">
 <meta property="og:image" content="http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/mapping-a-window-to-feature-maps.PNG">
 <meta property="og:image" content="http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/receptive-field-solution.PNG">
-<meta property="og:updated_time" content="2019-12-18T09:31:29.670Z">
+<meta property="og:updated_time" content="2019-12-18T10:43:34.782Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RCNN series in object detection">
 <meta name="twitter:description" content="AboutFaster  R-CNN是目标检测领域中”two-stage”的代表性方法，其精度高，适应性强，兼具学术和工程价值。整个框架由于吸取了很多先前工作的经验，因此比较庞大，而且细节很多，因此需要认真研读下相关paper和Faster R-CNN的python代码。 在此之前，先贴上一位博主做的“The Modern History of Object Recognition — Infog">
@@ -488,7 +488,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-12-18 17:31:29" itemprop="dateModified" datetime="2019-12-18T17:31:29+08:00">2019-12-18</time>
+                <time title="修改时间：2019-12-18 18:43:34" itemprop="dateModified" datetime="2019-12-18T18:43:34+08:00">2019-12-18</time>
               
             
           </span>
@@ -671,20 +671,20 @@ Loss = \underset{\hat{\mathbf{w}}_{\star}}{\operatorname{argmin}} \sum_{i}^{N}\l
 <li><p>何恺明在ICCV2015上作的tutorial，<a href="http://kaiminghe.com/iccv15tutorial/iccv2015_tutorial_convolutional_feature_maps_kaiminghe.pdf" target="_blank" rel="noopener">Convolutional Feature Maps —Elements of efficient (and accurate) CNN-based object detection</a>，讲解了SPPNet的一些内容，同时对比了R-CNN, Fast R-CNN和Fsater R-CNN。</p>
 </li>
 </ul>
-<p>SPPNet是在R-CNN的基础上进一步提高目标检测的速度和精度。何恺明等作者认为，R-CNN每次都要将Selective Search提取出的2k左右的region proposals进行crop和warp，然后分别过卷积这样的操作太费时间而且可能做了很多重复的计算，因此他们认为可不可以直接将full image过一次卷积网络，然后在feature map进行操作，毕竟图像的特征在卷积提取之后都是一样的，SPPNet应运而生。</p>
+<p>SPPNet是在R-CNN的基础上进一步提高目标检测的速度和精度。何恺明等作者认为，R-CNN每次都要将Selective Search提取出的2k左右的region proposals进行crop和warp，然后分别过卷积这样的操作太费时间而且可能做了很多重复的计算，因此他们认为可不可以直接将full image过一次卷积网络，然后在feature map进行操作，毕竟图像的特征在卷积提取之后都是一样的，由此SPPNet应运而生。</p>
 <p>SPPNet的好处是速度得到了大幅提升，而且简化了部分操作，但是随之而来的问题是：</p>
 <ol>
 <li><p>region proposal的大小不一，但是conv之后的fc层是固定的向量长度，怎么去适应？</p>
 </li>
-<li><p>解决这个固定尺度的问题，那么怎么找region proposal对应的feature map区域？</p>
+<li><p>解决这个固定尺度的问题后，那么怎么找region proposal对应的feature map区域？</p>
 </li>
 </ol>
-<p>对于第一个问题，SPPNet提出了spatial pyramid pooling（SPP, 空间金字塔池化），通过多次pooling输出不同尺度（预设好尺寸）的特征图并进行concatenate叠操作（类似U-Net），得到了固定长度的特征向量，这也是该论文的主要contribution；对于第二个问题，SPPNet通过简化receptive field和对应中心坐标计算，来近似得到region proposal图像的top-left, right-bottom坐标对应在最后feature map上的坐标，然后再进行SPP。</p>
+<p>对于第一个问题，SPPNet提出了spatial pyramid pooling（SPP, 空间金字塔池化），通过多次pooling输出不同尺度（预设好尺寸）的特征图并进行concatenate叠操作（类似U-Net），得到了固定长度的特征向量，这也是该论文的主要contribution；对于第二个问题，SPPNet通过简化receptive field和对应中心坐标计算，来近似得到region proposal图像的top-left, right-bottom坐标对应在最后feature map上的坐标，从而确定区域。</p>
 <p><img src="/2019/11/30/RCNN-series-in-object-detection/RCNN-SPP-1.PNG" alt="R-CNN和SPPNet的结构比较"></p>
 <p><img src="/2019/11/30/RCNN-series-in-object-detection/RCNN-SPP-2.PNG" alt="R-CNN和SPPNet的不同region proposal处理方式比较"></p>
 <h3 id="SPP空间金字塔池化"><a href="#SPP空间金字塔池化" class="headerlink" title="SPP空间金字塔池化"></a>SPP空间金字塔池化</h3><p>不同的regional proposal对应的feature map区域尺寸看成一个个不同尺寸的小feature map，然后在该map上做几次不同的maxpooling，得到尺度依次变小的特征图，不改变channel数，然后将这些不同尺度的金字塔特征图reshape成一维的向量，然后合并在一起形成固定维度的fc层。由于特征金字塔的尺度是预设的，所以不管region proposal或者image的尺寸如何，都不会影响最后的分类。</p>
 <p><img src="/2019/11/30/RCNN-series-in-object-detection/SPP-object-detection.PNG" alt="基于R-CNN的SPP示意图"></p>
-<p>此外，由于可以toleratemulti-scale，论文也采用了多尺度的图像去训练，并做了实验，结果也证明确实比单一尺度要好。</p>
+<p>此外，由于可以tolerate multi-scale，论文也采用了多尺度的图像去训练，并做了实验，结果也证明确实比单一尺度要好。</p>
 <blockquote>
 <p> We develop a simple multi-size training method. For a single network to accept variable input sizes, we approximate it by multiple networks that share all parameters, while each of these networks is trained using a fixed input size. In each epoch we train the network with a given input size, and switch to another input size for the next epoch. Experiments show that this multi-size training converges just as the traditional single-size training, and leads to better testing accuracy.</p>
 <p>Note that the above single/multi-size solutions are for training only. At the testing stage, it is straightforward to apply SPP-net on images of any sizes</p>
@@ -697,7 +697,7 @@ Loss = \underset{\hat{\mathbf{w}}_{\star}}{\operatorname{argmin}} \sum_{i}^{N}\l
 <p><em>The</em> receptive field is defined as the region in the input space that a particular CNN’s feature is looking at (i.e. be affected by)</p>
 </blockquote>
 <p>简而言之，感受野就是当前你的特征图上的像素点对应的是前面特征图的哪些部分区域（这个点是从多少视野中抽象出来的），这个区域一般是矩形大小的。对应分类来说，一般网络越深、感受野越大越好（高层语义信息越准确），对于目标检测，如果感受野太大，那么小目标的信息可能丢失，因此需要针对具体的任务去分析调节。</p>
-<p>对于卷积之后特征图大小计算，感受野概念和推导来源，可以参考下面的references，我在下面的内容中就直接给出公式和结论了。</p>
+<p>对于卷积之后特征图大小计算，感受野概念和推导来源，可以参考下面的references，我在之后的内容中就直接给出公式和结论了。</p>
 <ul>
 <li><p><a href="https://zhuanlan.zhihu.com/p/23185164?refer=xiaoleimlnote" target="_blank" rel="noopener">卷积神经网络(CNN)简介</a></p>
 </li>
@@ -722,7 +722,7 @@ RF_{i}=(RF_{i+1}-1) * s_{i} + k _{i}</script><p>当前特征图在上一个特�
 C_{i}=s_{i} * C_{i+1} + ((k_{i}-1)/2-p_{i})</script><p>这时候要考虑padding，因为坐标有影响。尺寸加上坐标就可以定位region proposal在特征图与特征图之间的映射关系。</p>
 <p><img src="/2019/11/30/RCNN-series-in-object-detection/receptive-field-solution.PNG" alt="How to compute the center of the receptive field"></p>
 <p>上图是何恺明简化的计算中心点的公式，也就是计算region proposal左上和右下坐标点的方法。</p>
-<p>设$p_{i} = \lfloor (k_{i} /2) \rfloor$，当$k_{i}$为奇数时，$p_{i}=(k_{i}-1)/2$，则$C_{i}=s_{i} <em> C_{i+1}$；当$k_{i+1}$为偶数时，$p_{i}=k_{i}/2$，则$C_{i}=s_{i} </em> C_{i+1}-0.5$，由于坐标取的都是整数，所以近似认为$C_{i}=s_{i} * C_{i+1}$，也就是说感受野的中心坐标只跟步长以及后面的中心坐标有关，因此通过这种关系一步一步将原图的region proposal坐标映射到feature map上。另外，可能考虑到近似处理的原因，论文最后对映射到feature map上的坐标值做了进一步处理：</p>
+<p>设$p_{i} = \lfloor (k_{i} /2) \rfloor$，当$k_{i}$为奇数时，$p_{i}=(k_{i}-1)/2$，则$C_{i}=s_{i}\times C_{i+1}$；当$k_{i+1}$为偶数时，$p_{i}=k_{i}/2$，则$C_{i}=s_{i}\times C_{i+1}-0.5$，由于坐标取的都是整数，所以近似认为$C_{i}=s_{i} \times C_{i+1}$，也就是说感受野的中心坐标只跟步长以及后面的中心坐标有关，因此通过这种关系一步一步将原图的region proposal坐标映射到feature map上。另外，可能考虑到近似处理的原因，论文最后对映射到feature map上的坐标值做了进一步处理：</p>
 <p>左上坐标值：$x^{‘}=\lfloor x/s \rfloor + 1, y^{‘} = \lfloor y/s \rfloor + 1$；</p>
 <p>右下坐标值：$x^{‘}=\lfloor x/s \rfloor - 1, y^{‘} = \lfloor y/s \rfloor - 1$；</p>
 <p>也就是说，把区域缩小一点（左上点下移，右下点上移），应该是何恺明考虑到最后feature map上的点计算感受野映射回去的时候扩大了区域，所以做了一个这么经验化的处理。</p>
