@@ -153,7 +153,7 @@
 <meta property="og:image" content="http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/RPN_architecture.PNG">
 <meta property="og:image" content="http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/RPN_Network.png">
 <meta property="og:image" content="http://densecollections.top/2019/11/30/RCNN-series-in-object-detection/OHEM_architecture.PNG">
-<meta property="og:updated_time" content="2020-01-05T12:46:27.751Z">
+<meta property="og:updated_time" content="2020-01-10T02:52:29.890Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RCNN series in object detection">
 <meta name="twitter:description" content="AboutFaster  R-CNN是目标检测领域中”two-stage”的代表性方法，其精度高，适应性强，兼具学术和工程价值。整个框架由于吸取了很多先前工作的经验，因此比较庞大，而且细节很多，因此需要认真研读下相关paper和Faster R-CNN的python代码。 在此之前，先贴上一位博主做的“The Modern History of Object Recognition — Infog">
@@ -520,7 +520,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-01-05 20:46:27" itemprop="dateModified" datetime="2020-01-05T20:46:27+08:00">2020-01-05</time>
+                <time title="修改时间：2020-01-10 10:52:29" itemprop="dateModified" datetime="2020-01-10T10:52:29+08:00">2020-01-10</time>
               
             
           </span>
@@ -947,22 +947,6 @@ t_{\mathrm{w}}^{*}=\log \left(w^{*} / w_{\mathrm{a}}\right), \quad t_{\mathrm{h}
 <p>作者根据上述思想在Pascal VOC和COCO数据集上对了一系列对比试验，包括对比hard negative mining(原Fast R-CNN设置的阈值0.1，用于选择background)，batch_size，B，以及加入了一些”bells and whistles”（多尺度和迭代式检测框回归），结果都证明OHEM的效果良好，而且也容易实现，占用空间也不会很大，在某些类别的检测上有很大的精度提升（可能每个类的学习程度也不同，可能也可以挖掘下，open problem）。</p>
 <p>此外，作者还提到如果不去选择的话，把样本全部都倒进去，那些容易的样本的loss很低，这样的话对梯度就没什么贡献，网络应该可以自己去focus那些困难的样本。作者据此也设计了实验，对不同方法的loss做了可视化，最终发现，OHEM的效果确实最好，lower loss，higher mAP。</p>
 <h3 id="Discussion-3"><a href="#Discussion-3" class="headerlink" title="Discussion"></a>Discussion</h3><p>OHEM是在two-stage的检测框架上提出和实现的，主要关注困难的样本，抛弃容易的样本。这种主动选择样本的方式，一方面可能间接平衡了训练的样本比例，另一方面提升了网络学习的针对性。在one -stage检测框架上提出的focal loss，也是为了处理相似的问题，通过权重分配，加大对分错样本的惩罚力度，让网络主动挖掘那些样本比例较少的类别。不过focal loss接受了所有样本，并没有完全抛弃容易的样本，而且也更加容易部署，因此两者是否可以结合，产出更有效的学习criterion，也值得去思考一下。</p>
-<h2 id="FPN"><a href="#FPN" class="headerlink" title="FPN"></a>FPN</h2><h2 id="Mask-R-CNN"><a href="#Mask-R-CNN" class="headerlink" title="Mask R-CNN"></a>Mask R-CNN</h2><p><a href="https://arxiv.org/pdf/1912.04488.pdf" target="_blank" rel="noopener">SOLO: Segmenting Objects by Locations</a></p>
-<h2 id="R-FCN"><a href="#R-FCN" class="headerlink" title="R-FCN"></a>R-FCN</h2><p><a href="https://arleyzhang.github.io/articles/7e6bc4a/" target="_blank" rel="noopener">https://arleyzhang.github.io/articles/7e6bc4a/</a></p>
-<h2 id="code-architecture-of-Faster-R-CNN"><a href="#code-architecture-of-Faster-R-CNN" class="headerlink" title="code architecture of Faster R-CNN"></a>code architecture of Faster R-CNN</h2><p>1.<a href="https://arxiv.org/pdf/1311.2524.pdf" target="_blank" rel="noopener">R-CNN</a></p>
-<p>2.<a href="https://arxiv.org/pdf/1504.08083.pdf" target="_blank" rel="noopener">Fast R-CNN</a></p>
-<p>3.<a href="https://arxiv.org/pdf/1506.01497.pdf" target="_blank" rel="noopener">Faster R-CNN</a></p>
-<p>4.<a href="https://arxiv.org/pdf/1506.02025.pdf" target="_blank" rel="noopener">Spatial Transformer Networks</a> </p>
-<p>roi pooling, roi align, crop pooling的区别的作用</p>
-<blockquote>
-<p>The crop pooling layer takes the ROI boxes output by the proposal target layer and the convolutional feature maps output by the “head” network and outputs square feature maps</p>
-</blockquote>
-<p><a href="http://www.telesens.co/2018/03/11/object-detection-and-classification-using-r-cnns/" target="_blank" rel="noopener">http://www.telesens.co/2018/03/11/object-detection-and-classification-using-r-cnns/</a></p>
-<p>cvpr2019 tutorial： <a href="http://feichtenhofer.github.io/cvpr2019-recognition-tutorial/" target="_blank" rel="noopener">http://feichtenhofer.github.io/cvpr2019-recognition-tutorial/</a></p>
-<p>数据预处理部分会减去pixel mean value，作为数据标准化的一部分，但是对图像不需要再去除以标准差，是因为平稳性的存在，<a href="https://blog.csdn.net/liuxiangxxl/article/details/86605429" target="_blank" rel="noopener">blog</a>，对RGB图像来说，mean pixel value 是个$3 \times 1$的vector: [R_mean, G_mean, B_mean]</p>
-<p>head network(pretrained model first few layers)—RPN(region proposal network)—classification network</p>
-<p>ROI(region o interests) — crop olling—classification</p>
-<p>bounding box回归的系数并不是单纯意义上的坐标，而且相对的系数，这样会使得图像再进行rescale之后不会使系数发生变化</p>
 
       
     </div>
@@ -1116,7 +1100,7 @@ t_{\mathrm{w}}^{*}=\log \left(w^{*} / w_{\mathrm{a}}\right), \quad t_{\mathrm{h}
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1149,7 +1133,9 @@ t_{\mathrm{w}}^{*}=\log \left(w^{*} / w_{\mathrm{a}}\right), \quad t_{\mathrm{h}
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1242,7 +1228,17 @@ t_{\mathrm{w}}^{*}=\log \left(w^{*} / w_{\mathrm{a}}\right), \quad t_{\mathrm{h}
                     
                       
                     
-                    <span class="site-state-item-count">38</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1355,7 +1351,7 @@ t_{\mathrm{w}}^{*}=\log \left(w^{*} / w_{\mathrm{a}}\right), \quad t_{\mathrm{h}
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#About"><span class="nav-number">1.</span> <span class="nav-text">About</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#R-CNN"><span class="nav-number">2.</span> <span class="nav-text">R-CNN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction"><span class="nav-number">2.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#评价指标IoU和AP"><span class="nav-number">2.2.</span> <span class="nav-text">评价指标IoU和AP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content"><span class="nav-number">2.3.</span> <span class="nav-text">Content</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discussion"><span class="nav-number">2.4.</span> <span class="nav-text">Discussion</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SPPNet"><span class="nav-number">3.</span> <span class="nav-text">SPPNet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-1"><span class="nav-number">3.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-1"><span class="nav-number">3.2.</span> <span class="nav-text">Content</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fast-R-CNN"><span class="nav-number">4.</span> <span class="nav-text">Fast R-CNN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-2"><span class="nav-number">4.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-2"><span class="nav-number">4.2.</span> <span class="nav-text">Content</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discussion-1"><span class="nav-number">4.3.</span> <span class="nav-text">Discussion</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Faster-R-NN"><span class="nav-number">5.</span> <span class="nav-text">Faster R-NN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-3"><span class="nav-number">5.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-3"><span class="nav-number">5.2.</span> <span class="nav-text">Content</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discussion-2"><span class="nav-number">5.3.</span> <span class="nav-text">Discussion</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OHEM-Online-Hard-Example-Mining"><span class="nav-number">6.</span> <span class="nav-text">OHEM(Online Hard Example Mining)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-4"><span class="nav-number">6.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-4"><span class="nav-number">6.2.</span> <span class="nav-text">Content</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discussion-3"><span class="nav-number">6.3.</span> <span class="nav-text">Discussion</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FPN"><span class="nav-number">7.</span> <span class="nav-text">FPN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mask-R-CNN"><span class="nav-number">8.</span> <span class="nav-text">Mask R-CNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#R-FCN"><span class="nav-number">9.</span> <span class="nav-text">R-FCN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#code-architecture-of-Faster-R-CNN"><span class="nav-number">10.</span> <span class="nav-text">code architecture of Faster R-CNN</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#About"><span class="nav-number">1.</span> <span class="nav-text">About</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#R-CNN"><span class="nav-number">2.</span> <span class="nav-text">R-CNN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction"><span class="nav-number">2.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#评价指标IoU和AP"><span class="nav-number">2.2.</span> <span class="nav-text">评价指标IoU和AP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content"><span class="nav-number">2.3.</span> <span class="nav-text">Content</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discussion"><span class="nav-number">2.4.</span> <span class="nav-text">Discussion</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SPPNet"><span class="nav-number">3.</span> <span class="nav-text">SPPNet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-1"><span class="nav-number">3.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-1"><span class="nav-number">3.2.</span> <span class="nav-text">Content</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fast-R-CNN"><span class="nav-number">4.</span> <span class="nav-text">Fast R-CNN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-2"><span class="nav-number">4.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-2"><span class="nav-number">4.2.</span> <span class="nav-text">Content</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discussion-1"><span class="nav-number">4.3.</span> <span class="nav-text">Discussion</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Faster-R-NN"><span class="nav-number">5.</span> <span class="nav-text">Faster R-NN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-3"><span class="nav-number">5.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-3"><span class="nav-number">5.2.</span> <span class="nav-text">Content</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discussion-2"><span class="nav-number">5.3.</span> <span class="nav-text">Discussion</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OHEM-Online-Hard-Example-Mining"><span class="nav-number">6.</span> <span class="nav-text">OHEM(Online Hard Example Mining)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-4"><span class="nav-number">6.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-4"><span class="nav-number">6.2.</span> <span class="nav-text">Content</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discussion-3"><span class="nav-number">6.3.</span> <span class="nav-text">Discussion</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -1388,7 +1384,7 @@ t_{\mathrm{w}}^{*}=\log \left(w^{*} / w_{\mathrm{a}}\right), \quad t_{\mathrm{h}
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">163k</span>
+    <span title="站点总字数">178k</span>
   
 
   
@@ -1397,7 +1393,7 @@ t_{\mathrm{w}}^{*}=\log \left(w^{*} / w_{\mathrm{a}}\right), \quad t_{\mathrm{h}
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">2:28</span>
+    <span title="站点阅读时长">2:42</span>
   
 </div>
 
