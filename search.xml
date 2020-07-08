@@ -21,8 +21,8 @@
         <category>uncategorized</category>
       </categories>
       <tags>
-        <tag>deep learning</tag>
         <tag>computer vision</tag>
+        <tag>deep learning</tag>
         <tag>object detection</tag>
       </tags>
   </entry>
@@ -73,9 +73,9 @@
         <category>课程记录</category>
       </categories>
       <tags>
+        <tag>computer vision</tag>
         <tag>public course</tag>
         <tag>deep learning</tag>
-        <tag>computer vision</tag>
         <tag>Standford</tag>
       </tags>
   </entry>
@@ -87,8 +87,8 @@
         <category>课程记录</category>
       </categories>
       <tags>
-        <tag>deep learning</tag>
         <tag>computer vision</tag>
+        <tag>deep learning</tag>
         <tag>Megvii</tag>
       </tags>
   </entry>
@@ -116,8 +116,8 @@
         <category>论文阅读</category>
       </categories>
       <tags>
-        <tag>deep learning</tag>
         <tag>computer vision</tag>
+        <tag>deep learning</tag>
         <tag>object detection</tag>
         <tag>semantic segmentation</tag>
       </tags>
@@ -143,8 +143,8 @@
         <category>论文阅读</category>
       </categories>
       <tags>
-        <tag>deep learning</tag>
         <tag>computer vision</tag>
+        <tag>deep learning</tag>
         <tag>object detection</tag>
         <tag>semantic segmentation</tag>
       </tags>
@@ -157,10 +157,10 @@
         <category>论文阅读</category>
       </categories>
       <tags>
-        <tag>computer vision</tag>
         <tag>SLAM</tag>
         <tag>mapping</tag>
         <tag>AI system</tag>
+        <tag>computer vision</tag>
         <tag>hardware</tag>
       </tags>
   </entry>
@@ -172,8 +172,8 @@
         <category>工作总结</category>
       </categories>
       <tags>
-        <tag>deep learning</tag>
         <tag>computer vision</tag>
+        <tag>deep learning</tag>
         <tag>CNN</tag>
         <tag>medical image analysis</tag>
       </tags>
@@ -186,10 +186,10 @@
         <category>随笔杂谈</category>
       </categories>
       <tags>
+        <tag>computer vision</tag>
         <tag>reflections</tag>
         <tag>job</tag>
         <tag>coding</tag>
-        <tag>computer vision</tag>
       </tags>
   </entry>
   <entry>
@@ -214,10 +214,10 @@
         <category>论文阅读</category>
       </categories>
       <tags>
-        <tag>computer vision</tag>
         <tag>SLAM</tag>
         <tag>mapping</tag>
         <tag>AI system</tag>
+        <tag>computer vision</tag>
         <tag>hardware</tag>
       </tags>
   </entry>
@@ -288,8 +288,8 @@
         <category>科研记录</category>
       </categories>
       <tags>
-        <tag>deep learning</tag>
         <tag>computer vision</tag>
+        <tag>deep learning</tag>
         <tag>object detection</tag>
         <tag>semantic segmentation</tag>
       </tags>
