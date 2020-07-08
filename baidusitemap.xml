@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://densecollections.top/posts/houjieC++STL/</loc>
-    <lastmod>2020-07-08</lastmod>
-  </url>  <url>
     <loc>http://densecollections.top/posts/Summaryofthisyear-1/</loc>
     <lastmod>2020-07-08</lastmod>
   </url>  <url>
@@ -17,9 +14,6 @@
     <lastmod>2020-07-08</lastmod>
   </url>  <url>
     <loc>http://densecollections.top/posts/FutureMappingofAJD-1/</loc>
-    <lastmod>2020-07-08</lastmod>
-  </url>  <url>
-    <loc>http://densecollections.top/posts/HexoBlogBulid/</loc>
     <lastmod>2020-07-08</lastmod>
   </url>  <url>
     <loc>http://densecollections.top/posts/notesofLinearAlgebra/</loc>
@@ -61,16 +55,22 @@
     <loc>http://densecollections.top/posts/houjieC++/</loc>
     <lastmod>2020-07-08</lastmod>
   </url>  <url>
-    <loc>http://densecollections.top/posts/thoughtsofintern/</loc>
+    <loc>http://densecollections.top/posts/megviidlcourse/</loc>
     <lastmod>2020-07-08</lastmod>
   </url>  <url>
-    <loc>http://densecollections.top/posts/megviidlcourse/</loc>
+    <loc>http://densecollections.top/posts/thoughtsofintern/</loc>
     <lastmod>2020-07-08</lastmod>
   </url>  <url>
     <loc>http://densecollections.top/posts/worksummaryofintern/</loc>
     <lastmod>2020-07-08</lastmod>
   </url>  <url>
     <loc>http://densecollections.top/posts/personalthoughts-1/</loc>
+    <lastmod>2020-07-08</lastmod>
+  </url>  <url>
+    <loc>http://densecollections.top/posts/houjieC++STL/</loc>
+    <lastmod>2020-07-08</lastmod>
+  </url>  <url>
+    <loc>http://densecollections.top/posts/HexoBlogBulid/</loc>
     <lastmod>2020-07-08</lastmod>
   </url>
 </urlset>
