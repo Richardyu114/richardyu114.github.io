@@ -1,0 +1,443 @@
+<!DOCTYPE html><html class="theme-next gemini use-motion" lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><script src="/lib/pace/pace.min.js?v=1.0.2"></script><link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2"><meta name="google-site-verification" content="true"><meta name="baidu-site-verification" content="true"><link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css"><link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"><link rel="stylesheet" href="/css/main.css?v=7.1.1"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1"><link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222"><script id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Gemini",version:"7.1.1",sidebar:{position:"left",display:"post",offset:12,onmobile:!1,dimmer:!1},back2top:!0,back2top_sidebar:!1,fancybox:!0,fastclick:!1,lazyload:!1,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><meta name="baidu-site-verification" content="0bqk4mbBLD"><meta name="google-site-verification" content="FvMbHVgnH7FO0GFRzTmOevjSaFwvzIQZv94LdufMMPY"><meta name="description" content="​ ​这是对MIT 18.06 open course— Linear Algebra—by Gilbert Strang 的课程总结。课程视频及主页资料由于计算机视觉以及机器学习中对矩阵的要求较高，而且本科阶段的高等代数学得不太行，故借此机会将这个著名的MIT线性代数公开课看了一遍，相关的课程视频和材料放在下面。lectures:readings:assignments:exams:tools:"><meta name="keywords" content="MIT,mathematics,linear algebra"><meta property="og:type" content="article"><meta property="og:title" content="Linear Algebra of MIT"><meta property="og:url" content="http://densecollections.top/posts/449186556.html"><meta property="og:site_name" content="自拙集"><meta property="og:description" content="​ ​这是对MIT 18.06 open course— Linear Algebra—by Gilbert Strang 的课程总结。课程视频及主页资料由于计算机视觉以及机器学习中对矩阵的要求较高，而且本科阶段的高等代数学得不太行，故借此机会将这个著名的MIT线性代数公开课看了一遍，相关的课程视频和材料放在下面。lectures:readings:assignments:exams:tools:"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="http://densecollections.top/posts/Linear-Algebra-of-MIT/four%20subspaces.png"><meta property="og:image" content="http://densecollections.top/posts/Linear-Algebra-of-MIT/SVD.png"><meta property="og:updated_time" content="2020-02-03T02:28:47.282Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Linear Algebra of MIT"><meta name="twitter:description" content="​ ​这是对MIT 18.06 open course— Linear Algebra—by Gilbert Strang 的课程总结。课程视频及主页资料由于计算机视觉以及机器学习中对矩阵的要求较高，而且本科阶段的高等代数学得不太行，故借此机会将这个著名的MIT线性代数公开课看了一遍，相关的课程视频和材料放在下面。lectures:readings:assignments:exams:tools:"><meta name="twitter:image" content="http://densecollections.top/posts/Linear-Algebra-of-MIT/four%20subspaces.png"><link rel="alternate" href="/atom.xml" title="自拙集" type="application/atom+xml"><link rel="canonical" href="http://densecollections.top/posts/449186556"><script id="page.configurations">CONFIG.page={sidebar:""}</script><title>Linear Algebra of MIT | 自拙集</title><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-title,.use-motion .comments,.use-motion .menu-item,.use-motion .motion-element,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .logo,.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">自拙集</span> <span class="logo-line-after"><i></i></span></a></div><h1 class="site-subtitle" itemprop="description">Work cures everything</h1></div><div class="site-nav-toggle"><button aria-label="切换导航栏"><span class="btn-bar"></span> <span class="btn-bar"></span> <span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i><br>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i><br>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i><br>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>归档</a></li><li class="menu-item menu-item-paperstation"><a href="/PaperStation/" rel="section"><i class="menu-item-icon fa fa-fw fa-edit"></i><br>PaperStation</a></li><li class="menu-item menu-item-mindwandering"><a href="/MindWandering/" rel="section"><i class="menu-item-icon fa fa-fw fa-paper-plane"></i><br>MindWandering</a></li><li class="menu-item menu-item-search"><a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i><br>搜索</a></li></ul><div class="site-search"><div class="popup search-popup local-search-popup"><div class="local-search-header clearfix"><span class="search-icon"><i class="fa fa-search"></i> </span><span class="popup-btn-close"><i class="fa fa-times-circle"></i></span><div class="local-search-input-wrapper"><input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input"></div></div><div id="local-search-result"></div></div></div></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://densecollections.top/posts/449186556.html"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="name" content="Richard YU"><meta itemprop="description" content="Today everything exists to end in a photograph"><meta itemprop="image" content="/uploads/header.jpg"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="自拙集"></span><header class="post-header"><h2 class="post-title" itemprop="name headline">Linear Algebra of MIT</h2><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建时间：2019-02-14 18:40:57" itemprop="dateCreated datePublished" datetime="2019-02-14T18:40:57+08:00">2019-02-14</time> <span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-calendar-check-o"></i> </span><span class="post-meta-item-text">更新于</span> <time title="修改时间：2020-02-03 10:28:47" itemprop="dateModified" datetime="2020-02-03T10:28:47+08:00">2020-02-03</time> </span><span class="post-category"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-folder-o"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/基础数学/" itemprop="url" rel="index"><span itemprop="name">基础数学</span></a></span> </span><span class="post-comments-count"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-comment-o"></i> </span><span class="post-meta-item-text">评论数：</span> <a href="/posts/449186556.html#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/posts/449186556.html" itemprop="commentCount"></span> </a></span><span id="/posts/449186556.html" class="leancloud_visitors" data-flag-title="Linear Algebra of MIT"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-eye"></i> </span><span class="post-meta-item-text">阅读次数：</span> <span class="leancloud-visitors-count"></span></span><div class="post-symbolscount"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i> </span><span class="post-meta-item-text">本文字数：</span> <span title="本文字数">15k</span> <span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-clock-o"></i> </span><span class="post-meta-item-text">阅读时长 &asymp;</span> <span title="阅读时长">13 分钟</span></div></div></header><div class="post-body" itemprop="articleBody"><p>​ ​</p><p><strong>这是对MIT 18.06 open course— Linear Algebra—by Gilbert Strang 的课程总结。</strong></p><h2 id="课程视频及主页资料"><a href="#课程视频及主页资料" class="headerlink" title="课程视频及主页资料"></a>课程视频及主页资料</h2><p>由于计算机视觉以及机器学习中对矩阵的要求较高，而且本科阶段的高等代数学得不太行，故借此机会将这个著名的MIT线性代数公开课看了一遍，相关的课程视频和材料放在下面。</p><ul><li><p><a href="https://www.bilibili.com/video/av15463995?p=2" target="_blank" rel="noopener">lectures:</a></p></li><li><p><a href="https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/readings/" target="_blank" rel="noopener">readings:</a></p></li><li><p><a href="https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/assignments/" target="_blank" rel="noopener">assignments:</a></p></li><li><p><a href="http://math.mit.edu/~gs/linearalgebra/" target="_blank" rel="noopener">exams:</a></p></li><li><p><a href="https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/tools/" target="_blank" rel="noopener">tools:</a></p></li></ul><a id="more"></a><h2 id="课程脉络"><a href="#课程脉络" class="headerlink" title="课程脉络"></a>课程脉络</h2><p>Gilbert老爷子这门线代课应用性很强，在课堂上经常结合工程实际来探讨矩阵在其中的应用和联系，比如在对投影，最小二乘法原理以及求解矛盾方程组的三者之间用$A^{T}A$进行联系，这中“惊人”的发现也进一步加深了我对线性代数的通用性认识，所以这门课对搞了一些研究回过头来听的人来说很有启发，有时候没事可以时常翻翻这门课的教材。</p><p>这门课的核心思想就是老爷子的那张著名的”four subspaces”图，如下图所示。整门课分为三个部分：$Ax=b$和四个子空间；最小二乘法，行列式和特征值；正定矩阵以及应用。</p><p><img src="/posts/Linear-Algebra-of-MIT/four subspaces.png" alt="four subspaces"></p><p>Gilbert先从方程组入手，指出现实生活中的问题抽象成一系列方程，组成方程组，因此矩阵的出现是为了应对消元求解方程组，同时利用系数矩阵来从另一个层面认识这个系统的性质，比如可解性，稳定性等等，在这里，Gilbert将系数矩阵看成是向量的线性组合，从而直接转成空间的角度来看待“解”，这也是该部分的一个重要思想。矩阵也会表示空间，最基本的思想是把矩阵认为是n个列向量组成的，研究这些列向量彼此之间的关系来来研究矩阵代表的空间。求解问题也变成是列向量的线性组合。矩阵的行变换代表着消元法，同时也会引发矩阵的分解，求解Ax=b时转换成矩阵的列空间和零空间来二分，特定解和特殊解。之后引申出四个基本子空间：行空间，零空间，列空间，左零空间，进而指出空间的维数和基。</p><p>第一部分的关键词就是<strong>消元，向量，线性组合和空间</strong>。矩阵，空间，方程组之间是等价的。</p><p>到了第二部分，Gilbert开始引入行列式。他先从正交矩阵讲起，即$A^{T}A=I$，指出了它在投影，最小二乘，求解矛盾方程组之间的作用，并且利用它把这些问题都联系在了一起。其本质的原因可能是所谓的”空间度量，距离最小“，然后系数矩阵$A$恰好用这种方式呈现出来。之后引入行列式就很自然了，因为要求”大小“或者”长度“。Gilbert通过三个基本的性质定义了矩阵的行列式，并且推导出了其他几种性质，然后顺带着给出了行列式的计算公式和求解方程组的作用，及求逆公式，虽然他并不推崇这种死板的大计算量的方法来求解。最后，Gilbert借着行列式给出了矩阵的特征值，特征向量，以及特征值在对角化和其他工程中的应用（行列式的作用就是对角化）。不过比较可惜的一点是，教授并没有深层次探讨矩阵的特征值的意义，仅仅是从特征值公式上说”向量经过矩阵变换后方向不变“，虽然后来的例子又将特征值特征向量与主轴定理结合起来，但是依然没有一种很明晰的感觉。可能因为这是工科课程，重在讲解应用和联系。。希望我后面能在”linear algebra done right”这本书里找到答案。</p><p>最后一部分的主题是正定性，这类似与函数当中的最小值对应条件问题。这一部分我看得比较乱，没看出什么真正的名堂出来，毕竟从内容上我没找出什么联系。我后来问了数学系的同学，他说正定矩阵是为了定义内积空间（又称希尔伯空间，量子力学就是定义在这个上面）。这里面涉及到多元函数最小值判定，酉矩阵，以及奇异值分解，因此还是比较重要的内容。</p><p>实际上呢，教授是从多元线性方程组的角度来讲线性代数和矩阵的，因此并不像数学系那样从映射，集合、环、域，空间，然后到空间结构，代数，多元数组的关系来展开讲。因为是工科课程，所以第一关心的问题是怎么用，后面才会去进一步关注如何产生这种思想的问题，在这里，Gilbert教授关注的是矩阵角度解方程组，诸如矩阵分解、对角化，投影，正交矩阵，正定矩阵都是为了和工程中实际方法相联系和结合，因此可以看作是一种“top-down”的讲授思维。</p><p>对于做SLAM和机器学习来讲，关注更多的好像还是数值矩阵求解，即如何利用数值计算工具，更有效，更准确的分解、求解矩阵，所以，我接下来还得继续看fast.ai的numerical linear algebra课了。。</p><h2 id="阅读材料"><a href="#阅读材料" class="headerlink" title="阅读材料"></a>阅读材料</h2><p>这门课除了Gilbert Strang的那本教材，还有一些其他的资料，我把它们都托管到了我的<a href="https://github.com/Richardyu114/MIT-Linear-Algebra-Learning-Materials" target="_blank" rel="noopener">Github</a>上，有需要的请自取。</p><p>清单如下：</p><ul><li><p>Introduction to Linear Algebra</p></li><li><p>超详细MIT线性代数公开课笔记</p></li><li><p>神奇的矩阵第一季</p></li><li><p>神奇的矩阵第二季</p></li><li><p>线性代数的几何意义</p></li><li><p>Linear Algebra Done Right</p></li></ul><p>另外也有其他几本线性代数教材也不错：</p><ul><li><p><strong>圣经</strong> Linear Algebra-hoffman</p></li><li><p>Linear Algebra and Its Applications-David C. Lay</p></li><li>Introduction to Applied Linear Algebra—Vectors, Matrices, and Least Squares</li></ul><hr><hr><center>看完《线性代数的几何意义》和《神奇的矩阵》来更</center><hr><hr><h2 id="线性代数的几何意义"><a href="#线性代数的几何意义" class="headerlink" title="线性代数的几何意义"></a>线性代数的几何意义</h2><h3 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h3><ul><li>代数的功能是进行抽象，为了解决问题的方便，提高效率。线性代数里面的线性主要是指线性空间里面的线性变换（可加性和比例性），通过<strong>线性算子</strong>定义了线性变换，也就是变换满足可加性和比例性，实际上，差分，微分都是一种数学上的算子，代表一种运算关系。</li></ul><h3 id="行列式"><a href="#行列式" class="headerlink" title="行列式"></a>行列式</h3><ul><li>行列式的几何意义具有深刻的含义。它是指行列式的行向量或列向量所构成的平行多面体的有向体积。这个有向体积是由许多块更小的有向面积或有向体积的累加。行列式的几何意义是什么呢？<strong>概括说来有两个解释：一个解释是行列式就是行列式中的行或列向量所构成的超平行多面体的 有向面积或有向体积；另一个解释是矩阵 $A$ 的行列式 $detA$ 就是线性变换 $A$ 下的图形面积或体积的伸缩因子。一个给定的行列式，它的行向量顺序也给定了，不能随意改变其顺序。</strong></li><li>一个行列式的整体几何意义是有向线段（一阶行列式）或有向面积（二阶行列式）或有向体积（三阶行列式及以上）。因此，行列式最基本的几何意义是由各个坐标轴上的有向线段所围起来的所有有向面积或有向体积的累加和。这个累加要注意每个面积或体积的方向或符号，方向相同的要加，方向相反的要减，因而，这个累加的和是代数和。</li><li>行列式的乘积项及其逆序数的几何意义实际上是行列式最根本的几何意义，因而可以解释所有的行列式的定义及其性质。</li></ul><h3 id="向量空间"><a href="#向量空间" class="headerlink" title="向量空间"></a>向量空间</h3><ul><li>设$V$是非空的n维向量的集合(n=1,2,3…)，如果$V$中的向量对加法和数乘两种运算封闭，即：</li></ul><script type="math/tex;mode=display">\begin{align*}
+& 1. 若\overrightarrow{a},\overrightarrow{b} \in V,则\overrightarrow{a}+\overrightarrow{b} \in V \\
+
+& 2. \overrightarrow{a} \in V,则k\overrightarrow{a} \in V,k为任意实数
+\end{align*}</script><p>​ 则称$V$为向量空间。</p><ul><li>向量空间主要有两种：一种是由 V 中的一个向量组张成的空间（比如由特征向量张成的子空间等）。另外一种齐次线性方程组的解集组成的解空间。实际上，线性方程组的解空间也是解向量所张成，这两种空间里都包含有无穷多的向量。</li><li>值得注意的是，<strong>所有的子空间一定要包含零空间在内</strong>。实际上，我们现在讨论的向量，不能称之为自由向量，因为所有的向量的尾巴都被拉到了原点上，或者说，所有向量空间里的向量都是从原点出发的，大家都有一个共同的零空间，这就是为什么所有的子空间一定要包含零空间的原因了。</li><li>为什么要把向量的尾部都拉到原点是为了研究向量的方便，因为这样就可以把向量和空间中的点一一对应起来。空间中一旦建立起了坐标系，点有坐标值，那么我们就用点的坐标表示与点对应的向量，这样向量就有了解析式，就有了向量的坐标表达式，我们就可以方面的使用代数中的矩阵技术进行分析及计算了。如果一个子空间没有通过原点，那么从原点出发的向量必然首尾不顾，造成了向量头在子空间中尾在空间外（因为原点在空间外）。当然，向量的加法和数乘也都跑到子空间外面去了。</li><li>内积的定义要解决空间中不同的基带来不同坐标度量带来向量长度和夹角的变化。可以通过<strong>内积度量矩阵</strong>$P^{T}P$来解决此问题，无论你变了多少次基，每变一次基同时就改变一次度量矩阵，从而来保证内积值的不变性，这样也就保证了向量空间度量的一致性，达到了度量值不随坐标改变而改变的目的。</li></ul><h3 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h3><ul><li>我们知道，在直角坐标系中，一个有序的实数数组$(a,b)$和$(a,b,c)$分别代表了平面上和空间上的一个点，这就是实数组的几何意义。类似的，在线性空间中如果确定了一个基，线性映射就可以用确定的矩阵来表示，这就是矩阵的几何意义：线性空间上的线性映射。矩阵独立的几何意义表现为对向量的作用结果。</li><li>如果用数组来统一定义标量、向量和矩阵的话就是：<strong>标量是一维向量，向量是标量的数组，矩阵则是向量的数组。</strong></li><li>矩阵与向量乘积比如$Ax$表现为矩阵$A$对一个向量$x$作用的结果。其作用的主要过程是对一个向量进行旋转和缩放的综合过程（即线性变换的过程），一个向量就变换为另外一个向量。一个 m 行 n 列的实矩阵$A_{m \times n}$就是一个$R^{n} \rightarrow R^{m}$上的线性变换，或者说，矩阵$A_{m \times n}$把一个n维空间的 n 维向量变换为一个m维空间的m维向量。</li></ul><ul><li>一个矩阵乘以一个向量，一般将会对向量的几何图形进行旋转和伸缩变化，而旋转矩阵只对向量进行旋转变化而没有伸缩变化，例如二阶旋转矩阵$A$：</li></ul><script type="math/tex;mode=display">A=
+\begin{pmatrix}
+\cos \theta & -\sin \theta \\
+\sin \theta & \cos \theta
+
+\end{pmatrix}</script><ul><li>如果将上面的旋转矩阵分别按行向量和列向量来看，随着角度的增大，行向量在顺时针旋转，而列向量在逆时针旋转，“这正是正交矩阵的特征”（然而这一结论的得出还不是很明了）。旋转矩阵为正交矩阵。</li><li>矩阵与矩阵的相乘的几何意义，可以从矩阵与多个向量相乘的几何意义得到，只是多个向量被按照顺序组合成了另一个矩阵。</li></ul><ul><li><strong>实际上，从$R^{n} \rightarrow R^{m}$上的线性变换都可以表述为一个矩阵变换；反过来，一个矩阵变换也必然是一个线性变换。两者具有一一对应的关系。一个矩阵变换也必然是一个线性变换。</strong>这个对应关系笼统地表述如下：<ul><li>线性变换的和对应着矩阵的和；</li><li>线性变换的乘积对应着矩阵的乘积；</li><li>线性变换的数量乘积对应着矩阵的数量乘积；</li><li>线性变换的逆对应着矩阵的逆；</li></ul></li></ul><ul><li>下面的定理给出了如何把一个$R^{2}$空间上的线性变换转换成一个对应的 2 阶矩阵的办法:</li></ul><script type="math/tex;mode=display">定理：设T:R^{2} \rightarrow R^{2}是一个线性变换，那么T的矩阵的列向量为T(e_{1})和T(e_{2})</script><ul><li>由于线性变换与矩阵之间有一一对应（在给定基的前提下），而且保持线性运算关系不变（线性变换的加法和数乘分别对应于在某一个基下的矩阵的加法和数乘），因此，可以用矩阵来研究线性变换，也可以用线性变换来研究矩阵。</li><li>常见的线性变换有初等变换、等价变换、相似变换、合同变换等。我们也常常听到正交变换的名字，但由于正交变换包括平移、旋转和镜像，我们知道平移变换不是线性变换，因此不是所有的正交变换是线性变换。</li><li>一个矩阵就是把第一象限的单位立方体变换到其他象限的多面体，单位立方体由单位基向量张成，多面体由矩阵列向量张成；而列向量是由基向量变换得到的。</li><li><strong>对于n阶方阵，把列看作列向量，则行是每个列向量在列空间各个坐标轴上的投影（坐标），行的数量则是列空间坐标系的维数。</strong></li><li>特征值和特征向量的几何意义：$Ax=\lambda x$<ul><li>方阵乘以一个向量的结果仍然是一个同维向量，矩阵乘法对应了一个变换，把一个向量变成同维数的另一个向量。在这个变换的过程中，向量会发生旋转、伸缩或镜像的变化。矩阵不同，向量变化的结果也会不同。如果矩阵对某一个向量或者某些向量只发生伸缩变换，不对这些向量产生旋转效果，那么这些向量就是这个矩阵的特征向量，伸缩的比例就是特征值；如果伸缩的比例值是负值，原向量的方向改变为反方向，原向量仍然是这个矩阵的特征值。因此，从矩阵的几何意义上看，矩阵$A$的特征向量$\overrightarrow a$就是经过矩阵$A$变换后与自己平行的非零向量，矩阵$A$的特征值$\lambda$就是特征向量$\overrightarrow a$经变换后的伸缩系数（复特征值会使特征向量在复平面进行旋转，但在实轴上仍然是只进行伸缩变换）。</li><li>特征值反映了特征向量在变换时的伸缩倍数。对一个变换而言。特征向量指明变换的方向，而特征值反映的是变换的剧烈程度！我们知道，一个矩阵，只要我们找到合适的坐标，它的全部信息就可以用坐标系和特征值表示。这里蕴含了一个哲理：<strong>我们从不同角度看问题，其难易程度是不一样的！而矩阵对角化为我们提供了一个很好的看问题的角度</strong>。</li><li>矩阵的特征值之和等于矩阵的迹，特征值之积等于矩阵的行列式。这个由二阶矩阵推广而来。</li><li>关于特征值和特征向量，一是注意线性不变量的含义，一个是振动的谱含义。特征向量是线性不变量，特征值是振动的谱。机械振动和电振动有频谱，振动的某个频率具有某个幅度，那么矩阵也有矩阵的谱，矩阵的谱就是矩阵特征值的概念，是矩阵所固有的属性，所有的特征值形成了矩阵的一个频谱，每个特征值是矩阵的一个“谐振频点”。<strong>矩阵的谱分解就是抓住了矩阵的主要矛盾</strong>，因此也是主成分分析（PCA），奇异值分解相关的内容。</li><li>矩阵之所以能形成“频率的谱”，就是因为矩阵在特征向量所指的方向上具有对向量产生恒定的变换作用：周期性地增强或减弱特征向量的作用。进一步地，如果矩阵持续地叠代作用于向量，那么特征向量就会凸现出来。可类比与电路中的振荡器。</li></ul></li></ul><ul><li>几何重数与代数重数：一个特征值的求解因式的次数称为代数重数，特征值的特征子空间的维数称为几何重数。一般来说，特征值的代数重数大于或等于几何重数。</li><li>相似矩阵：或矩阵$A$与矩阵$B$相似，一定存在一个非奇异矩阵$P$（基变换矩阵），有$A=PBP^{-1}$。<strong>核心的几何意义就是相似矩阵$A$和$B$是同一个线性变换在两个不同基下的表示矩阵。</strong>线性变换的相似对角化实质是寻找一个适当的坐标系，使得该变换对这个新的坐标系上的单位向量（或基向量）只做伸缩变换，不做旋转变换。</li><li>不是任何矩阵都可以相似对角化，除非由n个线性无关的特征向量，但是实对称矩阵一定可以对角化。这里的证明涉及到一系列定理：</li></ul><script type="math/tex;mode=display">\begin{align*}
+& 定理1： 实对称矩阵A的特征值都是实数 \\
+& 定理2： 实对称矩阵A的不同特征值对应的特征向量一定是相互正交的（正交的向量组一定是线性无关向量组）\\
+& 定理3： 实对称矩阵A的r重特征根\lambda一定有r个线性无关的特征向量
+\end{align*}</script><ul><li>雅可比矩阵：雅可比矩阵是线性代数和微积分的纽带，是把非线性问题转换为线性问题的有力工具之一。</li><li>一个函数方程组由n个函数构成，每个函数有n个自变量$x_{1},x_{2},x_{3},\cdots x_{n}$</li></ul><script type="math/tex;mode=display">\begin{cases}
+y_{1}=f_{1}(x_{1},x_{2},\cdots x_{n}) \\
+y_{2}=f_{2}(x_{1},x_{2},\cdots x_{n})\\
+\vdots \\
+y_{n}=f_{n}(x_{1},x_{2},\dots x_{n})
+\end{cases}</script><ul><li>一般情况下，该函数方程组不是线性方程组，是多维曲线、曲面类的，通过微积分的思想化曲为直，将上述方程组化为超维切平面。先偏微分再写成矩阵的形式：</li></ul><script type="math/tex;mode=display">\begin{pmatrix}
+dy_{1}\\
+dy_{2}\\
+\vdots\\
+dy_{n}
+\end{pmatrix}
+=
+\begin{bmatrix}
+\frac{\partial f_{1}}{\partial x_{1}} & \frac{\partial f_{1}}{\partial x_{2}} & \cdots & \frac{\partial f_{1}}{\partial x_{n}}\\
+
+\frac{\partial f_{2}}{\partial x_{1}} & \frac{\partial f_{2}}{\partial x_{2}} & \cdots & \frac{\partial f_{2}}{\partial x_{n}}\\
+
+\vdots & \vdots & \cdots & \vdots \\
+
+\frac{\partial f_{n}}{\partial x_{1}} & \frac{\partial f_{n}}{\partial x_{2}} & \cdots & \frac{\partial f_{n}}{\partial x_{n}}
+
+\end{bmatrix}
+
+\begin{pmatrix}
+dx_{1}\\
+dx_{2}\\
+\vdots\\
+dx_{n}
+\end{pmatrix}</script><ul><li>其中，中间的方块矩阵就是雅可比矩阵$J$，里面的元素一般不是常数，而是变量或函数，说明雅可比矩阵包含着很多个具体的变换矩阵。</li><li><strong>雅可比矩阵把一个超平面的仿射坐标系变换成了一个超曲面坐标系；雅可比行列式就是曲面坐标系下单位微元和仿射坐标系下单位微元面积的比值。（雅可比矩阵把一个空间里的一个平面坐标系（基）变换成了无数个极小平面坐标系（基）；无数个极小平面就是曲面的切平面；雅可比行列式就是切平面上每个坐标系下极小单位元和原坐标系下极小单位元面积的比值。）</strong></li></ul><ul><li>整个线性代数里矩阵之间有三种典型的关系：矩阵相似（similar）、矩阵等价（equivalent）、矩阵合同（congruent）：</li></ul><script type="math/tex;mode=display">\begin{align*}
+& (1) A和B等价 \Leftrightarrow 存在可逆矩阵P和Q，使得B=PAQ；\\
+& (2) A和B相似 \Leftrightarrow 存在可逆矩阵P，使得B=P^{-1}AP;\\
+& (3) A和B合同 \Leftrightarrow 存在可逆矩阵C，使得B=C^{T}AC.
+\end{align*}</script><ul><li>矩阵相似，矩阵合同一定说明矩阵等价，但是相似与等价之间没有必然的联系，除非是正交矩阵，则两个等价。它们的几何意义如下：</li><li><strong>两个有限维向量空间之间的同一个线性映射，其在这两个向量空间上的不同基下所对应的矩阵之间的关系就是等价关系。</strong> 就是说它们是同一种类型的子空间，变换的作用就是为了把元素之间相互干扰的矩阵化成能一眼看出维数的简单矩阵。因为$P$和$Q$对应行初等变换和列初等变换的叠加，这里只能反映空间的维数。然而，在一些实际工程中，这些信息对我们了解一个系统已经足够用了。</li><li><strong>一个有限维向量空间上的同一个线性变换（或称线性算子），其在不同基下所对应的矩阵之间的关系是相似关系。</strong>就是同一个线性变换的不同基的描述矩阵。矩阵的相似变换可以把一个比较丑的矩阵变成一个比较美的矩阵，而保证这两个矩阵都是描述了同一个线性变换。至于什么样的矩阵是“美”的，什么样的是“丑”的，我们说对角阵是美的。总而言之，<strong>相似变换是为了简化计算</strong>。</li><li><strong>一个有限维向量空间上的同一个双线性函数或内积，其在两个基下的度量矩阵是相合关系。</strong></li><li>矩阵$A$，$B$可以不是方阵，因为是不同空间之间的线性映射矩阵，而$P$ ，$Q$，$C$必须是方阵且可逆，因为是同一空间里的基过渡矩阵。矩阵既可以看作向量的变换也可以看作是基的变换，两者的表达式中自变向量和因变向量的位置相反。</li><li>任一矩阵都可以通过一系列的初等变换化非对角线上的元素为0，从而成为对角阵，因此任一矩阵都等价于一个对角阵，其对角线上的非零元素的个数正好是原矩阵的秩。然而除了秩不变外，矩阵的其他性质在变换以后就很难反映出来了。</li><li>同构：如果两个线性空间上的映射变换既是单射又是满射，就称这两个向量空间同构。两个向量空间同构，那么就有线性映射使这两个线性空间的向量（或点）一一对应，而且保持线性不变，这时往往将这两个向量空间看作同一个。对于向量空间，同构也是等价关系。所以说，相似变换是同一个向量空间的变换，是两个基上的同一个线性变换。</li><li>相似矩阵描述的是在不同参照系的同一个变换，动作规则是相同的，类似地，合同矩阵描述的是在不同参照系下的同一个内积的度量矩阵。</li><li>由前可知，内积的度量应该是不随着坐标系的选取而改变的，因此定义了度量矩阵这个东西。事实上，内积的推广式子为：</li></ul><script type="math/tex;mode=display">(x,y)=x^{T}Sy, S=P^{T}P</script><ul><li>其中方阵$S$就是度量矩阵，度量矩阵是由基向量所构成的过渡方阵$P$与其转置的乘积得到的。</li><li>因为度量矩阵$S$是由基的过渡矩阵所决定的，那么每更换一次基坐标系就会有一个新的度量矩阵$T$，它们对应着同一个内积，且$S$合同于$T$。</li><li>正交变换是保持任意向量的长度不变或者保持度量不变的线性变换，其是欧式空间中的一类重要的变换。正交变换具有合同与相似变换共同的优点，前者仅适用于对称阵，保持了矩阵的对称性、正定性、秩等性质不变；后者适用于一般方阵，保持了矩阵的秩与特征值不变。因为正交变换的矩阵$P$满足$P^{-1} = P^{T}$，实际上是合同变换与相似变换的一种结合。</li><li>正交变换的主要性质是它不改变几何图形的度量。正交变换对应的矩阵就是正交矩阵，简单地说，一个正交矩阵就是一个具有标准正交列（行）向量组的方阵。</li></ul><h3 id="线性方程组"><a href="#线性方程组" class="headerlink" title="线性方程组"></a>线性方程组</h3><ul><li>四个正交子空间。</li><li>线性方程组的研究，包含了对向量的线性组合和矩阵方程的研究。方程组可以写成矩阵方程和向量组和形式等不同的形式，也反映了研究内容的不同。即线性方程组、向量的线性组合和矩阵及其矩阵方程可作等价研究。</li></ul><h3 id="二次型"><a href="#二次型" class="headerlink" title="二次型"></a>二次型</h3><ul><li>二次型的内容就是研究线性空间里的一个几何图形如何在不同的坐标基下的不同的矩阵表示，合同的矩阵表示的是同一个二次函数的几何图形。</li><li>定义：</li></ul><script type="math/tex;mode=display">\begin{align*}
+& 含有n个变量x_{1}，x_{2}，\cdots，x_{n}的二次齐次函数：\\
+& f(x_{1}，x_{2}，\cdots，x_{n})=a_{11}x_{1}^{2}+a_{22}x_{2}^{2}+\cdots+a_{nn}x_{n}^{2}+2a_{12}x_{1}x_{2}+2a_{13}x_{1}x_{3}+\cdots+2a_{(n-1)n}x_{n-1}x_{n}\\
+& 称为二次型。只含有平方项的二次型称为二次型的标准型：\\
+& f(x_{1}，x_{2}，\cdots，x_{n})=a_{11}x_{1}^{2}+a_{22}x_{2}^{2}+\cdots+a_{nn}x_{n}^{2}
+\end{align*}</script><ul><li>二次型可以表示为变元向量和矩阵的乘积：</li></ul><script type="math/tex;mode=display">f(x_{1}，x_{2}，\cdots，x_{n})=
+(x_{1}，x_{2}，\cdots，x_{n})
+\begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{12} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \cdots & \vdots \\
+a_{1n} & a_{2n} & \cdots & a_{nn}
+\end{bmatrix}
+\begin{pmatrix}
+x_{1} \\
+x_{2} \\
+\vdots \\
+x_{n}
+\end{pmatrix}
+=x^{T}Ax</script><ul><li><p>任意给一个二次型，就有唯一确定的对称矩阵，反之，任给一个对称矩阵，也就唯一确定一个二次型，其中，上式中间的方块矩阵称为二次型$f$的矩阵。</p></li><li><p>二次型是向量长度的平方，这个平方值不随坐标基的变化而变化，是个不变量，是绝对性的，而二次型函数的数学表达式却随着坐标基的变化而变化。</p></li><li><p>问题是，线性代数是研究”线性问题“的，比如线性变换、线性空间、线性方程组等，二次型却是非线性的，那为何能用矩阵等线性工具研究？</p></li><li><p>一是二次曲线或曲面本身就具有线性的性质，比如直纹曲面，一个坐标方向是直线，一个坐标方向是二次的，就可以描绘出直纹曲面（比如马鞍面）；</p></li><li><p>二是用向量研究一元多项式，是用多项式的系数构成向量来等价地替代研究，不是直接研究多项式本身，因此化非线性为线性；同样，用二次型的系数构建矩阵来等价地替代研究它，同样化非线性为线性了；</p></li><li><p>三是对二次型的研究利用了双线性函数的概念。二次型本来就是一个对称的双线性函数。</p></li><li><p>双线性函数就是定义了某维线性空间里的双向量的一个运算，运算结果是一个数，这个数属于某个数域。其中一个变元固定时是另一个变元的线性函数，两个向量互为线性，称为双线性。</p></li><li><p>双线性函数的一般定义如下：</p></li></ul><script type="math/tex;mode=display">\begin{align*}
+& 设P^{n}是数域P上n维列向量构成的线性空间，向量x,y \in P^{n}，再设A是P上的n阶方阵。令\\
+& f(x,y)=x^{T}Ay \\
+& 则f(x,y)是P^{n}上的一个双线性函数。
+\end{align*}</script><ul><li><strong>二次型对角化就是把二次型化简成标准型或者规范型。对角化二次型必须要是矩阵的合同变换，或者说度量矩阵和变换后的度量矩阵必须是合同的，只有这样才能使二次型的函数值保持不变，才能使向量长度保持不变，其他方法比如矩阵的相似对角化不能保证二次型的值不变。因为从几何意义上讲，相似对角化法是使矩阵本身所表示的某种线性变换不变进而对角化，而二次型对角化法是保证矩阵背后所代表二次型的值不变，它们所要求的不变量是不同的。</strong></li></ul><script type="math/tex;mode=display">f(x)=x^{T}Ax=(Cy)^{T}ACy=y^{T}(C^{T}AC)y</script><ul><li>对于一个正交矩阵$Q$，有向量替换关系$x=Qy$使：</li></ul><script type="math/tex;mode=display">f(x)=x^{T}Ax=y^{T}(Q^{T}AQ)y=y^{T}(Q^
+{-1}AQ)y</script><ul><li><p><strong>正交变换既是相似变换同时又是合同变换。由于正交变换保持变换前后的向量内积不变，从而保持向量的长度与夹角不变，所以正交变换属于刚体变换，是代表空间的一个旋转/镜像变换。利用矩阵乘积分解的方法，这种变换的转轴、转角可以用矩阵的特征参数量化地表示出来。</strong></p></li><li><p>和其他合同变换（又称可逆线性替换）不保持图形的原有形状，如可以把椭圆变成圆的特点相比，正交变换则保持原图形的形状。</p></li><li><p><strong>用正交变换化二次型为标准型的定理也称为主轴定理，这同时也是主轴定理的几何意义。</strong></p></li><li><p>主轴定理：</p></li></ul><script type="math/tex;mode=display">\begin {align*}
+& 对于任意一个n元二次型：\\
+& f(x_{1}，x_{2}，\cdots，x_{n})=x^{T}Ax\\
+& 存在正交变换x=Qy（Q为n元正交矩阵），使得\\
+& x^{T}Ax=y^{T}(Q^{T}AQ)y=\lambda_{1}y_{1}^{2}+\lambda_{2}y_{2}^{2}+\cdots+\lambda_{n}y_{n}^{2}
+\end{align*}</script><ul><li>其中，$\lambda_{1}，\lambda_{2}，\cdots，\lambda_{n}$是实对称矩阵$A$的n个特征值；$Q$的n个列向量是对应于特征值$\lambda_{1}，\lambda_{2}，\cdots，\lambda_{n}$的标准正交特征向量。</li></ul><h2 id="神奇的矩阵"><a href="#神奇的矩阵" class="headerlink" title="神奇的矩阵"></a>神奇的矩阵</h2><h3 id="空间"><a href="#空间" class="headerlink" title="空间"></a>空间</h3><ul><li><p>空间是现代数学的基础之一。线形空间其实还是比较初级的，如果在里面定义了范数，就成了赋范线性空间。赋范线性空间满足完备性，就成了巴那赫空间；赋范线性空间中定义角度，就有了内积空间，内积空间再满足完备性，就得到希尔伯特空间，如果空间里装载所有类型的函数，就叫泛函空间。</p></li><li><p><strong>容纳运动是空间的本质</strong>。不管是什么空间，都必须容纳和支持在其中发生的符合规则的运动（变换）。在某种空间中往往会存在一种相对应的变换，比如拓扑空间中有拓扑变换，线性空间中有线性变换，仿射空间中有仿射变换，其实这些变换都只不过是对应空间中允许的运动形式而已。因此只要知道， <strong>“空间”是容纳运动的一个对象集合，而变换则规定了对应空间的运动。</strong></p></li></ul><h3 id="矩阵的运动本质属性"><a href="#矩阵的运动本质属性" class="headerlink" title="矩阵的运动本质属性"></a>矩阵的运动本质属性</h3><ul><li><p>线性空间中的运动，被称为线性变换。也就是说，你从线性空间中的一个点运动到任意的另外一个点，都可以通过一个线性变化来完成。在线性空间中，当你选定一组基之后，不仅可以用一个向量来描述空间中的任何一个对象，而且可以用矩阵来描述该空间中的任何一个运动（变换）。而使某个对象发生对应运动的方法，就是用代表那个运动的矩阵，乘以代表那个对象的向量。<strong>简而言之，在线性空间中选定基之后，向量刻画对象，矩阵刻画对象的运动，用矩阵与向量的乘法施加运动。矩阵的本质是运动的描述</strong>。</p></li><li><p>不过，这里“运动”的概念不是微积分中的连续性的运动，而是瞬间发生的变化，是物理当中“跃迁”的一种描述，在这里我们将其称为“变换”，也就是说，<strong>矩阵是线性空间里的变换的描述</strong>。</p></li><li><p><strong>“矩阵是线性空间中的线性变换的一个描述。在一个线性空间中，只要我们选定一组基，那么对于任何一个线性变换，都能够用一个确定的矩阵来加以描述”。</strong></p></li></ul><h3 id="矩阵与方程组"><a href="#矩阵与方程组" class="headerlink" title="矩阵与方程组"></a>矩阵与方程组</h3><ul><li>老生常谈的列空间，秩，交点等问题了。</li></ul><h3 id="矩阵与坐标系"><a href="#矩阵与坐标系" class="headerlink" title="矩阵与坐标系"></a>矩阵与坐标系</h3><ul><li><p>向量左乘矩阵将向量变换成另一个向量，一组基右乘一个方阵将其变换到另一组基，左乘一个方阵就是将一组基下的坐标变换到另一组基下的坐标，也就是说运动是相对的，而这个相对体现在左乘和右乘上。</p></li><li><p>对于矩阵乘法，主要是考察一个矩阵对另一个矩阵所起的变换作用。其作用的矩阵看作是动作矩阵，被作用的矩阵可以看作是由行或列向量构成的几何图形。同样，如果一连串的矩阵相乘，就是多次变换的叠加。而矩阵左乘无非是把一个向量或一组向量（即另一个矩阵）进行伸缩或旋转。 <strong>乘积的效果就是多个伸缩和旋转的叠加</strong>。其中两类特殊的矩阵：旋转矩阵和对角矩阵，分别表示对向量的旋转和伸缩。</p></li></ul><h3 id="矩阵与傅里叶变换"><a href="#矩阵与傅里叶变换" class="headerlink" title="矩阵与傅里叶变换"></a>矩阵与傅里叶变换</h3><p>1.分解与叠加的思想，以及完备性才会完全替代“棱角”的波形。在这里，基不再是向量，而是三角函数。</p><p>2.为什么是选择三角函数？</p><ul><li><p>大自然中很多现象可以抽象成一个<strong>线性时不变系统</strong>来研究，无论你用微分方程还是传递函数或者状态空间描述。线性时不变系统可以这样理解： 输入输出信号满足线性关系，而且系统参数不随时间变换。<strong>对于大自然界的很多系统，一个正弦曲线信号输入后，输出的仍是正弦曲线，只有幅度和相位可能发生变化，但是频率和波的形状仍是一样的。也就是说正弦信号是系统的特征向量。</strong></p></li><li><p>当然，指数信号也是系统的特征向量，表示能量的衰减或积聚。自然界的衰减或者扩散现象大多是指数形式的，或者既有波动又有指数衰减（复指数$e^{\alpha+i \beta}$形式），因此具有特征的基函数就由三角函数变成复指数函数。但是，如果输入是方波、三角波或者其他什么波形，那输出就不一定是什么样子了。所以，除了指数信号和正弦信号以外的其他波形都不是线性系统的特征信号。</p></li><li><p>用正弦曲线来代替原来的曲线而不用方波或三角波或者其他什么函数来表示的原因在于： <strong>正弦信号恰好是很多线性时不变系统的特征向量。于是就有了傅里叶变换。对于更一般的线性时不变系统，复指数信号(表示耗散或衰减)是系统的“特征向量”</strong>。于是就有了拉普拉斯变换。z 变换也是同样的道理，这时$z^{n}$是离散系统的“特征向量”。 这里没有区分特征向量和特征函数的概念，主要想表达二者的思想是相同的，只不过一个是有限维向量，一个是无限维函数。</p></li><li><p>傅里叶级数和傅里叶变换其实就是我们之前讨论的特征值与特征向量的问题。分解信号的方法是无穷的，但分解信号的目的是为了更加简单地处理原来的信号。这样，用正余弦来表示原信号会更加简单，因为正余弦拥有原信号所不具有的性质：正弦曲线保真度。且只有正弦曲线才拥有这样的性质。 <strong>这样做的好处就是知道输入，我们就能很简单乘一个系数写出输出。</strong></p></li></ul><p>3.时域和频域</p><ul><li><p>以时间作为参照来观察动态世界的方法我们称其为时域分析，频域 (frequency domain) 是描述信号在频率方面特性时用到的一种坐标系。用线性代数的语言就是装着正弦函数的空间。频域最重要的性质是：它不是真实的，而是一个数学构造。频域是一个遵循特定规则的数学范畴。正弦波是频域中唯一存在的波形，这是频域中最重要的规则，即正弦波是对频域的描述，因为时域中的任何波形都可用正弦波合成。</p></li><li><p><strong>对于一个信号来说，信号强度随时间的变化规律就是时域特性，信号是由哪些单一频率的信号合成的就是频域特性。</strong></p></li></ul><ul><li>这里的核心就是一种信号可以用另一种信号作为基函数线性表示。而由于现实世界中正弦信号是系统的特征向量，所以我们就用傅里叶变换，将研究的信号在频域展开。总而言之， 不管是傅里叶级数，还是傅里叶变换、拉普拉斯变换、z 变换，本质上都是线性代数里面讲的求特征值和特征向量。</li></ul><p>4.傅里叶级数</p><ul><li><p>Strang老爷子在课上专门讲过通过投影和正交基求出傅里叶级数，正交基中的每个函数都可以看做是一条独立的坐标轴，从几何角度来看，傅里叶级数展开其实只是在做一个动作，那就是把函数“投影”到一系列由三角函数构成的“坐标轴”上。上面的系数则是函数在每条坐标轴上的坐标。注意，在有限维中，内积是点积的形式，而在无限维中则是积分的形式。</p></li><li><p>这组正交基是：$\left\{1, \cos \frac {\pi x}{l}, \sin \frac{\pi x}{l}, \cos \frac{2 \pi x}{l}, \sin \frac {2\pi x}{l}, \cdots \right\}$</p></li></ul><script type="math/tex;mode=display">\begin{align*}
+& a_{0}=\frac {\left\langle f,1 \right\rangle}{\left \langle 1,1 \right \rangle}=\frac{\int_{-l}^{l}f(x)\,dx}{\int_{-l}^{l}\,dx}
+=\frac{\int_{-l}^{l}f(x)\,dx}{2l} \\
+
+& a_{n}=\frac {\left \langle f, \cos \frac {n \pi x}{l}\right \rangle}{\left \langle \cos \frac{n \pi x}{l}, \cos \frac{n \pi x}{l} \right \rangle} =
+\frac {\int_{-l}^{l}f(x)\cos \frac{n \pi x}{l} \,dx}{\int_{-l}^{l} \cos^2 \frac{n \pi x}{l}\,dx} = \frac {\int_{-l}^{l}f(x)\cos \frac{n \pi x}{l} \,dx}{l},n \ge 1 \\
+
+& b_{n}=\frac {\left \langle f, \sin \frac {n \pi x}{l}\right \rangle}{\left \langle \sin \frac{n \pi x}{l}, \sin \frac{n \pi x}{l} \right \rangle} =
+\frac {\int_{-l}^{l}f(x)\sin \frac{n \pi x}{l} \,dx}{\int_{-l}^{l} \sin^2 \frac{n \pi x}{l}\,dx} = \frac {\int_{-l}^{l}f(x)\sin \frac{n \pi x}{l} \,dx}{l},n \ge 1 \\
+
+\end{align*}</script><ul><li>同理，对于复数形式的傅里叶级数，也可以用几何投影的观点来写出所有的系数。</li></ul><h3 id="矩阵的奇异值分解（SVD）"><a href="#矩阵的奇异值分解（SVD）" class="headerlink" title="矩阵的奇异值分解（SVD）"></a>矩阵的奇异值分解（SVD）</h3><ul><li><p>$M=U \sum V^{T}$</p></li><li><p>任意的矩阵$M$是可以分解成三个矩阵。 $V$表示了原始域的标准正交基，$ U$表示$M$经过变换后的 co-domain 的标准正交基，$\sum$表示了$V$中的向量与$U$中相对应向量之间的关系。</p></li></ul><p><img src="/posts/Linear-Algebra-of-MIT/SVD.png" alt="SVD"></p><ul><li>事实上，我们可以找到任何矩阵的奇异值分解。如果把矩阵$U$用它的列向量表示出来，可以写成：<script type="math/tex;mode=display">U=(u_{1}, u_{2}, \cdots, u_{n})</script></li><li>其中每一个$u_{i}$称为$M$的左奇异向量。类似地，对于$V$，有：<script type="math/tex;mode=display">V=(v_{1}, v_{2}, \cdots, v_{n})</script></li><li>其中每一个$v_{i}$被称为$M$的右奇异向量。然后设矩阵$\sum$的对角线元素为$\sigma_{i}$并按降序排列，则$M$就可以表示为：<script type="math/tex;mode=display">M=\sigma_{1}u_{1}v_{1}^{T}+\sigma_{2}u_{2}v_{2}^{T}+\cdots+\sigma_{n}u_{n}v_{n}^{T}
+=\sum_{i=1}^{n}\sigma_{i}u_{i}v_{i}^{T}=\sum_{i=1}^{n}A_{i}</script></li><li><p>其中$A_{i}=\sigma_{i}u_{i}v_{i}^{T}$是一个$m \times n$的矩阵，即把原来的矩阵表示成了n个矩阵的和。</p></li><li><p>因此，可以根据$\sigma_{i}$的大小进行矩阵的近似表达，主成分分析的思想就是来源于此。</p></li><li><p>奇异值分解在推荐系统，图像压缩，潜在语义索引，潜在数据表达，降噪，数据分析等有很重要的应用。</p></li></ul></div><div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者： </strong>Richard YU</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="http://densecollections.top/posts/449186556.html" title="Linear Algebra of MIT">http://densecollections.top/posts/449186556.html</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"><a href="/tags/MIT/" rel="tag"><i class="fa fa-tag"></i> MIT</a> <a href="/tags/mathematics/" rel="tag"><i class="fa fa-tag"></i> mathematics</a> <a href="/tags/linear-algebra/" rel="tag"><i class="fa fa-tag"></i> linear algebra</a></div><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/posts/HexoBlogBulid.html" rel="next" title="Hexo+Github 博客搭建"><i class="fa fa-chevron-left"></i> Hexo+Github 博客搭建</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"><a href="/posts/buildDLenvir.html" rel="prev" title="Ubuntu16.04下安装NVIDIA最新驱动以及深度学习环境配置">Ubuntu16.04下安装NVIDIA最新驱动以及深度学习环境配置 <i class="fa fa-chevron-right"></i></a></div></div></footer></div></article></div></div><div class="comments" id="comments"></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span> <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span> <span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap">站点概览</li></ul><div class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" src="/uploads/header.jpg" alt="Richard YU"><p class="site-author-name" itemprop="name">Richard YU</p><div class="site-description motion-element" itemprop="description">Today everything exists to end in a photograph</div></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"><a href="/archives/"><span class="site-state-item-count">24</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/"><span class="site-state-item-count">13</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/"><span class="site-state-item-count">53</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="feed-link motion-element"><a href="/atom.xml" rel="alternate"><i class="fa fa-rss"></i> RSS</a></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/richardyu114" title="GitHub &rarr; https://github.com/richardyu114" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a> </span><span class="links-of-author-item"><a href="https://twitter.com/Yu1145635107" title="Twitter &rarr; https://twitter.com/Yu1145635107" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a> </span><span class="links-of-author-item"><a href="https://instagram.com/d.h.richard" title="Instagram &rarr; https://instagram.com/d.h.richard" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a> </span><span class="links-of-author-item"><a href="https://weibo.com/u/5211687990" title="Weibo &rarr; https://weibo.com/u/5211687990" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a> </span><span class="links-of-author-item"><a href="https://www.douban.com/people/161993653/" title="豆瓣 &rarr; https://www.douban.com/people/161993653/" rel="noopener" target="_blank"><i class="fa fa-fw fa-paperclip"></i>豆瓣</a></span></div><div class="cc-license motion-element" itemprop="license"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a></div></div></div><div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#课程视频及主页资料"><span class="nav-number">1.</span> <span class="nav-text">课程视频及主页资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#课程脉络"><span class="nav-number">2.</span> <span class="nav-text">课程脉络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阅读材料"><span class="nav-number">3.</span> <span class="nav-text">阅读材料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性代数的几何意义"><span class="nav-number">4.</span> <span class="nav-text">线性代数的几何意义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性代数"><span class="nav-number">4.1.</span> <span class="nav-text">线性代数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行列式"><span class="nav-number">4.2.</span> <span class="nav-text">行列式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向量空间"><span class="nav-number">4.3.</span> <span class="nav-text">向量空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵"><span class="nav-number">4.4.</span> <span class="nav-text">矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性方程组"><span class="nav-number">4.5.</span> <span class="nav-text">线性方程组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二次型"><span class="nav-number">4.6.</span> <span class="nav-text">二次型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神奇的矩阵"><span class="nav-number">5.</span> <span class="nav-text">神奇的矩阵</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#空间"><span class="nav-number">5.1.</span> <span class="nav-text">空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵的运动本质属性"><span class="nav-number">5.2.</span> <span class="nav-text">矩阵的运动本质属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵与方程组"><span class="nav-number">5.3.</span> <span class="nav-text">矩阵与方程组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵与坐标系"><span class="nav-number">5.4.</span> <span class="nav-text">矩阵与坐标系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵与傅里叶变换"><span class="nav-number">5.5.</span> <span class="nav-text">矩阵与傅里叶变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵的奇异值分解（SVD）"><span class="nav-number">5.6.</span> <span class="nav-text">矩阵的奇异值分解（SVD）</span></a></li></ol></li></ol></div></div></div></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2020</span> <span class="with-love" id="animate"><i class="fa fa-user"></i> </span><span class="author" itemprop="copyrightHolder">Richard YU</span> <span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-area-chart"></i> </span><span title="站点总字数">267k</span> <span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-coffee"></i> </span><span title="站点阅读时长">4:03</span></div><div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div><span class="post-meta-divider">|</span><div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.1</div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i></div></div><script>"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script src="/lib/jquery/index.js?v=2.1.3"></script><script src="/lib/velocity/velocity.min.js?v=1.2.1"></script><script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script><script src="/js/utils.js?v=7.1.1"></script><script src="/js/motion.js?v=7.1.1"></script><script src="/js/affix.js?v=7.1.1"></script><script src="/js/schemes/pisces.js?v=7.1.1"></script><script src="/js/scrollspy.js?v=7.1.1"></script><script src="/js/post-details.js?v=7.1.1"></script><script src="/js/next-boot.js?v=7.1.1"></script><script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script><script src="//unpkg.com/valine/dist/Valine.min.js"></script><script>var GUEST=["nick","mail","link"],guest="nick,mail,link";guest=guest.split(",").filter(function(e){return-1<GUEST.indexOf(e)}),new Valine({el:"#comments",verify:!0,notify:!0,appId:"duGoywhUmLrx9pM6qQhmf47c-gzGzoHsz",appKey:"m7fc8w4Di5qnAXXaJ5Gp3Pgg",placeholder:"欢迎评论！请留下你的邮箱",avatar:"mm",meta:guest,pageSize:"10",visitor:!0,lang:"zh-cn"})</script><script>// Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+        // ref: https://github.com/ForbesLindesay/unescape-html
+        var unescapeHtml = function(html) {
+          return String(html)
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, '\'')
+            .replace(/&#x3A;/g, ':')
+            // replace all the other &#x; chars
+            .replace(/&#(\d+);/g, function (m, p) { return String.fromCharCode(p); })
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&amp;/g, '&');
+        };
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                content = unescapeHtml(content);
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });</script><script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script><script>$(".highlight").not(".gist .highlight").each(function(t,e){var n=$("<div>").addClass("highlight-wrap");$(e).after(n),n.append($("<button>").addClass("copy-btn").append("复制").on("click",function(t){var e=$(this).parent().find(".code").find(".line").map(function(t,e){return $(e).text()}).toArray().join("\n"),n=document.createElement("textarea"),o=window.pageYOffset||document.documentElement.scrollTop;n.style.top=o+"px",n.style.position="absolute",n.style.opacity="0",n.readOnly=!0,n.value=e,document.body.appendChild(n),n.select(),n.setSelectionRange(0,e.length),n.readOnly=!1,document.execCommand("copy")?$(this).text("复制成功"):$(this).text("复制失败"),n.blur(),$(this).blur()})).on("mouseleave",function(t){var e=$(this).find(".copy-btn");setTimeout(function(){e.text("复制")},300)}).append(e)})</script></body></html>

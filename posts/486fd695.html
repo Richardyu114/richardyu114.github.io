@@ -1,0 +1,369 @@
+<!DOCTYPE html><html class="theme-next gemini use-motion" lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><script src="/lib/pace/pace.min.js?v=1.0.2"></script><link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2"><meta name="google-site-verification" content="true"><meta name="baidu-site-verification" content="true"><link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css"><link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"><link rel="stylesheet" href="/css/main.css?v=7.1.1"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1"><link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222"><script id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Gemini",version:"7.1.1",sidebar:{position:"left",display:"post",offset:12,onmobile:!1,dimmer:!1},back2top:!0,back2top_sidebar:!1,fancybox:!0,fastclick:!1,lazyload:!1,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><meta name="baidu-site-verification" content="0bqk4mbBLD"><meta name="google-site-verification" content="FvMbHVgnH7FO0GFRzTmOevjSaFwvzIQZv94LdufMMPY"><meta name="description" content="AboutYOLO系列是one-stage目标检测种的重要成果，兼具速度与精度，同时包含了很多与时俱进的tricks，是理论与工程实践完美结合的产物。虽然Andrew Ng说YOLO论文比较难读，但是为了更好的梳理检测这一模块，理解实践这项工作必须要进行下去。Pytorch YOLO项目推荐。"><meta name="keywords" content="computer vision,deep learning,object detection"><meta property="og:type" content="article"><meta property="og:title" content="yolo系列论文阅读笔记"><meta property="og:url" content="http://densecollections.top/posts/486fd695.html"><meta property="og:site_name" content="自拙集"><meta property="og:description" content="AboutYOLO系列是one-stage目标检测种的重要成果，兼具速度与精度，同时包含了很多与时俱进的tricks，是理论与工程实践完美结合的产物。虽然Andrew Ng说YOLO论文比较难读，但是为了更好的梳理检测这一模块，理解实践这项工作必须要进行下去。Pytorch YOLO项目推荐。"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="http://densecollections.top/posts/yolo系列论文阅读笔记/yolov1_backbone.JPG"><meta property="og:image" content="http://densecollections.top/posts/yolo系列论文阅读笔记/regress_detail.png"><meta property="og:image" content="http://densecollections.top/posts/yolo系列论文阅读笔记/darknet19.JPG"><meta property="og:image" content="http://densecollections.top/posts/yolo系列论文阅读笔记/yolov2_backbone.png"><meta property="og:image" content="http://densecollections.top/posts/yolo系列论文阅读笔记/yolov2_anchor.JPG"><meta property="og:image" content="http://densecollections.top/posts/yolo系列论文阅读笔记/yolov2_regress.JPG"><meta property="og:image" content="http://densecollections.top/posts/yolo系列论文阅读笔记/yolov2_improvement.JPG"><meta property="og:image" content="http://densecollections.top/posts/yolo系列论文阅读笔记/darknet53.JPG"><meta property="og:image" content="http://densecollections.top/posts/yolo系列论文阅读笔记/yolov3_architecture.jpg"><meta property="og:updated_time" content="2020-07-08T08:52:17.698Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="yolo系列论文阅读笔记"><meta name="twitter:description" content="AboutYOLO系列是one-stage目标检测种的重要成果，兼具速度与精度，同时包含了很多与时俱进的tricks，是理论与工程实践完美结合的产物。虽然Andrew Ng说YOLO论文比较难读，但是为了更好的梳理检测这一模块，理解实践这项工作必须要进行下去。Pytorch YOLO项目推荐。"><meta name="twitter:image" content="http://densecollections.top/posts/yolo系列论文阅读笔记/yolov1_backbone.JPG"><link rel="alternate" href="/atom.xml" title="自拙集" type="application/atom+xml"><link rel="canonical" href="http://densecollections.top/posts/486fd695"><script id="page.configurations">CONFIG.page={sidebar:""}</script><title>yolo系列论文阅读笔记 | 自拙集</title><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-title,.use-motion .comments,.use-motion .menu-item,.use-motion .motion-element,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .logo,.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">自拙集</span> <span class="logo-line-after"><i></i></span></a></div><h1 class="site-subtitle" itemprop="description">Work cures everything</h1></div><div class="site-nav-toggle"><button aria-label="切换导航栏"><span class="btn-bar"></span> <span class="btn-bar"></span> <span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i><br>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i><br>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i><br>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>归档</a></li><li class="menu-item menu-item-paperstation"><a href="/PaperStation/" rel="section"><i class="menu-item-icon fa fa-fw fa-edit"></i><br>PaperStation</a></li><li class="menu-item menu-item-mindwandering"><a href="/MindWandering/" rel="section"><i class="menu-item-icon fa fa-fw fa-paper-plane"></i><br>MindWandering</a></li><li class="menu-item menu-item-search"><a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i><br>搜索</a></li></ul><div class="site-search"><div class="popup search-popup local-search-popup"><div class="local-search-header clearfix"><span class="search-icon"><i class="fa fa-search"></i> </span><span class="popup-btn-close"><i class="fa fa-times-circle"></i></span><div class="local-search-input-wrapper"><input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input"></div></div><div id="local-search-result"></div></div></div></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://densecollections.top/posts/486fd695.html"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="name" content="Richard YU"><meta itemprop="description" content="Today everything exists to end in a photograph"><meta itemprop="image" content="/uploads/header.jpg"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="自拙集"></span><header class="post-header"><h2 class="post-title" itemprop="name headline">yolo系列论文阅读笔记</h2><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建时间：2020-06-04 09:53:54" itemprop="dateCreated datePublished" datetime="2020-06-04T09:53:54+08:00">2020-06-04</time> <span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-calendar-check-o"></i> </span><span class="post-meta-item-text">更新于</span> <time title="修改时间：2020-07-08 16:52:17" itemprop="dateModified" datetime="2020-07-08T16:52:17+08:00">2020-07-08</time> </span><span class="post-category"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-folder-o"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/uncategorized/" itemprop="url" rel="index"><span itemprop="name">uncategorized</span></a></span> </span><span class="post-comments-count"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-comment-o"></i> </span><span class="post-meta-item-text">评论数：</span> <a href="/posts/486fd695.html#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/posts/486fd695.html" itemprop="commentCount"></span> </a></span><span id="/posts/486fd695.html" class="leancloud_visitors" data-flag-title="yolo系列论文阅读笔记"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-eye"></i> </span><span class="post-meta-item-text">阅读次数：</span> <span class="leancloud-visitors-count"></span></span><div class="post-symbolscount"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i> </span><span class="post-meta-item-text">本文字数：</span> <span title="本文字数">2.4k</span> <span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-clock-o"></i> </span><span class="post-meta-item-text">阅读时长 &asymp;</span> <span title="阅读时长">2 分钟</span></div></div></header><div class="post-body" itemprop="articleBody"><h2 id="About"><a href="#About" class="headerlink" title="About"></a>About</h2><p>YOLO系列是one-stage目标检测种的重要成果，兼具速度与精度，同时包含了很多与时俱进的tricks，是理论与工程实践完美结合的产物。虽然Andrew Ng说YOLO论文比较难读，但是为了更好的梳理检测这一模块，理解实践这项工作必须要进行下去。</p><p><a href="https://mp.weixin.qq.com/s?__biz=MzA4MjY4NTk0NQ==&amp;mid=2247485030&amp;idx=1&amp;sn=585864ef65bef3aa21c953506aae67f3&amp;chksm=9f80bcf0a8f735e680e552d973247d4577f974b3a5eff23d89779c3416cb8f360fa0ee6ccb4c&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">Pytorch YOLO项目推荐</a>。</p><a id="more"></a><h2 id="YOLO-v1"><a href="#YOLO-v1" class="headerlink" title="YOLO v1"></a>YOLO v1</h2><p><a href="https://arxiv.org/abs/1506.02640" target="_blank" rel="noopener">paper</a>;</p><p>参考博客：<a href="https://blog.csdn.net/liuxiaoheng1992/article/details/81983280" target="_blank" rel="noopener">1</a>, <a href="https://zhuanlan.zhihu.com/p/37850811" target="_blank" rel="noopener">2</a>, <a href="https://zhuanlan.zhihu.com/p/32525231" target="_blank" rel="noopener">3</a></p><p>回归问题，输出$7 \times 7 \times 30$的tensor</p><p>CNN的空间位置不变性，原图$224 \times 224$ resize到$448 \times 448$，downstream 下采样到划分$7 \times 7$的grid栅格，每个栅格预测2个bounding box，预测变量为$(x, y, w, h, p)$，$p = p_{object} * IoU$</p><p>除了最后一层，其他层用leakly ReLU激活函数，loss函数，分配权重。</p><script type="math/tex;mode=display">\begin{array}{l}
+\lambda_{\text {coord }} \sum_{i=0}^{S^{2}} \sum_{j=0}^{B} \mathbb{1}_{i j}^{\text {obj }}\left[\left(x_{i}-\hat{x}_{i}\right)^{2}+\left(y_{i}-\hat{y}_{i}\right)^{2}\right] \\
+\quad+\lambda_{\text {coord }} \sum_{i=0}^{S^{2}} \sum_{j=0}^{B} \mathbb{1}_{i j}^{\text {obj }}\left[(\sqrt{w_{i}}-\sqrt{\hat{w}_{i}})^{2}+(\sqrt{h_{i}}-\sqrt{\hat{h}_{i}})^{2}\right] \\
+\quad+\sum_{i=0}^{S^{2}} \sum_{j=0}^{B} \mathbb{1}_{i j}^{\mathrm{obj}}\left(C_{i}-\hat{C}_{i}\right)^{2}+\lambda_{\mathrm{noobj}} \sum_{i=0}^{S^{2}} \sum_{j=0}^{B} \mathbb{1}_{i j}^{\mathrm{noobj}}\left(C_{i}-\hat{C}_{i}\right)^{2}\\
+\quad+\sum_{i=0}^{S^{2}} \mathbb{1}_{i}^{\mathrm{obj}} \sum_{c \in \text { classes }}\left(p_{i}(c)-\hat{p}_{i}(c)\right)^{2}
+\end{array}</script><p>$\lambda_{coord}=5,\lambda_{noobj}=0.5$，利用平方根宽高是为了让小物体框对尺寸变化更加敏感。</p><p><img src="/posts/yolo系列论文阅读笔记/yolov1_backbone.JPG" alt="v1的backbone"></p><p><img src="/posts/yolo系列论文阅读笔记/regress_detail.png" alt="回归变量的计算方式，图来自博客[1]"></p><blockquote><p>YOLO predicts multiple bounding boxes per grid cell. At <strong>training time</strong> we only want <strong>one bounding box predictor</strong> to be responsible for each object. We assign one predictor to be “responsible” for predicting an object based on which prediction has the <strong>highest current IOU with the ground truth.</strong> This leads to specialization between the bounding box predictors. Each predictor gets better at predicting certain sizes, aspect ratios, or classes of object, improving overall recall.</p><p>Note that the loss function <strong>only penalizes classification error if an object is present in that grid cell</strong> (hence the conditional class probability discussed earlier). It also only <strong>penalizes bounding box coordinate error if that predictor is “responsible” for the ground truth box</strong> (i.e. has the highest IOU of any predictor in that grid cell).</p></blockquote><p>trick: warm up, drop out fc, dataset random scaling、translations (up to 20%), adjust exposure and saturation (factor 1.5) in HSV color space.</p><p>普适性的架构，在artwork数据集上检测效果也不错，不局限于自然图像</p><p>一个grid cell只检测一个物体，如果是重合的多个物体只能检测一个，精度不高，但是由于是统一的架构，在一个网络上检测，信息比faster rcnn的region proposal充分，所以误检率低</p><p>预测部分：</p><p>输出结果，置信度低于阈值置0，NMS之后输出</p><p>根据类别NMS，还是全部NMS</p><h2 id="YOLO-v2"><a href="#YOLO-v2" class="headerlink" title="YOLO v2"></a>YOLO v2</h2><p><a href="https://arxiv.org/abs/1612.08242" target="_blank" rel="noopener">paper</a>;</p><p>参考博客：<a href="https://mp.weixin.qq.com/s?__biz=MzA4MjY4NTk0NQ==&amp;mid=2247484076&amp;idx=1&amp;sn=7741125973b350fd99e2a2dd02d31849&amp;chksm=9f80b83aa8f7312c62c65d7c9deea687b1c0b9d5144e5bd14c075fa93f92b162e277807bb04f&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">1</a>, <a href="https://mp.weixin.qq.com/s?__biz=MzA4MjY4NTk0NQ==&amp;mid=2247484093&amp;idx=1&amp;sn=44ff2ef2c2c7e9c8fbbfa771645fbbec&amp;chksm=9f80b82ba8f7313d7bf951450fe5a278a1dd24310f9113a49f82f89da0cca6d8133c438cf896&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">2</a>, <a href="https://zhuanlan.zhihu.com/p/40659490" target="_blank" rel="noopener">3</a>, <a href="https://zhuanlan.zhihu.com/p/35325884" target="_blank" rel="noopener">4</a></p><p>reorganization, 跨层连接，自己构建的网络Darknet-19，reorg layer/passthrough</p><p><img src="/posts/yolo系列论文阅读笔记/darknet19.JPG" alt="yolov2采用自搭建的网络，Darknet-19"></p><p><img src="/posts/yolo系列论文阅读笔记/yolov2_backbone.png" alt="yolo v2 net, 源自：https://ethereon.github.io/netscope/#/gist/d08a41711e48cf111e330827b1279c31"></p><p>全卷积，多尺度</p><p>加入anchors，提高recall</p><p>anchor尺度聚类代替手工设定，<a href="https://mp.weixin.qq.com/s?__biz=MzA4MjY4NTk0NQ==&amp;mid=2247484186&amp;idx=1&amp;sn=6b2f83ab797f5d585b46aa749c8bf169&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">如何实现聚类</a></p><p><img src="/posts/yolo系列论文阅读笔记/yolov2_anchor.JPG" alt></p><p>位置预测变量</p><p><img src="/posts/yolo系列论文阅读笔记/yolov2_regress.JPG" alt></p><p>loss函数</p><script type="math/tex;mode=display">\begin{array}{rl}
+\operatorname{loss}_{t}=\sum_{i=0}^{W} \sum_{j=0}^{H} \sum_{k=0}^{A} & 1_{\text {Max } 100<\text { Thresh }} \lambda_{\text {noobj }} *\left(-b_{i j k}^{o}\right)^{2} \\
+& +1_{t<12800} \lambda_{\text {prior }} * \sum_{r_{\epsilon}(x, y, w, h)}\left(\text { prior }_{k}^{r}-b_{i j k}^{r}\right)^{2} \\
+& +1_{k}^{\text {truth }}\left(\lambda_{\text {coord }} * \sum_{r_{\epsilon}(x, y, w, h)}\left(\text { truth }^{r}-b_{i j k}^{r}\right)^{2}\right. & \left.+b_{i j k}^{2}\right)^{2} \\
+& +\lambda_{\text {obj }} *\left(I O U_{\text {truth }}^{k}\right. \\
+& \left.+\lambda_{\text {class }} *\left(\sum_{c=1}^{C}\left(t r u t h^{c}-b_{i j k}^{c}\right)^{2}\right)\right)
+\end{array}</script><p>先验框匹配，样本选择 ，IOU计算只考虑形状大小，不考虑坐标，移到原点计算，每个groudtruth只会分配一个最合适的预测框。前面先让预测框学着预测先验框anchor</p><p>训练，多scale训练，通道数不变，只是特征图的尺寸会变化。先用$224 \times 224$尺寸ImageNet图片对Darknet-19进行第一阶段训练，然后将图片尺寸调整为$448 \times 448$继续进行第二阶段的训练，目的是为了让网络可以适应大尺寸的图片输入。之后移除最后的卷积层，global avgpooling和分类的softmax, 增加一些卷积层改为分类backbone进行训练。输出的通道数为$anchor_nums \times (4+1+num_classes)$，以VOC数据集为例，最后的网络输出shape为$(N,W,H,125)$，先reshape为$(N,W,H,5,25)$，其中$[:,:,:,:,0:4]$为边界框的位置和大小$(t_{x},t_{y},t_{w},t_{h})$，$[:,:,:,:,4]$为边界框的置信度，$[:,:,:,:,5:]$为边界框的类别预测，最后还需要对其进行NMS等后处理</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;&quot;</span><br><span class="line">Detection ops for Yolov2</span><br><span class="line">codelink:https://github.com/xiaohu2015/DeepLearning_tutorials/tree/master/ObjectDetections/yolo2</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">import tensorflow as tf</span><br><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def decode(detection_feat, feat_sizes=(13, 13), num_classes=80,</span><br><span class="line">           anchors=None):</span><br><span class="line">    &quot;&quot;&quot;decode from the detection feature&quot;&quot;&quot;</span><br><span class="line">    H, W = feat_sizes</span><br><span class="line">    num_anchors = len(anchors)</span><br><span class="line">    detetion_results = tf.reshape(detection_feat, [-1, H * W, num_anchors,</span><br><span class="line">                                        num_classes + 5])</span><br><span class="line"></span><br><span class="line">    bbox_xy = tf.nn.sigmoid(detetion_results[:, :, :, 0:2])</span><br><span class="line">    bbox_wh = tf.exp(detetion_results[:, :, :, 2:4])</span><br><span class="line">    obj_probs = tf.nn.sigmoid(detetion_results[:, :, :, 4])</span><br><span class="line">    class_probs = tf.nn.softmax(detetion_results[:, :, :, 5:])</span><br><span class="line"></span><br><span class="line">    anchors = tf.constant(anchors, dtype=tf.float32)</span><br><span class="line"></span><br><span class="line">    height_ind = tf.range(H, dtype=tf.float32)</span><br><span class="line">    width_ind = tf.range(W, dtype=tf.float32)</span><br><span class="line">    x_offset, y_offset = tf.meshgrid(height_ind, width_ind)</span><br><span class="line">    x_offset = tf.reshape(x_offset, [1, -1, 1])</span><br><span class="line">    y_offset = tf.reshape(y_offset, [1, -1, 1])</span><br><span class="line"></span><br><span class="line">    # decode</span><br><span class="line">    bbox_x = (bbox_xy[:, :, :, 0] + x_offset) / W</span><br><span class="line">    bbox_y = (bbox_xy[:, :, :, 1] + y_offset) / H</span><br><span class="line">    bbox_w = bbox_wh[:, :, :, 0] * anchors[:, 0] / W * 0.5 # 这里除以0.5是为下面中心点计算左上和右下坐标</span><br><span class="line">    bbox_h = bbox_wh[:, :, :, 1] * anchors[:, 1] / H * 0.5</span><br><span class="line"></span><br><span class="line">    bboxes = tf.stack([bbox_x - bbox_w, bbox_y - bbox_h,</span><br><span class="line">                       bbox_x + bbox_w, bbox_y + bbox_h], axis=3)</span><br><span class="line"></span><br><span class="line">    return bboxes, obj_probs, class_probs</span><br></pre></td></tr></table></figure><p>预测，归功于multi-scale training, 测试时，大尺寸的图片mAP很高</p><p><img src="/posts/yolo系列论文阅读笔记/yolov2_improvement.JPG" alt="相比v1做的一些改进和tricks"></p><p>yolo9000, 联合ImageNet和COCO数据集进行检测和分类训练</p><h2 id="YOLO-v3"><a href="#YOLO-v3" class="headerlink" title="YOLO v3"></a>YOLO v3</h2><p><a href="https://pjreddie.com/media/files/papers/YOLOv3.pdf" target="_blank" rel="noopener">paper</a>;</p><p>换了backbone, Darknet-53, 使用仿resnet的skip connection，引入residual module</p><p><img src="/posts/yolo系列论文阅读笔记/darknet53.JPG" alt="Darknet-53"></p><p><img src="/posts/yolo系列论文阅读笔记/yolov3_architecture.jpg" alt="yolov3检测架构，图来自：https://zhuanlan.zhihu.com/p/35325884"></p><p>多尺度融合。FPN，依然是使用k-mean聚类得出9种不同大小比例的anchor，然后均匀的分配到3个不同scales的feature map上去。</p><p>yolov2与yolov3的损失函数，知乎相关<a href="https://www.zhihu.com/question/357005177" target="_blank" rel="noopener">回答</a></p><p>网络预测出的$t_{x}, t_{y}$是在0-1之间的，采用了BCE而不是MSE，loss是在输出的t上计算，还是进一步归一化处理后的b上计算？</p><h2 id="YOLO-v4"><a href="#YOLO-v4" class="headerlink" title="YOLO v4"></a>YOLO v4</h2><p><a href="https://arxiv.org/abs/2004.10934" target="_blank" rel="noopener">paper</a>;</p><p>参考博客：<a href="https://mp.weixin.qq.com/s?__biz=MzA4MjY4NTk0NQ==&amp;mid=2247485776&amp;idx=1&amp;sn=3cc43a8763bf3ef737ecd7f7065b54f2&amp;chksm=9f80b3c6a8f73ad029734bafdf7dd40f2a15af29b70e63bdbd7b2e5cd802ce5f77fbfffb624c&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">1</a>, <a href="https://zhuanlan.zhihu.com/p/135980432" target="_blank" rel="noopener">2</a></p><p>Mosaic（马赛克）数据增强和Self-Adversarial Training(自对抗训练)比较有趣，从风格迁移可视化CNN来的</p></div><div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者： </strong>Richard YU</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="http://densecollections.top/posts/486fd695.html" title="yolo系列论文阅读笔记">http://densecollections.top/posts/486fd695.html</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"><a href="/tags/computer-vision/" rel="tag"><i class="fa fa-tag"></i> computer vision</a> <a href="/tags/deep-learning/" rel="tag"><i class="fa fa-tag"></i> deep learning</a> <a href="/tags/object-detection/" rel="tag"><i class="fa fa-tag"></i> object detection</a></div><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/posts/12978.html" rel="next" title="侯捷C++面向对象程序设计"><i class="fa fa-chevron-left"></i> 侯捷C++面向对象程序设计</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"><a href="/posts/houjieC++STL.html" rel="prev" title="侯捷c++STL体系结构与内核分析">侯捷c++STL体系结构与内核分析 <i class="fa fa-chevron-right"></i></a></div></div></footer></div></article></div></div><div class="comments" id="comments"></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span> <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span> <span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap">站点概览</li></ul><div class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" src="/uploads/header.jpg" alt="Richard YU"><p class="site-author-name" itemprop="name">Richard YU</p><div class="site-description motion-element" itemprop="description">Today everything exists to end in a photograph</div></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"><a href="/archives/"><span class="site-state-item-count">24</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/"><span class="site-state-item-count">13</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/"><span class="site-state-item-count">53</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="feed-link motion-element"><a href="/atom.xml" rel="alternate"><i class="fa fa-rss"></i> RSS</a></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/richardyu114" title="GitHub &rarr; https://github.com/richardyu114" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a> </span><span class="links-of-author-item"><a href="https://twitter.com/Yu1145635107" title="Twitter &rarr; https://twitter.com/Yu1145635107" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a> </span><span class="links-of-author-item"><a href="https://instagram.com/d.h.richard" title="Instagram &rarr; https://instagram.com/d.h.richard" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a> </span><span class="links-of-author-item"><a href="https://weibo.com/u/5211687990" title="Weibo &rarr; https://weibo.com/u/5211687990" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a> </span><span class="links-of-author-item"><a href="https://www.douban.com/people/161993653/" title="豆瓣 &rarr; https://www.douban.com/people/161993653/" rel="noopener" target="_blank"><i class="fa fa-fw fa-paperclip"></i>豆瓣</a></span></div><div class="cc-license motion-element" itemprop="license"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a></div></div></div><div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#About"><span class="nav-number">1.</span> <span class="nav-text">About</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YOLO-v1"><span class="nav-number">2.</span> <span class="nav-text">YOLO v1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YOLO-v2"><span class="nav-number">3.</span> <span class="nav-text">YOLO v2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YOLO-v3"><span class="nav-number">4.</span> <span class="nav-text">YOLO v3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YOLO-v4"><span class="nav-number">5.</span> <span class="nav-text">YOLO v4</span></a></li></ol></div></div></div></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2020</span> <span class="with-love" id="animate"><i class="fa fa-user"></i> </span><span class="author" itemprop="copyrightHolder">Richard YU</span> <span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-area-chart"></i> </span><span title="站点总字数">267k</span> <span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-coffee"></i> </span><span title="站点阅读时长">4:03</span></div><div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div><span class="post-meta-divider">|</span><div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.1</div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i></div></div><script>"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script src="/lib/jquery/index.js?v=2.1.3"></script><script src="/lib/velocity/velocity.min.js?v=1.2.1"></script><script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script><script src="/js/utils.js?v=7.1.1"></script><script src="/js/motion.js?v=7.1.1"></script><script src="/js/affix.js?v=7.1.1"></script><script src="/js/schemes/pisces.js?v=7.1.1"></script><script src="/js/scrollspy.js?v=7.1.1"></script><script src="/js/post-details.js?v=7.1.1"></script><script src="/js/next-boot.js?v=7.1.1"></script><script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script><script src="//unpkg.com/valine/dist/Valine.min.js"></script><script>var GUEST=["nick","mail","link"],guest="nick,mail,link";guest=guest.split(",").filter(function(e){return-1<GUEST.indexOf(e)}),new Valine({el:"#comments",verify:!0,notify:!0,appId:"duGoywhUmLrx9pM6qQhmf47c-gzGzoHsz",appKey:"m7fc8w4Di5qnAXXaJ5Gp3Pgg",placeholder:"欢迎评论！请留下你的邮箱",avatar:"mm",meta:guest,pageSize:"10",visitor:!0,lang:"zh-cn"})</script><script>// Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+        // ref: https://github.com/ForbesLindesay/unescape-html
+        var unescapeHtml = function(html) {
+          return String(html)
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, '\'')
+            .replace(/&#x3A;/g, ':')
+            // replace all the other &#x; chars
+            .replace(/&#(\d+);/g, function (m, p) { return String.fromCharCode(p); })
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&amp;/g, '&');
+        };
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                content = unescapeHtml(content);
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });</script><script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script><script>$(".highlight").not(".gist .highlight").each(function(t,e){var n=$("<div>").addClass("highlight-wrap");$(e).after(n),n.append($("<button>").addClass("copy-btn").append("复制").on("click",function(t){var e=$(this).parent().find(".code").find(".line").map(function(t,e){return $(e).text()}).toArray().join("\n"),n=document.createElement("textarea"),o=window.pageYOffset||document.documentElement.scrollTop;n.style.top=o+"px",n.style.position="absolute",n.style.opacity="0",n.readOnly=!0,n.value=e,document.body.appendChild(n),n.select(),n.setSelectionRange(0,e.length),n.readOnly=!1,document.execCommand("copy")?$(this).text("复制成功"):$(this).text("复制失败"),n.blur(),$(this).blur()})).on("mouseleave",function(t){var e=$(this).find(".copy-btn");setTimeout(function(){e.text("复制")},300)}).append(e)})</script></body></html>
