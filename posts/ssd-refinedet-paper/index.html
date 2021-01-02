@@ -1,0 +1,391 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SSD-RefineDet论文阅读 | 自拙集</title><meta name="keywords" content="computer vision,deep learning,object detection"><meta name="author" content="Richard YU"><meta name="copyright" content="Richard YU"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="SSDpaper 参考：1 SSD是一篇写得非常好，读起来也非常舒服的文章。  写于fater rcnn之后，所以anchor不是新思想，新思想是多个尺寸的feature map然后分别设置不同尺寸的anchor去预测和回归，有特征金字塔的萌芽  Our improvements include using a small convolutional filter to predict objec">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSD-RefineDet论文阅读">
+<meta property="og:url" content="http://densecollections.top/posts/ssd-refinedet-paper/index.html">
+<meta property="og:site_name" content="自拙集">
+<meta property="og:description" content="SSDpaper 参考：1 SSD是一篇写得非常好，读起来也非常舒服的文章。  写于fater rcnn之后，所以anchor不是新思想，新思想是多个尺寸的feature map然后分别设置不同尺寸的anchor去预测和回归，有特征金字塔的萌芽  Our improvements include using a small convolutional filter to predict objec">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.unsplash.com/photo-1606870655612-8eacd813984d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">
+<meta property="article:published_time" content="2020-08-03T13:25:33.000Z">
+<meta property="article:modified_time" content="2021-01-01T12:09:51.328Z">
+<meta property="article:author" content="Richard YU">
+<meta property="article:tag" content="computer vision">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="object detection">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1606870655612-8eacd813984d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://densecollections.top/posts/ssd-refinedet-paper/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Richard YU","link":"链接: ","source":"来源: 自拙集","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2021-01-01 20:09:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="自拙集" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://raw.githubusercontent.com/Richardyu114/minds-thoughts-and-resources-about-research-/master/images/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/PaperStation/"><i class="fa-fw fas fa-edit"></i><span> PaperStation</span></a></div><div class="menus_item"><a class="site-page" href="/MindWandering/"><i class="fa-fw fas fa-paper-plane"></i><span> MindWandering</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1606870655612-8eacd813984d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">自拙集</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/PaperStation/"><i class="fa-fw fas fa-edit"></i><span> PaperStation</span></a></div><div class="menus_item"><a class="site-page" href="/MindWandering/"><i class="fa-fw fas fa-paper-plane"></i><span> MindWandering</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">SSD-RefineDet论文阅读</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-08-03T13:25:33.000Z" title="发表于 2020-08-03 21:25:33">2020-08-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-01-01T12:09:51.328Z" title="更新于 2021-01-01 20:09:51">2021-01-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>24分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="SSD"><a href="#SSD" class="headerlink" title="SSD"></a>SSD</h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1512.02325.pdf">paper</a></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/33544892">1</a></p>
+<p>SSD是一篇写得非常好，读起来也非常舒服的文章。</p>
+<hr>
+<p>写于fater rcnn之后，所以anchor不是新思想，新思想是多个尺寸的feature map然后分别设置不同尺寸的anchor去预测和回归，有特征金字塔的萌芽</p>
+<blockquote>
+<p>Our improvements include using a small convolutional filter to predict object categories and offsets in bounding box locations, using separate predictors (filters) for different aspect ratio detections, and applying these filters to multiple feature maps from the later stages of a network in order to perform detection at multiple scales</p>
+</blockquote>
+<p><img src="/.top//SSD.JPG" alt></p>
+<a id="more"></a>
+<p>backbone使用VGG16，但是把fc6和fc7换成了卷积，其中conv5_出来后的maxpool5的$2\times2$, $s=2$换成了$3\times3$, $s=1$的，没有改变尺寸大小，fc6换成了卷积层并使用使用了空洞卷积，增大感受野，去掉了fc8层，直接接上卷积层进行特征抽取和预测。为什么要在maxpool5和fc6这里做如此处理呢？作者在论文的实验分析部分指出，如果单纯只是用原始vgg16 conv5_3来作预测，效果没有太大变化，但是速度会比使用空洞卷积慢20%左右，这里可能是为了速度上的工程考量。在后续自己的工作中，似乎可以考虑实验下空洞卷积带来的作用。</p>
+<p>此外，由于用了VGG16种的conv4_3作为第一个预测层，相比于其他层比较靠前，论文中用了<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1506.04579">parseNet</a>的L2 normalization对每个像素在channel层面上做了归一化（跟layer norm不一样，在图像上layer norm是CHW做了归一化，保留N维度）。这样处理是想匹配特征数据范围，便于模型收敛。但是具体原因应该还是实际实验发现的，不然也不会只L2 NORM一个层，其具体计算公式为：</p>
+<script type="math/tex; mode=display">
+y_{i}=\frac{x_{i}}{\sqrt{\sum_{i=1}^{D} x_{i}^{2}}}</script><p>计算完之后还需要乘上指定的scale参数进行缩放。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">norm &#x3D; conv4_3_feats.pow(2).sum(dim&#x3D;1, keepdim&#x3D;True).sqrt()+1e-10  # (N, 1, 38, 38)</span><br><span class="line">conv4_3_feats &#x3D; conv4_3_feats &#x2F; norm  # (N, 512, 38, 38)</span><br><span class="line">conv4_3_feats &#x3D; conv4_3_feats * self.rescale_factors  # (N, 512, 38, 38)</span><br></pre></td></tr></table></figure>
+<p>更多相关代码示例见<a target="_blank" rel="noopener" href="https://blog.csdn.net/flyfish1986/article/details/105586716">此</a>，以及作者对于SSD中对Conv4_3做归一化，加入variance的<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/39399799">解释</a>。</p>
+<p>利用卷积来预测框的偏移量和类别置信度，所以最后得卷积核数量为$(C+4)k$，其中k为anchor的预设数量，C包含了背景类。</p>
+<p>如何获得GT:</p>
+<blockquote>
+<p>We begin by matching each ground truth box to the default box with the best jaccard overlap (as in MultiBox [7]). Unlike MultiBox, we then match default boxes to any ground truth with jaccard overlap higher than a threshold (0.5).</p>
+</blockquote>
+<p>anchor box和GT取IOU，大于阈值0.5的就匹配上，负责预测该GT（可以一个GT匹配多个anchor box但是反过来不行，如果出现这样的情况，那么该anchor box只会取与某个GT有最大IOU的）</p>
+<p>但是anchor box不是通过该feature map的感受野去匹配的，而是人为指定的scale和中心，原文是最浅的层scale是0.2，最深的层scale是0.9（相对与原图而言），anchor scale为{1, 2,3,1/2,1/3,1’}，这个1’是每个特征图单独指定的，与1对应的区域大小不一样。虽然anchor scale设置了6个，对应的大小也有相应的公式，但是并不是每一个feature map上都用了全部的anchor scale,大小的公式推导也只是针对后面新增的特征图，vgg16 head里用来预测的是单独设置的，原文中也对此做了详细说明：</p>
+<blockquote>
+<p>Figure 2 shows the architecture details of the SSD300 model. We use <strong>conv4_3, conv7 (fc7), conv8_2, conv9_2, conv10_2, and conv11_2 to predict</strong> both location and confidences. <strong>We set default box with scale 0.1 on conv4_3</strong>  . We initialize the parameters for all the newly added convolutional layers with the ”xavier” method [20]. <strong>For conv4_3, conv10_2 and conv11_2, we only associate 4 default boxes</strong> at each feature map location – omitting aspect ratios of $\frac{1}{3}$ and 3. For all other layers, we put 6 default boxes as described in Sec. 2.2. Since, as pointed out in [12], conv4_3 has a different feature scale compared to the other layers, we use the <strong>L2 normalization</strong> technique introduced in [12] to scale the feature norm at each location in the feature map to 20 and learn the scale during back propagation.</p>
+</blockquote>
+<p>为了更清楚整体的流程和一些细节，我这里直接贴出参考的博客<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/33544892">1</a>中的解释：</p>
+<p><img src="/.top//SSD_anchor1.JPG" alt></p>
+<p><img src="/.top//SSD_anchor2.JPG" alt></p>
+<p>由于特征图每个cell内部都设置了几个同样的大小和长宽比的anchor，其对应的中心就是特征图cell的中心放大该特征图下采样倍数对应到原图区域的中心位置。</p>
+<p>损失函数与faster rcnn相同，offset的预测类型也是一样的，回归用smooth L1，分类用softmax加交叉熵，两者之间的权重通过交叉验证设置为1</p>
+<p>hard negative mining，通过对负样本进行抽样，抽样时按照置信度误差（预测背景的置信度越小，误差越大）进行降序排列，选取误差的较大的top-k作为训练的负样本，尽量控制正负样本比例在1：3左右</p>
+<p>关于为何选择多尺度feature map而不是利用多尺度图片进行训练：</p>
+<blockquote>
+<p>To handle different object scales, some methods [4,9] suggest processing the image at different sizes and combining the results afterwards. However, by utilizing feature maps from several different layers in a single network for prediction we can mimic the same effect, while also sharing parameters across all object scales.</p>
+</blockquote>
+<p>对小物体检测效果差，因为结构上是从浅层去检测，语义信息不够充分。</p>
+<blockquote>
+<p>Figure 4 shows that SSD is very sensitive to the bounding box size. In other words, it has much worse performance on smaller objects than bigger objects. This is not surprising because those small objects may not even have any information at the very top layers.</p>
+</blockquote>
+<p>相较于faster rcnn，对data augumentation（random crop去zoom in图像类似的操作，其实在这一点上，我觉得yolo v4的“马赛克”数据增强手段有异曲同工之妙，可以说是增强普适版，这种数据增强操作对一阶的object detection似乎是标配）的依赖很重，原文的结果表示加了数据增强会比不加高8-9个点，作者认为可能是faster rcnn feature pooling这一步会让模型对物体的translation更加鲁棒，”use a feature pooling step during classification that is relatively robust to object translation by design”</p>
+<p>最后总结了当时的目标检测思路，将SSD与主流的方法进行了比较，其中我认为关键的地方在于作者指出，SSD其实就是相当于faster rcnn中的RPN:</p>
+<blockquote>
+<p>Our SSD is very similar to the region proposal network (RPN) in Faster R-CNN in that we also use a fixed set of (default) boxes for prediction, similar to the anchor boxes in the RPN. But instead of using these to pool features and evaluate another classifier, we simultaneously produce a score for each object category in each box. Thus, our approach avoids the complication of merging RPN with Fast R-CNN and is easier to train, faster, and straightforward to integrate in other tasks.</p>
+</blockquote>
+<h2 id="RefineDet"><a href="#RefineDet" class="headerlink" title="RefineDet"></a>RefineDet</h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1711.06897">paper</a>, <a target="_blank" rel="noopener" href="https://github.com/sfzhang15/RefineDet">code</a>，<a target="_blank" rel="noopener" href="https://github.com/lzx1413/PytorchSSD">pytorch版本</a></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/50917804">1</a></p>
+<p><strong>目的：</strong>借鉴一阶检测算法类似SSD的高效率推断和二阶检测算法类似Faster RCNN的高检测率，构建anchor两次回归的二阶段回归模型，但是没有用到图像proposal，只是针对特征图来做。</p>
+<p><strong>结构/思想部分：</strong></p>
+<p>第一阶段：</p>
+<blockquote>
+<p>(1)  filter  out  negative anchors to reduce search space for the classifier, and (2)  coarsely  adjust  the  locations  and  sizes  of  anchors  to provide  better  initialization  for  the  subsequent  regressor.</p>
+</blockquote>
+<p>第二阶段：</p>
+<blockquote>
+<p>The  latter  module  takes  the  refined  anchors  as  the  input from the former to further improve the regression and predict  multi-class  label. </p>
+</blockquote>
+<p>第一阶段与faster rcnn类似，分出positive的anchor box，也就是包含物体，非background，并作一些修正，第二阶段用的特征图会在第一阶段的基础上继续做一些特征提取和融合操作，以增强多分类和回归效果。</p>
+<p><img src="/.top//refinedet.JPG" alt="refinedet结构图，可以看出，大致是RPN+FPN+RPN堆叠起来的。论文中给的三个模块名称分别为ARM+TCB+ODM"></p>
+<p>第一阶段，每个特征图的grid cell固定了几个anchor box，然后预测四个offset，针对原始设定的anchor而言，并且给出foreground置信度</p>
+<p>ARM和ODM的特征图维度相同</p>
+<p>ARM中negative box的negative 置信度大于阈值（0.99）就丢掉，预测的时候也是，ARM只传递hard negative anchor boxes和修正过的positive anchor boxes给ODM</p>
+<p><img src="/.top//TCB.JPG" alt="TCB的结构图，逐级与高层特征图进行侧向连接"></p>
+<p><strong>训练/推理部分：</strong></p>
+<p>数据增强：crop，expand, flipping等，与SSD类似</p>
+<p>backbone：采用vgg16或者resnet101，以VGG16为例，把最后两层全连接层fc_6, fc_7去掉，加入两个卷积层conv_fc6, conv_fc7，接在pool5后面的卷积层conv_fc6和SSD一样做了空洞卷积（dilation=6），在conv_fc7之后又接了两个卷积层，其中最后一个用了stride=2进行下采样，预测的特征图是Conv4_3, Conv_5_3, Conv6_1, Conv6_2，前面两个也做了跟SSD一样的L2 norm操作。所欲预测的特征图分别对原图下采样了8，16，32，64倍，每个特征图安排一个大小（4乘以下采样倍数）的和三个不同长宽比（0.5，1，2）的anchors，匹配原则：首先让每个GT匹配与其有最大IOU的anchor，然后再让anchor匹配与其IOU大于0.5的GT，这一点与SSD相同。</p>
+<blockquote>
+<p>Specifically, we first match each ground truth to the anchorbox with the best overlap score, and then match the anchorboxes to any ground truth with overlap higher than0.5</p>
+</blockquote>
+<p>hard negative mining：与SSD相同，选择那些负样本分类置信度小的，也就是loss大的，进行排序，保持正负样本在1：3左右或者更高，</p>
+<p>loss function: 分ARM和ODM两部分。类似faster rcnn的rpn和fast rcnn, 分类都采用交叉熵，回归采用smooth L1，论文中四个损失函数之间没有权重设置，都是等比例贡献，如下所示。N代表positive anchor的数量，只对正样本回归，但是分类对正负样本都会进行，且如前所述，ARM会把难分的负样本传给ODM继续分类。论文中还提到，如果ARM或者ODM中的N为0，那么分类和回归损失都置为0。</p>
+<script type="math/tex; mode=display">\begin{array}{l}
+\mathcal{L}\left(\left\{p_{i}\right\},\left\{x_{i}\right\},\left\{c_{i}\right\},\left\{t_{i}\right\}\right)=\frac{1}{N_{\text {arm }}}\left(\sum_{i} \mathcal{L}_{\mathrm{b}}\left(p_{i},\left[l_{i}^{*} \geq 1\right]\right)\right. 
+\left.+\sum_{i}\left[l_{i}^{*} \geq 1\right] \mathcal{L}_{\mathrm{r}}\left(x_{i}, g_{i}^{*}\right)\right)+  \frac{1}{N_{\text {odm }}}\left(\sum_{i} \mathcal{L}_{\mathrm{m}}\left(c_{i}, l_{i}^{*}\right)\right. 
+\left.+\sum_{i}\left[l_{i}^{*} \geq 1\right] \mathcal{L}_{\mathrm{r}}\left(t_{i}, g_{i}^{*}\right)\right)
+\end{array}</script><p>训练：采用pretrained model，batch_size=32, 新增的卷积层采用“Xavier”方法初始化权重，采用带动量（0.9）的SGD训练，weight decay为0.0005，初始学习率为0.001，后续会随着迭代次数增加而调整。</p>
+<p>推理：ARM先去掉置信度高的负样本（跟阈值比较），然后对剩下的anchors进行回归refine，输送给ODM，ODM进一步分类和refine输出top400的框，然后利用NMS（阈值0.45）筛选，然后最多留下200的框产生最后的结果</p>
+<p>结果：300的图片可以达到0.8的mAP (PASCAL VOC)，Titan X上可以达到40FPS，512的输入尺度，速度掉到了24FPS，几乎一半。</p>
+<p>这里根据博客1提到的pytorch源码，其实一阶段对anchor的抑制并没有做，而是全部送到了ODM，然后ODM根据ARM的置信度和当前的分类置信度一起筛选anchor.</p>
+<blockquote>
+<p><strong>这个操作可能是我理解有误，在pytorch_refindet未有体现，实际上ARM中所有anchor都直接传到了ODM中，但ARM中所有anchor确实完成了1st-stage的refine，ODM中为每个anchor进一步预测2nd-stage的bbox reg + cls，结合1st-stage的objectness得分 + 2nd-stage的bbox cls（具体类别）得分，一起筛选有效anchor，并结合2nd-stage的bbox reg预测结果，完成2nd-stage的refine后，最后NMS输出结果；</strong></p>
+</blockquote>
+<p>refinedet结构pytorch<a target="_blank" rel="noopener" href="https://github.com/lzx1413/PytorchSSD/blob/master/models/RefineSSD_vgg.py">代码</a>（以VGG16为backbone）：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import os</span><br><span class="line">import torch</span><br><span class="line">import torch.nn as nn</span><br><span class="line">import torch.nn.functional as F</span><br><span class="line"></span><br><span class="line">from layers import *</span><br><span class="line">from .base_models import vgg, vgg_base</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def vgg(cfg, i&#x3D;3, batch_norm&#x3D;False):</span><br><span class="line">    layers &#x3D; []</span><br><span class="line">    in_channels &#x3D; i</span><br><span class="line">    for v in cfg:</span><br><span class="line">        if v &#x3D;&#x3D; &#39;M&#39;:</span><br><span class="line">            layers +&#x3D; [nn.MaxPool2d(kernel_size&#x3D;2, stride&#x3D;2)]</span><br><span class="line">        elif v &#x3D;&#x3D; &#39;C&#39;:</span><br><span class="line">            layers +&#x3D; [nn.MaxPool2d(kernel_size&#x3D;2, stride&#x3D;2, ceil_mode&#x3D;True)]</span><br><span class="line">        else:</span><br><span class="line">            conv2d &#x3D; nn.Conv2d(in_channels, v, kernel_size&#x3D;3, padding&#x3D;1)</span><br><span class="line">            if batch_norm:</span><br><span class="line">                layers +&#x3D; [conv2d, nn.BatchNorm2d(v), nn.ReLU(inplace&#x3D;True)]</span><br><span class="line">            else:</span><br><span class="line">                layers +&#x3D; [conv2d, nn.ReLU(inplace&#x3D;True)]</span><br><span class="line">            in_channels &#x3D; v</span><br><span class="line">    pool5 &#x3D; nn.MaxPool2d(kernel_size&#x3D;2, stride&#x3D;2, padding&#x3D;0)</span><br><span class="line">    conv6 &#x3D; nn.Conv2d(512, 1024, kernel_size&#x3D;3, padding&#x3D;6, dilation&#x3D;6)</span><br><span class="line">    conv7 &#x3D; nn.Conv2d(1024, 1024, kernel_size&#x3D;1)</span><br><span class="line">    layers +&#x3D; [pool5, conv6,</span><br><span class="line">               nn.ReLU(inplace&#x3D;True), conv7, nn.ReLU(inplace&#x3D;True)]</span><br><span class="line">    return layers</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">vgg_base &#x3D; &#123;</span><br><span class="line">    &#39;320&#39;: [64, 64, &#39;M&#39;, 128, 128, &#39;M&#39;, 256, 256, 256, &#39;C&#39;, 512, 512, 512, &#39;M&#39;,</span><br><span class="line">            512, 512, 512],</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class RefineSSD(nn.Module):</span><br><span class="line">    &quot;&quot;&quot;Single Shot Multibox Architecture</span><br><span class="line">    The network is composed of a base VGG network followed by the</span><br><span class="line">    added multibox conv layers.  Each multibox layer branches into</span><br><span class="line">        1) conv2d for class conf scores</span><br><span class="line">        2) conv2d for localization predictions</span><br><span class="line">        3) associated priorbox layer to produce default bounding</span><br><span class="line">           boxes specific to the layer&#39;s feature map size.</span><br><span class="line">    See: https:&#x2F;&#x2F;arxiv.org&#x2F;pdf&#x2F;1512.02325.pdf for more details.</span><br><span class="line">    Args:</span><br><span class="line">        phase: (string) Can be &quot;test&quot; or &quot;train&quot;</span><br><span class="line">        base: VGG16 layers for input, size of either 300 or 500</span><br><span class="line">        extras: extra layers that feed to multibox loc and conf layers</span><br><span class="line">        head: &quot;multibox head&quot; consists of loc and conf conv layers</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">    def __init__(self, size, num_classes, use_refine&#x3D;False):</span><br><span class="line">        super(RefineSSD, self).__init__()</span><br><span class="line">        self.num_classes &#x3D; num_classes</span><br><span class="line">        # TODO: implement __call__ in PriorBox</span><br><span class="line">        self.size &#x3D; size</span><br><span class="line">        self.use_refine &#x3D; use_refine</span><br><span class="line"></span><br><span class="line">        # SSD network</span><br><span class="line">        self.base &#x3D; nn.ModuleList(vgg(vgg_base[&#39;320&#39;], 3))</span><br><span class="line">        # Layer learns to scale the l2 normalized features from conv4_3</span><br><span class="line">        self.L2Norm_4_3 &#x3D; L2Norm(512, 10)</span><br><span class="line">        self.L2Norm_5_3 &#x3D; L2Norm(512, 8)</span><br><span class="line">        self.last_layer_trans &#x3D; nn.Sequential(nn.Conv2d(512, 256, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1),</span><br><span class="line">                                              nn.ReLU(inplace&#x3D;True),</span><br><span class="line">                                              nn.Conv2d(256, 256, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1),</span><br><span class="line">                                              nn.Conv2d(256, 256, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1))</span><br><span class="line">        self.extras &#x3D; nn.Sequential(nn.Conv2d(1024, 256, kernel_size&#x3D;1, stride&#x3D;1, padding&#x3D;0), nn.ReLU(inplace&#x3D;True), \</span><br><span class="line">                                    nn.Conv2d(256, 512, kernel_size&#x3D;3, stride&#x3D;2, padding&#x3D;1), nn.ReLU(inplace&#x3D;True))</span><br><span class="line"></span><br><span class="line">        if use_refine:</span><br><span class="line">            self.arm_loc &#x3D; nn.ModuleList([nn.Conv2d(512, 12, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                          nn.Conv2d(512, 12, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                          nn.Conv2d(1024, 12, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                          nn.Conv2d(512, 12, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                          ])</span><br><span class="line">            self.arm_conf &#x3D; nn.ModuleList([nn.Conv2d(512, 6, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                           nn.Conv2d(512, 6, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                           nn.Conv2d(1024, 6, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                           nn.Conv2d(512, 6, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                           ])</span><br><span class="line">        self.odm_loc &#x3D; nn.ModuleList([nn.Conv2d(256, 12, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                      nn.Conv2d(256, 12, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                      nn.Conv2d(256, 12, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                      nn.Conv2d(256, 12, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                      ])</span><br><span class="line">        self.odm_conf &#x3D; nn.ModuleList([nn.Conv2d(256, 3*num_classes, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                       nn.Conv2d(256, 3*num_classes, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                       nn.Conv2d(256, 3*num_classes, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                       nn.Conv2d(256, 3*num_classes, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1), \</span><br><span class="line">                                       ])</span><br><span class="line">        self.trans_layers &#x3D; nn.ModuleList([nn.Sequential(nn.Conv2d(512, 256, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1),</span><br><span class="line">                                                         nn.ReLU(inplace&#x3D;True),</span><br><span class="line">                                                         nn.Conv2d(256, 256, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1)), \</span><br><span class="line">                                           nn.Sequential(nn.Conv2d(512, 256, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1),</span><br><span class="line">                                                         nn.ReLU(inplace&#x3D;True),</span><br><span class="line">                                                         nn.Conv2d(256, 256, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1)), \</span><br><span class="line">                                           nn.Sequential(nn.Conv2d(1024, 256, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1),</span><br><span class="line">                                                         nn.ReLU(inplace&#x3D;True),</span><br><span class="line">                                                         nn.Conv2d(256, 256, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1)), \</span><br><span class="line">                                           ])</span><br><span class="line">        self.up_layers &#x3D; nn.ModuleList([nn.ConvTranspose2d(256, 256, kernel_size&#x3D;2, stride&#x3D;2, padding&#x3D;0),</span><br><span class="line">                                        nn.ConvTranspose2d(256, 256, kernel_size&#x3D;2, stride&#x3D;2, padding&#x3D;0),</span><br><span class="line">                                        nn.ConvTranspose2d(256, 256, kernel_size&#x3D;2, stride&#x3D;2, padding&#x3D;0), ])</span><br><span class="line">        self.latent_layrs &#x3D; nn.ModuleList([nn.Conv2d(256, 256, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1),</span><br><span class="line">                                           nn.Conv2d(256, 256, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1),</span><br><span class="line">                                           nn.Conv2d(256, 256, kernel_size&#x3D;3, stride&#x3D;1, padding&#x3D;1),</span><br><span class="line">                                           ])</span><br><span class="line"></span><br><span class="line">        self.softmax &#x3D; nn.Softmax()</span><br><span class="line"></span><br><span class="line">    def forward(self, x, test&#x3D;False):</span><br><span class="line">        &quot;&quot;&quot;Applies network layers and ops on input image(s) x.</span><br><span class="line">        Args:</span><br><span class="line">            x: input image or batch of images. Shape: [batch,3*batch,300,300].</span><br><span class="line">        Return:</span><br><span class="line">            Depending on phase:</span><br><span class="line">            test:</span><br><span class="line">                Variable(tensor) of output class label predictions,</span><br><span class="line">                confidence score, and corresponding location predictions for</span><br><span class="line">                each object detected. Shape: [batch,topk,7]</span><br><span class="line">            train:</span><br><span class="line">                list of concat outputs from:</span><br><span class="line">                    1: confidence layers, Shape: [batch*num_priors,num_classes]</span><br><span class="line">                    2: localization layers, Shape: [batch,num_priors*4]</span><br><span class="line">                    3: priorbox layers, Shape: [2,num_priors*4]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        arm_sources &#x3D; list()</span><br><span class="line">        arm_loc_list &#x3D; list()</span><br><span class="line">        arm_conf_list &#x3D; list()</span><br><span class="line">        obm_loc_list &#x3D; list()</span><br><span class="line">        obm_conf_list &#x3D; list()</span><br><span class="line">        obm_sources &#x3D; list()</span><br><span class="line"></span><br><span class="line">        # apply vgg up to conv4_3 relu</span><br><span class="line">        for k in range(23):</span><br><span class="line">            x &#x3D; self.base[k](x)</span><br><span class="line"></span><br><span class="line">        s &#x3D; self.L2Norm_4_3(x)</span><br><span class="line">        arm_sources.append(s)</span><br><span class="line"></span><br><span class="line">        # apply vgg up to conv5_3</span><br><span class="line">        for k in range(23, 30):</span><br><span class="line">            x &#x3D; self.base[k](x)</span><br><span class="line">        s &#x3D; self.L2Norm_5_3(x)</span><br><span class="line">        arm_sources.append(s)</span><br><span class="line"></span><br><span class="line">        # apply vgg up to fc7</span><br><span class="line">        for k in range(30, len(self.base)):</span><br><span class="line">            x &#x3D; self.base[k](x)</span><br><span class="line">        arm_sources.append(x)</span><br><span class="line">        # conv6_2</span><br><span class="line">        x &#x3D; self.extras(x)</span><br><span class="line">        arm_sources.append(x)</span><br><span class="line">        # apply multibox head to arm branch</span><br><span class="line">        if self.use_refine:</span><br><span class="line">            for (x, l, c) in zip(arm_sources, self.arm_loc, self.arm_conf):</span><br><span class="line">                arm_loc_list.append(l(x).permute(0, 2, 3, 1).contiguous())</span><br><span class="line">                arm_conf_list.append(c(x).permute(0, 2, 3, 1).contiguous())</span><br><span class="line">            arm_loc &#x3D; torch.cat([o.view(o.size(0), -1) for o in arm_loc_list], 1)</span><br><span class="line">            arm_conf &#x3D; torch.cat([o.view(o.size(0), -1) for o in arm_conf_list], 1)</span><br><span class="line">        x &#x3D; self.last_layer_trans(x)</span><br><span class="line">        obm_sources.append(x)</span><br><span class="line"></span><br><span class="line">        # get transformed layers</span><br><span class="line">        trans_layer_list &#x3D; list()</span><br><span class="line">        for (x_t, t) in zip(arm_sources, self.trans_layers):</span><br><span class="line">            trans_layer_list.append(t(x_t))</span><br><span class="line">        # fpn module</span><br><span class="line">        trans_layer_list.reverse()</span><br><span class="line">        arm_sources.reverse()</span><br><span class="line">        for (t, u, l) in zip(trans_layer_list, self.up_layers, self.latent_layrs):</span><br><span class="line">            x &#x3D; F.relu(l(F.relu(u(x) + t, inplace&#x3D;True)), inplace&#x3D;True)</span><br><span class="line">            obm_sources.append(x)</span><br><span class="line">        obm_sources.reverse()</span><br><span class="line">        for (x, l, c) in zip(obm_sources, self.odm_loc, self.odm_conf):</span><br><span class="line">            obm_loc_list.append(l(x).permute(0, 2, 3, 1).contiguous())</span><br><span class="line">            obm_conf_list.append(c(x).permute(0, 2, 3, 1).contiguous())</span><br><span class="line">        obm_loc &#x3D; torch.cat([o.view(o.size(0), -1) for o in obm_loc_list], 1)</span><br><span class="line">        obm_conf &#x3D; torch.cat([o.view(o.size(0), -1) for o in obm_conf_list], 1)</span><br><span class="line"></span><br><span class="line">        # apply multibox head to source layers</span><br><span class="line"></span><br><span class="line">        if test:</span><br><span class="line">            if self.use_refine:</span><br><span class="line">                output &#x3D; (</span><br><span class="line">                    arm_loc.view(arm_loc.size(0), -1, 4),  # loc preds</span><br><span class="line">                    self.softmax(arm_conf.view(-1, 2)),  # conf preds</span><br><span class="line">                    obm_loc.view(obm_loc.size(0), -1, 4),  # loc preds</span><br><span class="line">                    self.softmax(obm_conf.view(-1, self.num_classes)),  # conf preds</span><br><span class="line">                )</span><br><span class="line">            else:</span><br><span class="line">                output &#x3D; (</span><br><span class="line">                    obm_loc.view(obm_loc.size(0), -1, 4),  # loc preds</span><br><span class="line">                    self.softmax(obm_conf.view(-1, self.num_classes)),  # conf preds</span><br><span class="line">                )</span><br><span class="line">        else:</span><br><span class="line">            if self.use_refine:</span><br><span class="line">                output &#x3D; (</span><br><span class="line">                    arm_loc.view(arm_loc.size(0), -1, 4),  # loc preds</span><br><span class="line">                    arm_conf.view(arm_conf.size(0), -1, 2),  # conf preds</span><br><span class="line">                    obm_loc.view(obm_loc.size(0), -1, 4),  # loc preds</span><br><span class="line">                    obm_conf.view(obm_conf.size(0), -1, self.num_classes),  # conf preds</span><br><span class="line">                )</span><br><span class="line">            else:</span><br><span class="line">                output &#x3D; (</span><br><span class="line">                    obm_loc.view(obm_loc.size(0), -1, 4),  # loc preds</span><br><span class="line">                    obm_conf.view(obm_conf.size(0), -1, self.num_classes),  # conf preds</span><br><span class="line">                )</span><br><span class="line"></span><br><span class="line">        return output</span><br><span class="line"></span><br><span class="line">    def load_weights(self, base_file):</span><br><span class="line">        other, ext &#x3D; os.path.splitext(base_file)</span><br><span class="line">        if ext &#x3D;&#x3D; &#39;.pkl&#39; or &#39;.pth&#39;:</span><br><span class="line">            print(&#39;Loading weights into state dict...&#39;)</span><br><span class="line">            self.load_state_dict(torch.load(base_file, map_location&#x3D;lambda storage, loc: storage))</span><br><span class="line">            print(&#39;Finished!&#39;)</span><br><span class="line">        else:</span><br><span class="line">            print(&#39;Sorry only .pth and .pkl files supported.&#39;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def build_net(size&#x3D;320, num_classes&#x3D;21, use_refine&#x3D;False):</span><br><span class="line">    if size !&#x3D; 320:</span><br><span class="line">        print(&quot;Error: Sorry only SSD300 and SSD512 is supported currently!&quot;)</span><br><span class="line">        return</span><br><span class="line"></span><br><span class="line">    return RefineSSD(size, num_classes&#x3D;num_classes, use_refine&#x3D;use_refine)</span><br></pre></td></tr></table></figure>
+<h2 id="RefineDet-1"><a href="#RefineDet-1" class="headerlink" title="RefineDet++"></a>RefineDet++</h2><p><a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/9058700">paper</a>；</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Dt411p7TN?from=search&amp;seid=12388514684040581306">video</a>；</p>
+<p>原作者对CVPR论文进行了丰富，整体结构没什么区别，主要不同是在第二阶段的分类和回归中使用AlignConv来进行操作。</p>
+<p>这样设计的原因是修正后的anchor和特征之间存在不对齐的问题。回顾下经典的two-stage目标检测器faster rcnn，先利用anchor找出修正原图的proposal，然后利用ROI Pooling在特征图上抠出修正后的proposal对应的特征区域，RPN和fast rcnn阶段没有直接的联系。这样的话可以保证每次回归都是在对应的特征上进行，不容易被干扰。one-stage检测器由于没有这个区域抠取的操作，只是在同样的特征图上进行，分类和回归，每个特征图上的像素点可能设置了不同大小的anchor，而该特征图对应的感受野是一定的，所以不一定可以让检测效果好，SSD的多尺度特征图预测以及FPN可以在一定程度上解决该问题。在refinedet这里，第二阶段利用的特征图来自于第一阶段，在位置上没做改变，所以还是在原始的位置进行预测，但是第一阶段已经对anchor进行修正，它所对应的特征可能已经偏移了，所以依然没解决特征不对齐的问题。后来图森的AlignDet对二阶段的卷积做了处理，优化了refinedet的检测结果，其中相关的知乎问题解释了refinedet的这个问题，链接在<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/338959309/answer/780051681">此</a>，有关AlignDet和RePoints后面会接着讲。</p>
+<p>实际上，目标检测中的Feature Alignment是目前提及比较多的问题，参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42096202/article/details/105178855">1</a>的总结，主要分为两个部分：</p>
+<p>1.分类和回归的不匹配，大意是分类和回归我们不应该用同样的特征，毕竟不是同一个任务，两者对特征的精细度要求也不同，像faster rcnn最后拿了ROI Pooling的特征之后共享给了分类和回归任务；</p>
+<p>2.anchor based方法由于预设了不同尺寸，对于一个特征图来说，感受野固定，特征不对齐；一阶的级联回归，如果使用同样位置的特征图，修正后的anchor对应的区域已经发生改变，此时第二阶段的特征区域却没有对应改变；</p>
+<p>这篇<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/114700229">博客</a>根据以上两个问题做了一个论文综述。在这里具体细节和方法暂时先不展开谈，等后续看完相关论文，搞清楚了这些问题再具体开一篇博客详说。</p>
+<p><img src="/.top//refinedet++.JPG" alt="refinedet++结构和alignconv操作细节"></p>
+<p><img src="/.top//AlignConv.JPG" alt="alignconv设计背景"></p>
+<p>论文中给出的AlignConv具体实现步骤如下：</p>
+<blockquote>
+<p>To this end, we design an alignment convolution operation(AlignConv), which uses the aligned feature from the refined anchors  to  predict  multi-class  labels  and  regress  accurate object locations, as shown in Fig. 3(c). Specifically, the newly designed AlignConv operation conducts convolution operation based on computed offsets from the refined anchors. Denoting each refined anchor with a four-tuple (x,y,h,w) that specifies the  top-left  corner  (x,y)  and  height  and  width  (h,w),  theAlignConv is conducted as follows. <strong>First, after taking the re-fined anchors from ARM, we equally divide the regions of the refined anchors into K×K parts</strong>, where K is the kernel size of convolution operation. The center of each part is computed as: for the part at i-th row and j-th column, the center locationis$(x+\frac{(2i-1)<em>w}{2K}，y+\frac{(2i-1)</em>h}{2K})$. <strong>Second, we multiply the feature values at the K×K part centers in refined anchors with the corresponding parameters of the convolution filter</strong>, see Fig. 1.In  this  way,  we  successfully  extract  more  accurate  features that  are  aligned  to  the  refined  anchors  for  object  detection.In contrast to existing deformable convolution methods [65]–[67] that learn the offsets by convolution operation with extra parameters, our AlignConv conducts the convolution with the guidance from the refined anchors of the ARM, which is more suitable for RefineDet++ and produces better performance.</p>
+</blockquote>
+<p>大意就是根据ARM修正后的anchor区域，来对ODM的卷积偏移一个offset，根据修正的anchor区域来调整卷积区域，不再是原来的的区域，类似可变形卷积，但是比较奇怪的是，作者在论文中也用可变形卷积代替，结果反而更差了。加了这个操作后，速度下降明显，毕竟割裂了连续的卷积操作，精度大概涨了1个点左右。</p>
+<h2 id="AlignDet"><a href="#AlignDet" class="headerlink" title="AlignDet"></a>AlignDet</h2><p>repoints</p>
+<p>Cascade RetinaNet解释了这个问题</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/78026765">https://zhuanlan.zhihu.com/p/78026765</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/114700229">https://zhuanlan.zhihu.com/p/114700229</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Richard YU</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://densecollections.top/posts/ssd-refinedet-paper/">http://densecollections.top/posts/ssd-refinedet-paper/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://densecollections.top" target="_blank">自拙集</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/computer-vision/">computer vision</a><a class="post-meta__tags" href="/tags/deep-learning/">deep learning</a><a class="post-meta__tags" href="/tags/object-detection/">object detection</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ff01204250e8048" async="async"></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/houjieC++STL/"><img class="next-cover" src="https://images.unsplash.com/photo-1608488426085-c8b7e9e4592f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1351&amp;q=80" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">侯捷c++STL体系结构与内核分析</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/RCNNseries-2/" title="RCNN-series-in-object-detection(续)"><img class="cover" src="https://images.unsplash.com/photo-1608153498891-e895052f0cbe?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-01-10</div><div class="title">RCNN-series-in-object-detection(续)</div></div></a></div><div><a href="/posts/BriefreviewofObjectdetection/" title="A Brief Review of Object Detection and Semantic Segmentation"><img class="cover" src="https://images.unsplash.com/photo-1595769393754-418cb8bf6b14?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1355&q=80" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-02-27</div><div class="title">A Brief Review of Object Detection and Semantic Segmentation</div></div></a></div><div><a href="/posts/yolopaperreading/" title="yolo系列论文阅读笔记"><img class="cover" src="https://images.unsplash.com/photo-1608971222449-15661fc7bdb6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-06-04</div><div class="title">yolo系列论文阅读笔记</div></div></a></div><div><a href="/posts/RCNNseries-1/" title="RCNN series in object detection"><img class="cover" src="https://images.unsplash.com/photo-1608488426085-c8b7e9e4592f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-11-30</div><div class="title">RCNN series in object detection</div></div></a></div><div><a href="/posts/worksummaryofintern/" title="实习痰涂片项目总结"><img class="cover" src="https://images.unsplash.com/photo-1608488426085-c8b7e9e4592f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-04</div><div class="title">实习痰涂片项目总结</div></div></a></div><div><a href="/posts/megviidlcourse/" title="旷视2017年深度学习实践课程"><img class="cover" src="https://images.unsplash.com/photo-1606870655612-8eacd813984d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-02-25</div><div class="title">旷视2017年深度学习实践课程</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://raw.githubusercontent.com/Richardyu114/minds-thoughts-and-resources-about-research-/master/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Richard YU</div><div class="author-info__description">Today everything exists to end in a photograph</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Richardyu114"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://twitter.com/Yu1145635107" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a><a class="social-icon" href="https://instagram.com/d.h.richard" target="_blank" title="Instagram"><i class="fab fa-instagram-square"></i></a><a class="social-icon" href="https://weibo.com/u/5211687990" target="_blank" title="Weibo"><i class="fab fa-weibo"></i></a><a class="social-icon" href="https://www.douban.com/people/161993653/" target="_blank" title="豆瓣"><i class="fas fa-bookmark"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SSD"><span class="toc-number">1.</span> <span class="toc-text">SSD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RefineDet"><span class="toc-number">2.</span> <span class="toc-text">RefineDet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RefineDet-1"><span class="toc-number">3.</span> <span class="toc-text">RefineDet++</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AlignDet"><span class="toc-number">4.</span> <span class="toc-text">AlignDet</span></a></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/ssd-refinedet-paper/" title="SSD-RefineDet论文阅读"><img src="https://images.unsplash.com/photo-1606870655612-8eacd813984d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SSD-RefineDet论文阅读"/></a><div class="content"><a class="title" href="/posts/ssd-refinedet-paper/" title="SSD-RefineDet论文阅读">SSD-RefineDet论文阅读</a><time datetime="2020-08-03T13:25:33.000Z" title="发表于 2020-08-03 21:25:33">2020-08-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/houjieC++STL/" title="侯捷c++STL体系结构与内核分析"><img src="https://images.unsplash.com/photo-1608488426085-c8b7e9e4592f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1351&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="侯捷c++STL体系结构与内核分析"/></a><div class="content"><a class="title" href="/posts/houjieC++STL/" title="侯捷c++STL体系结构与内核分析">侯捷c++STL体系结构与内核分析</a><time datetime="2020-06-12T08:24:02.000Z" title="发表于 2020-06-12 16:24:02">2020-06-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/yolopaperreading/" title="yolo系列论文阅读笔记"><img src="https://images.unsplash.com/photo-1608971222449-15661fc7bdb6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=675&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="yolo系列论文阅读笔记"/></a><div class="content"><a class="title" href="/posts/yolopaperreading/" title="yolo系列论文阅读笔记">yolo系列论文阅读笔记</a><time datetime="2020-06-04T01:53:54.000Z" title="发表于 2020-06-04 09:53:54">2020-06-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/houjieC++/" title="侯捷C++面向对象程序设计"><img src="https://images.unsplash.com/photo-1608153498891-e895052f0cbe?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="侯捷C++面向对象程序设计"/></a><div class="content"><a class="title" href="/posts/houjieC++/" title="侯捷C++面向对象程序设计">侯捷C++面向对象程序设计</a><time datetime="2020-05-28T08:48:27.000Z" title="发表于 2020-05-28 16:48:27">2020-05-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/loopdetectioninBipartitegraph/" title="二分图搜无向定长环"><img src="https://images.unsplash.com/photo-1608971222449-15661fc7bdb6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=675&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="二分图搜无向定长环"/></a><div class="content"><a class="title" href="/posts/loopdetectioninBipartitegraph/" title="二分图搜无向定长环">二分图搜无向定长环</a><time datetime="2020-05-08T02:41:32.000Z" title="发表于 2020-05-08 10:41:32">2020-05-08</time></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://images.unsplash.com/photo-1606870655612-8eacd813984d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80)"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2021 By Richard YU</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">It's hard to tell that the world we live in is either a reality or a dream.</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="rightside.chat_btn"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.spacingElementById('content-inner')
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    loader: {
+      source: {
+        '[tex]/amsCd': '[tex]/amscd'
+      }
+    },
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        addClass: [200,() => {
+          document.querySelectorAll('mjx-container:not([display=\'true\']').forEach( node => {
+            const target = node.parentNode
+            if (!target.classList.contains('has-jax')) {
+              target.classList.add('mathjax-overflow')
+            }
+          })
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>function loadValine () {
+  function initValine () {
+    let initData = {
+      el: '#vcomment',
+      appId: 'duGoywhUmLrx9pM6qQhmf47c-gzGzoHsz',
+      appKey: 'm7fc8w4Di5qnAXXaJ5Gp3Pgg',
+      placeholder: '欢迎评论！请留下你的邮箱',
+      avatar: 'robohash',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+    
+    if (false) {
+      const otherData = false
+      initData = Object.assign({}, initData, otherData)
+    }
+    
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>(function(){
+  const bp = document.createElement('script');
+  const curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  bp.dataset.pjax = ''
+  const s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})()</script></div></body></html>

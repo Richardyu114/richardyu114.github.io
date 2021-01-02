@@ -1,358 +1,349 @@
-<!DOCTYPE html><html class="theme-next gemini use-motion" lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><script src="/lib/pace/pace.min.js?v=1.0.2"></script><link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2"><meta name="google-site-verification" content="true"><meta name="baidu-site-verification" content="true"><link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css"><link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"><link rel="stylesheet" href="/css/main.css?v=7.1.1"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1"><link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222"><script id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Gemini",version:"7.1.1",sidebar:{position:"left",display:"post",offset:12,onmobile:!1,dimmer:!1},back2top:!0,back2top_sidebar:!1,fancybox:!0,fastclick:!1,lazyload:!1,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><meta name="baidu-site-verification" content="0bqk4mbBLD"><meta name="google-site-verification" content="FvMbHVgnH7FO0GFRzTmOevjSaFwvzIQZv94LdufMMPY"><meta name="description" content="人如果不出去走一走，就无法亲眼见证这个真实的充满偏见的世界，也就无法真正的认识世界和自己。20202020.5.24今天偶然读到的CCF整理的 未来5-10年计算机视觉发展趋势的圆桌讨论，各位老师思想碰撞，给出了不少很深刻的领域见解和思想，非常值得一读。其中提到的几个方向也是我个人觉得比较有价值和意义的：3D machine learning或者三维视觉；主动学习，比如说meta learning"><meta property="og:type" content="website"><meta property="og:title" content="MindWandering"><meta property="og:url" content="http://densecollections.top/MindWandering/index.html"><meta property="og:site_name" content="自拙集"><meta property="og:description" content="人如果不出去走一走，就无法亲眼见证这个真实的充满偏见的世界，也就无法真正的认识世界和自己。20202020.5.24今天偶然读到的CCF整理的 未来5-10年计算机视觉发展趋势的圆桌讨论，各位老师思想碰撞，给出了不少很深刻的领域见解和思想，非常值得一读。其中提到的几个方向也是我个人觉得比较有价值和意义的：3D machine learning或者三维视觉；主动学习，比如说meta learning"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/pinkhassov.jpg"><meta property="og:image" content="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/paper_reading_process.JPG"><meta property="og:image" content="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/yanhua1.jpg"><meta property="og:image" content="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/yanhua2.jpg"><meta property="og:image" content="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/yanhua3.jpg"><meta property="og:image" content="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/yanhua4.jpg"><meta property="og:image" content="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/yanhua5.jpg"><meta property="og:updated_time" content="2020-05-25T02:58:18.471Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="MindWandering"><meta name="twitter:description" content="人如果不出去走一走，就无法亲眼见证这个真实的充满偏见的世界，也就无法真正的认识世界和自己。20202020.5.24今天偶然读到的CCF整理的 未来5-10年计算机视觉发展趋势的圆桌讨论，各位老师思想碰撞，给出了不少很深刻的领域见解和思想，非常值得一读。其中提到的几个方向也是我个人觉得比较有价值和意义的：3D machine learning或者三维视觉；主动学习，比如说meta learning"><meta name="twitter:image" content="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/pinkhassov.jpg"><link rel="alternate" href="/atom.xml" title="自拙集" type="application/atom+xml"><link rel="canonical" href="http://densecollections.top/MindWandering/"><script id="page.configurations">CONFIG.page={sidebar:""}</script><title>MindWandering | 自拙集</title><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-title,.use-motion .comments,.use-motion .menu-item,.use-motion .motion-element,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .logo,.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">自拙集</span> <span class="logo-line-after"><i></i></span></a></div><h1 class="site-subtitle" itemprop="description">Work cures everything</h1></div><div class="site-nav-toggle"><button aria-label="切换导航栏"><span class="btn-bar"></span> <span class="btn-bar"></span> <span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i><br>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i><br>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i><br>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>归档</a></li><li class="menu-item menu-item-paperstation"><a href="/PaperStation/" rel="section"><i class="menu-item-icon fa fa-fw fa-edit"></i><br>PaperStation</a></li><li class="menu-item menu-item-mindwandering menu-item-active"><a href="/MindWandering/" rel="section"><i class="menu-item-icon fa fa-fw fa-paper-plane"></i><br>MindWandering</a></li><li class="menu-item menu-item-search"><a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i><br>搜索</a></li></ul><div class="site-search"><div class="popup search-popup local-search-popup"><div class="local-search-header clearfix"><span class="search-icon"><i class="fa fa-search"></i> </span><span class="popup-btn-close"><i class="fa fa-times-circle"></i></span><div class="local-search-input-wrapper"><input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input"></div></div><div id="local-search-result"></div></div></div></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><div id="posts" class="posts-expand"><div class="post-block page"><header class="post-header"><h2 class="post-title" itemprop="name headline">MindWandering</h2><div class="post-meta"></div></header><div class="post-body"><blockquote class="blockquote-center"><p>人如果不出去走一走，就无法亲眼见证这个真实的充满偏见的世界，也就无法真正的认识世界和自己。</p></blockquote><p><img src="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/pinkhassov.jpg" alt="pinkhassov作品"></p><h2 id="2020"><a href="#2020" class="headerlink" title="2020"></a>2020</h2><h3 id="2020-5-24"><a href="#2020-5-24" class="headerlink" title="2020.5.24"></a>2020.5.24</h3><p>今天偶然读到的CCF整理的<a href="https://mp.weixin.qq.com/s/ZCULMForCTQTub-INlTprA" target="_blank" rel="noopener"> 未来5-10年计算机视觉发展趋势</a>的圆桌讨论，各位老师思想碰撞，给出了不少很深刻的领域见解和思想，非常值得一读。其中提到的几个方向也是我个人觉得比较有价值和意义的：</p><ul><li>3D machine learning或者三维视觉；</li><li>主动学习，比如说meta learning，选择样本/根据目标整条状态；</li><li>视频理解；</li><li>多模态学习；</li><li>可以应对动态环境的视觉系统；</li><li>统一的可处理多种任务的视觉体系，结合NAS网络架构搜索，嵌入式网络压缩剪枝处理等；</li><li>benchmark是否是必须的，很多视觉问题单靠在一个问题的某个数据集上的精度意义不是很大，鲁棒性，抗干扰性以及好的ideas可能是未来视觉发展的有利催化剂；</li><li>生物视觉，探索视觉机制以及可解释性。</li></ul><h3 id="2020-5-19"><a href="#2020-5-19" class="headerlink" title="2020.5.19"></a>2020.5.19</h3><blockquote><p>A paper a day keep the unemployment checks away.</p></blockquote><h3 id="2020-4-19"><a href="#2020-4-19" class="headerlink" title="2020.4.19"></a>2020.4.19</h3><p>斯坦福的CS231N课程和作业终于搞完了，前前后后估计也花一个多月的时间了。在家学习效率不高，容易被叨扰，时间浪费了不少。接下来得好好准备求职需要的一些技能了，抓紧时间闭关刷题，学习思考算法，训练coding的能力。</p><p>该做的还是得做，该有的基础和技术素养还是得具备，没有任何借口可以逃避。</p><p>要么学习，要么思考，别再无聊。work cures everything.</p><h3 id="2020-4-18"><a href="#2020-4-18" class="headerlink" title="2020.4.18"></a>2020.4.18</h3><p>实习春招已经过半，随着身边人的迅速行动和自己刷题计划的搁置，我逐渐紧张焦虑了起来。知乎上和周围的师兄，同行都在劝退深度学习算法工程师，推荐CS老本行开发岗，一时间也搞得我头昏脑胀。晚上烦躁借机和一位与自己跨行经历类似的好朋友通话交流了90多分钟，慢慢地平复了下来。他建议我一是想好自己想做的方向，细化到某个具体的领域，二是结合现在的市场情况以及自己对未来的预估，然后合理地规划自己职业。实际上，道理大家都懂，但是如今的风气和大环境让很多人无法认真地审视自己，盲目跟风不自己思考，一步登天不扎实锤炼。我从大二开始，在各个方向上兜兜转转，最终选择了视觉这块领域，兴趣和乐趣都慢慢培养了出来，我自己不愿放弃，即使现在求职难度相比开发高，大厂基本无望，只是说明暂时我的水平和能力还不足以胜任，因此我还是想继续坚持下去，去研究掌握一又一个专题。实在大不了毕业时候找个其他工作，比如新东方教书啥的先干着养活自己，不可能出现彻底失业的情况。</p><p>其实想想，自己也不能太功利，不能因为可以捞金而去喜欢一个领域，而是应该多带点纯真的热情和赤子之心，或许找个不相干的轻松钱也够花的职业，平时有不少空闲时间可以继续搞些研究，发展发展自己的其他兴趣也不错。人生在世，生活还是应该放在第一位的，即使勉强拿到了大公司的一些算法岗之类的offer，全身心的all-in 工作中估计也是身心俱疲，不如work-life balance来得自在和健康。</p><h3 id="2020-3-19"><a href="#2020-3-19" class="headerlink" title="2020.3.19"></a>2020.3.19</h3><p>凭着自己对胶卷的一股好奇和热情，最近终于把第一次拍完的三卷胶片给洗了出来，希望借此证明选择拍摄胶卷这件事对自己来说是正确的，合适的，可惜扫描出来的效果差强人意。我用的是两卷彩色（富士和柯达）和一卷黑白（伊尔福），彩色的看上去有些欠曝和失焦，整体效果看上去比数码的宽容度差很多，边缘更是差得出奇，可能是由于胶卷过期和阴天拍摄等问题，黑白看上去好点，有一种年代久远的模糊记忆感。从一些胶片博主的经验来看，彩色胶卷确实是在阳光充足的情况下拍会好看很多，黑白的话好像没这些要求，下次如果继续的话得注意这点。</p><p>这次过后，我买胶卷的欲望开始慢慢降下来了，不仅是因为拍摄的技术和环境，还有后期处理的复杂度和长时间。然而对于要不要继续用胶卷拍下去这个问题，我的回答是肯定的，不仅是因为它的的确确可以让我认真地拍摄，还带给我一种事后的故事感，在此之前，我还是希望自己先好好在手头的数码相机上练练技术和对画面、故事、情感的捕捉力，不必再漫无目的地按下快门，而是借着一个主题去寻找。拍照是源于乐趣，而摄影是乐趣之外夹带着自己的表达、纪录和创造的产物。</p><p>永远都要自己记住一点，<strong>照片的意义在任何时候都远比器材的意义大得多</strong>。</p><h3 id="2020-3-06"><a href="#2020-3-06" class="headerlink" title="2020.3.06"></a>2020.3.06</h3><p><img src="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/paper_reading_process.JPG" alt="来自Stanford CS231N课程材料中的建议"></p><p>之前也做过一些阅读和写作理工科论文的总结，比较冗长，后来自己也懒得回溯了。自去年入门DL后陆续看了一些相关的研究论文，私以为上图中所说的阅读方法比较适合，故单独拿出来日后借鉴学习。</p><h3 id="2020-3-04"><a href="#2020-3-04" class="headerlink" title="2020.3.04"></a>2020.3.04</h3><p>今天看到一篇解说数学体系的<a href="https://mp.weixin.qq.com/s?__biz=MjM5MTAyNjcyMA==&amp;mid=2656550501&amp;idx=1&amp;sn=4e1091cd7d7d27a58ce628ea9c5395e0&amp;chksm=bd18c52a8a6f4c3cd2a33f6632e06051e34e1f0dfdea746619895223e79e46f72c157a695f86&amp;mpshare=1&amp;scene=1&amp;srcid=&amp;sharer_sharetime=1583281170527&amp;sharer_shareid=4ed82b8c86f7bdeb368019cfe429ee62&amp;key=3503aa848b16fe5b2dff56c2931087c1026da015d8b445d1e1245c98e11e5407b6ca906fcd62525e02b0a516db85dbf82c2cfe857d90f1792d9c7b9a74e2b984525cc928520a1f6bf649899304c6030a&amp;ascene=1&amp;uin=Mjg0MTMzNDQzMQ%3D%3D&amp;devicetype=Windows+10&amp;version=62080079&amp;lang=zh_CN&amp;exportkey=A3%2FYkEub9J0oHAi%2BQExLJ%2Fo%3D&amp;pass_ticket=QTLRAebj4UcRn5rF39kfrB7G%2BhkKlips89L2ztVuipeoAiXqZeyndhNaZInh%2F4Cj" target="_blank" rel="noopener">微信推送</a>，也正好勾起我继续坚持体系化学习数学的热情。从去年开始，在就读数学专业朋友的鼓动和演说下，收集了很多经典的专业数学书籍，制定了一些大框架的计划，但是进行的不是很顺利，总是会被各种事务或者理由打断。19年年末的时候下定决心从台大数学系的《高等微积分》开始看起，慢慢往实分析，拓扑，李群，微分几何等领域推进，奈何看到第三节又停滞了下来 :)，跳到了其他CS和computer vision的课程上来…</p><p>唉，要是时光能倒流，或者可以选择重来的话，就可以把之前大学本科浪费的时间拿来好好系统学习数学了&gt;_&lt;，可惜那个时候没能早点领悟，也没有遇到可以指点迷津的贵人。</p><h3 id="2020-2-25"><a href="#2020-2-25" class="headerlink" title="2020.2.25"></a>2020.2.25</h3><p>最近又简单了看了下《West World》，发现其中很多重要的细节都忘了，只记得些剧情。其中有个关于阿诺德机器觉醒的金字塔理论，底层是记忆，我们看德洛丽丝等一系列初代机器人的觉醒都是在记忆碎片的触碰“冥思”中不断交织成长而完成的。“记忆”这个词又再一次出现在我脑海里，除了感叹编剧乔纳森·诺兰的高超构思和叙述技艺之外，我也在进一步思考“记忆”对人类的作用，但是讲来讲去也就那么些抽象的东西，诸如连接情感，意志力之类的，不如故事这个载体现的具体和深刻，这也我愈发着迷《索拉里斯》这个小说了，同时也渴望能进一步得到有关记忆的故事…</p><h3 id="2020-1-28"><a href="#2020-1-28" class="headerlink" title="2020.1.28"></a>2020.1.28</h3><p>最近新型冠状病毒流行，各地都出现了不同程度的疫情，弄得大家人人自危，疫情当然也暴露很多国家卫生监管不足，人性复杂等问题，在此不想多作评论，只希望诸位都能牢记历史，过去永不会那么轻易过去。。</p><p>“This year was supposed to be great…”待在家里我突然意识到自己很久没能好好独处下来思考一些东西，甚至连静下心来看书都无法轻易做到，这是个危险的信号。所有我现在的娱乐活动都在稀释我的大脑，将它变得愚钝和麻木。</p><h3 id="2020-1-24"><a href="#2020-1-24" class="headerlink" title="2020.1.24"></a>2020.1.24</h3><p><img src="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/yanhua1.jpg" alt></p><p><img src="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/yanhua2.jpg" alt></p><p><img src="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/yanhua3.jpg" alt></p><p><img src="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/yanhua4.jpg" alt></p><p><img src="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/yanhua5.jpg" alt></p><p>今天是除夕佳节，记忆中就是放烟花，和小伙伴团聚的日子。可是不知道以后放烟花的机会还有多少，随着时光飞逝，身边人各自纷飞，往后的年味不知是否还会这般浓厚。想太多了似乎，还是好好享受当下，珍惜周围爱我们的人。</p></div></div></div></div><div class="comments" id="comments"></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span> <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span> <span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap">站点概览</li></ul><div class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" src="/uploads/header.jpg" alt="Richard YU"><p class="site-author-name" itemprop="name">Richard YU</p><div class="site-description motion-element" itemprop="description">Today everything exists to end in a photograph</div></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"><a href="/archives/"><span class="site-state-item-count">24</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/"><span class="site-state-item-count">13</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/"><span class="site-state-item-count">54</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="feed-link motion-element"><a href="/atom.xml" rel="alternate"><i class="fa fa-rss"></i> RSS</a></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/richardyu114" title="GitHub &rarr; https://github.com/richardyu114" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a> </span><span class="links-of-author-item"><a href="https://twitter.com/Yu1145635107" title="Twitter &rarr; https://twitter.com/Yu1145635107" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a> </span><span class="links-of-author-item"><a href="https://instagram.com/d.h.richard" title="Instagram &rarr; https://instagram.com/d.h.richard" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a> </span><span class="links-of-author-item"><a href="https://weibo.com/u/5211687990" title="Weibo &rarr; https://weibo.com/u/5211687990" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a> </span><span class="links-of-author-item"><a href="https://www.douban.com/people/161993653/" title="豆瓣 &rarr; https://www.douban.com/people/161993653/" rel="noopener" target="_blank"><i class="fa fa-fw fa-paperclip"></i>豆瓣</a></span></div><div class="cc-license motion-element" itemprop="license"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a></div></div></div><div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#2020"><span class="nav-number">1.</span> <span class="nav-text">2020</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2020-5-24"><span class="nav-number">1.1.</span> <span class="nav-text">2020.5.24</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2020-5-19"><span class="nav-number">1.2.</span> <span class="nav-text">2020.5.19</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2020-4-19"><span class="nav-number">1.3.</span> <span class="nav-text">2020.4.19</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2020-4-18"><span class="nav-number">1.4.</span> <span class="nav-text">2020.4.18</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2020-3-19"><span class="nav-number">1.5.</span> <span class="nav-text">2020.3.19</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2020-3-06"><span class="nav-number">1.6.</span> <span class="nav-text">2020.3.06</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2020-3-04"><span class="nav-number">1.7.</span> <span class="nav-text">2020.3.04</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2020-2-25"><span class="nav-number">1.8.</span> <span class="nav-text">2020.2.25</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2020-1-28"><span class="nav-number">1.9.</span> <span class="nav-text">2020.1.28</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2020-1-24"><span class="nav-number">1.10.</span> <span class="nav-text">2020.1.24</span></a></li></ol></li></ol></div></div></div></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2020</span> <span class="with-love" id="animate"><i class="fa fa-user"></i> </span><span class="author" itemprop="copyrightHolder">Richard YU</span> <span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-area-chart"></i> </span><span title="站点总字数">268k</span> <span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-coffee"></i> </span><span title="站点阅读时长">4:03</span></div><div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div><span class="post-meta-divider">|</span><div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.1</div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i></div></div><script>"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script><script src="/lib/jquery/index.js?v=2.1.3"></script><script src="/lib/velocity/velocity.min.js?v=1.2.1"></script><script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script><script src="/lib/three/three.min.js"></script><script src="/lib/three/canvas_lines.min.js"></script><script src="/js/utils.js?v=7.1.1"></script><script src="/js/motion.js?v=7.1.1"></script><script src="/js/affix.js?v=7.1.1"></script><script src="/js/schemes/pisces.js?v=7.1.1"></script><script src="/js/scrollspy.js?v=7.1.1"></script><script src="/js/post-details.js?v=7.1.1"></script><script src="/js/next-boot.js?v=7.1.1"></script><script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script><script src="//unpkg.com/valine/dist/Valine.min.js"></script><script>var GUEST=["nick","mail","link"],guest="nick,mail,link";guest=guest.split(",").filter(function(e){return-1<GUEST.indexOf(e)}),new Valine({el:"#comments",verify:!0,notify:!0,appId:"duGoywhUmLrx9pM6qQhmf47c-gzGzoHsz",appKey:"m7fc8w4Di5qnAXXaJ5Gp3Pgg",placeholder:"欢迎评论！请留下你的邮箱",avatar:"mm",meta:guest,pageSize:"10",visitor:!0,lang:"zh-cn"})</script><script>// Popup Window;
-    var isfetched = false;
-    var isXml = true;
-    // Search DB path;
-    var search_path = "search.xml";
-    if (search_path.length === 0) {
-      search_path = "search.xml";
-    } else if (/json$/i.test(search_path)) {
-      isXml = false;
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    var onPopupClose = function (e) {
-      $('.popup').hide();
-      $('#local-search-input').val('');
-      $('.search-result-list').remove();
-      $('#no-result').remove();
-      $(".local-search-pop-overlay").remove();
-      $('body').css('overflow', '');
-    }
-
-    function proceedsearch() {
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
-        .css('overflow', 'hidden');
-      $('.search-popup-overlay').click(onPopupClose);
-      $('.popup').toggle();
-      var $localSearchInput = $('#local-search-input');
-      $localSearchInput.attr("autocapitalize", "none");
-      $localSearchInput.attr("autocorrect", "off");
-      $localSearchInput.focus();
-    }
-
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-      'use strict';
-
-      // start loading animation
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
-          '<div id="search-loading-icon">' +
-          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
-          '</div>' +
-          '</div>')
-        .css('overflow', 'hidden');
-      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
-
-      
-        // ref: https://github.com/ForbesLindesay/unescape-html
-        var unescapeHtml = function(html) {
-          return String(html)
-            .replace(/&quot;/g, '"')
-            .replace(/&#39;/g, '\'')
-            .replace(/&#x3A;/g, ':')
-            // replace all the other &#x; chars
-            .replace(/&#(\d+);/g, function (m, p) { return String.fromCharCode(p); })
-            .replace(/&lt;/g, '<')
-            .replace(/&gt;/g, '>')
-            .replace(/&amp;/g, '&');
-        };
-      
-
-      $.ajax({
-        url: path,
-        dataType: isXml ? "xml" : "json",
-        async: true,
-        success: function(res) {
-          // get the contents from search data
-          isfetched = true;
-          $('.popup').detach().appendTo('.header-inner');
-          var datas = isXml ? $("entry", res).map(function() {
-            return {
-              title: $("title", this).text(),
-              content: $("content",this).text(),
-              url: $("url" , this).text()
-            };
-          }).get() : res;
-          var input = document.getElementById(search_id);
-          var resultContent = document.getElementById(content_id);
-          var inputEventFunction = function() {
-            var searchText = input.value.trim().toLowerCase();
-            var keywords = searchText.split(/[\s\-]+/);
-            if (keywords.length > 1) {
-              keywords.push(searchText);
-            }
-            var resultItems = [];
-            if (searchText.length > 0) {
-              // perform local searching
-              datas.forEach(function(data) {
-                var isMatch = false;
-                var hitCount = 0;
-                var searchTextCount = 0;
-                var title = data.title.trim();
-                var titleInLowerCase = title.toLowerCase();
-                var content = data.content.trim().replace(/<[^>]+>/g,"");
-                
-                content = unescapeHtml(content);
-                
-                var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
-                var indexOfTitle = [];
-                var indexOfContent = [];
-                // only match articles with not empty titles
-                if(title != '') {
-                  keywords.forEach(function(keyword) {
-                    function getIndexByWord(word, text, caseSensitive) {
-                      var wordLen = word.length;
-                      if (wordLen === 0) {
-                        return [];
-                      }
-                      var startPosition = 0, position = [], index = [];
-                      if (!caseSensitive) {
-                        text = text.toLowerCase();
-                        word = word.toLowerCase();
-                      }
-                      while ((position = text.indexOf(word, startPosition)) > -1) {
-                        index.push({position: position, word: word});
-                        startPosition = position + wordLen;
-                      }
-                      return index;
-                    }
-
-                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
-                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
-                  });
-                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
-                    isMatch = true;
-                    hitCount = indexOfTitle.length + indexOfContent.length;
-                  }
-                }
-
-                // show search results
-
-                if (isMatch) {
-                  // sort index by position of keyword
-
-                  [indexOfTitle, indexOfContent].forEach(function (index) {
-                    index.sort(function (itemLeft, itemRight) {
-                      if (itemRight.position !== itemLeft.position) {
-                        return itemRight.position - itemLeft.position;
-                      } else {
-                        return itemLeft.word.length - itemRight.word.length;
-                      }
-                    });
-                  });
-
-                  // merge hits into slices
-
-                  function mergeIntoSlice(text, start, end, index) {
-                    var item = index[index.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    var hits = [];
-                    var searchTextCountInSlice = 0;
-                    while (position + word.length <= end && index.length != 0) {
-                      if (word === searchText) {
-                        searchTextCountInSlice++;
-                      }
-                      hits.push({position: position, length: word.length});
-                      var wordEnd = position + word.length;
-
-                      // move to next position of hit
-
-                      index.pop();
-                      while (index.length != 0) {
-                        item = index[index.length - 1];
-                        position = item.position;
-                        word = item.word;
-                        if (wordEnd > position) {
-                          index.pop();
-                        } else {
-                          break;
-                        }
-                      }
-                    }
-                    searchTextCount += searchTextCountInSlice;
-                    return {
-                      hits: hits,
-                      start: start,
-                      end: end,
-                      searchTextCount: searchTextCountInSlice
-                    };
-                  }
-
-                  var slicesOfTitle = [];
-                  if (indexOfTitle.length != 0) {
-                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
-                  }
-
-                  var slicesOfContent = [];
-                  while (indexOfContent.length != 0) {
-                    var item = indexOfContent[indexOfContent.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    // cut out 100 characters
-                    var start = position - 20;
-                    var end = position + 80;
-                    if(start < 0){
-                      start = 0;
-                    }
-                    if (end < position + word.length) {
-                      end = position + word.length;
-                    }
-                    if(end > content.length){
-                      end = content.length;
-                    }
-                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
-                  }
-
-                  // sort slices in content by search text's count and hits' count
-
-                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
-                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
-                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
-                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
-                      return sliceRight.hits.length - sliceLeft.hits.length;
-                    } else {
-                      return sliceLeft.start - sliceRight.start;
-                    }
-                  });
-
-                  // select top N slices in content
-
-                  var upperBound = parseInt('1');
-                  if (upperBound >= 0) {
-                    slicesOfContent = slicesOfContent.slice(0, upperBound);
-                  }
-
-                  // highlight title and content
-
-                  function highlightKeyword(text, slice) {
-                    var result = '';
-                    var prevEnd = slice.start;
-                    slice.hits.forEach(function (hit) {
-                      result += text.substring(prevEnd, hit.position);
-                      var end = hit.position + hit.length;
-                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
-                      prevEnd = end;
-                    });
-                    result += text.substring(prevEnd, slice.end);
-                    return result;
-                  }
-
-                  var resultItem = '';
-
-                  if (slicesOfTitle.length != 0) {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
-                  } else {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
-                  }
-
-                  slicesOfContent.forEach(function (slice) {
-                    resultItem += "<a href='" + articleUrl + "'>" +
-                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
-                      "...</p>" + "</a>";
-                  });
-
-                  resultItem += "</li>";
-                  resultItems.push({
-                    item: resultItem,
-                    searchTextCount: searchTextCount,
-                    hitCount: hitCount,
-                    id: resultItems.length
-                  });
-                }
-              })
-            };
-            if (keywords.length === 1 && keywords[0] === "") {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
-            } else if (resultItems.length === 0) {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
-            } else {
-              resultItems.sort(function (resultLeft, resultRight) {
-                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
-                  return resultRight.searchTextCount - resultLeft.searchTextCount;
-                } else if (resultLeft.hitCount !== resultRight.hitCount) {
-                  return resultRight.hitCount - resultLeft.hitCount;
-                } else {
-                  return resultRight.id - resultLeft.id;
-                }
-              });
-              var searchResultList = '<ul class=\"search-result-list\">';
-              resultItems.forEach(function (result) {
-                searchResultList += result.item;
-              })
-              searchResultList += "</ul>";
-              resultContent.innerHTML = searchResultList;
-            }
-          }
-
-          if ('auto' === 'auto') {
-            input.addEventListener('input', inputEventFunction);
-          } else {
-            $('.search-icon').click(inputEventFunction);
-            input.addEventListener('keypress', function (event) {
-              if (event.keyCode === 13) {
-                inputEventFunction();
-              }
-            });
-          }
-
-          // remove loading animation
-          $(".local-search-pop-overlay").remove();
-          $('body').css('overflow', '');
-
-          proceedsearch();
-        }
-      });
-    }
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched === false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(onPopupClose);
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-    $(document).on('keyup', function (event) {
-      var shouldDismissSearchPopup = event.which === 27 &&
-        $('.search-popup').is(':visible');
-      if (shouldDismissSearchPopup) {
-        onPopupClose();
-      }
-    });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MindWandering | 自拙集</title><meta name="keywords" content="computer vision, SLAM, deep learning"><meta name="author" content="Richard YU"><meta name="copyright" content="Richard YU"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="&amp;#123;% centerquote %&amp;#125;&#96;  人如果不出去走一走，就无法亲眼见证这个真实的充满偏见的世界，也就无法真正的认识世界和自己。  &#96;&amp;#123;% endcenterquote %&amp;#125;  20202020.9.23知乎作者Zewei Chu写的我从导师身上学到的几件事，读完后，感动之余，还有几分羡慕。我倒是挺喜欢这样的“放养”模式，也算是培养自己独立研究的习惯。 此">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MindWandering">
+<meta property="og:url" content="http://densecollections.top/MindWandering/index.html">
+<meta property="og:site_name" content="自拙集">
+<meta property="og:description" content="&amp;#123;% centerquote %&amp;#125;&#96;  人如果不出去走一走，就无法亲眼见证这个真实的充满偏见的世界，也就无法真正的认识世界和自己。  &#96;&amp;#123;% endcenterquote %&amp;#125;  20202020.9.23知乎作者Zewei Chu写的我从导师身上学到的几件事，读完后，感动之余，还有几分羡慕。我倒是挺喜欢这样的“放养”模式，也算是培养自己独立研究的习惯。 此">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.unsplash.com/photo-1606870655612-8eacd813984d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">
+<meta property="article:published_time" content="2020-01-06T02:48:05.000Z">
+<meta property="article:modified_time" content="2021-01-02T02:40:39.442Z">
+<meta property="article:author" content="Richard YU">
+<meta property="article:tag" content="computer vision, SLAM, deep learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1606870655612-8eacd813984d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://densecollections.top/MindWandering/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Richard YU","link":"链接: ","source":"来源: 自拙集","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
     },
-    TeX: {
-      
-      equationNumbers: {
-        autoNumber: 'AMS'
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: false,
+  postUpdate: '2021-01-02 10:40:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="自拙集" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://raw.githubusercontent.com/Richardyu114/minds-thoughts-and-resources-about-research-/master/images/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/PaperStation/"><i class="fa-fw fas fa-edit"></i><span> PaperStation</span></a></div><div class="menus_item"><a class="site-page" href="/MindWandering/"><i class="fa-fw fas fa-paper-plane"></i><span> MindWandering</span></a></div></div></div></div><div id="body-wrap"><header class="not-index-bg" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1609105719290-3c8abfef183f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1348&amp;q=80)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">自拙集</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/PaperStation/"><i class="fa-fw fas fa-edit"></i><span> PaperStation</span></a></div><div class="menus_item"><a class="site-page" href="/MindWandering/"><i class="fa-fw fas fa-paper-plane"></i><span> MindWandering</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="page-site-info"><h1 id="site-title">MindWandering</h1></div></header><main class="layout" id="content-inner"><div id="page"><div id="article-container"><p><code>&#123;% centerquote %&#125;`
+
+人如果不出去走一走，就无法亲眼见证这个真实的充满偏见的世界，也就无法真正的认识世界和自己。
+
+`&#123;% endcenterquote %&#125;</code></p>
+<p><img src="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/pinkhassov.jpg" alt="pinkhassov作品"></p>
+<h2 id="2020"><a href="#2020" class="headerlink" title="2020"></a>2020</h2><h3 id="2020-9-23"><a href="#2020-9-23" class="headerlink" title="2020.9.23"></a>2020.9.23</h3><p>知乎作者Zewei Chu写的<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/242592577">我从导师身上学到的几件事</a>，读完后，感动之余，还有几分羡慕。我倒是挺喜欢这样的“放养”模式，也算是培养自己独立研究的习惯。</p>
+<p>此外，作者也在在文中推介的导师Kevin Gimpel写给phd的几点建议，地址点<a target="_blank" rel="noopener" href="https://ttic.uchicago.edu/~kgimpel/etc/phd-advice.pdf">此</a></p>
+<h3 id="2020-8-03"><a href="#2020-8-03" class="headerlink" title="2020.8.03"></a>2020.8.03</h3><p>看了Youtuber Yannic Kilcher的讲述自己阅读机器学习论文的视频<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Uumd2zOOz60">How I Read a Paper: Facebook’s DETR (Video Tutorial)</a>，很是赞同。</p>
+<p>贴一下评论区课代表的总结：</p>
+<ol>
+<li>Understand the title </li>
+<li>Don’t pay much attention to authors</li>
+<li>Read abstract well and form hypothesis </li>
+<li>Look at pictures to understand solution </li>
+<li>Read introduction carefully </li>
+<li>Skip related work </li>
+<li>Read everything else and skip things that don’t seem like they are part of the general idea </li>
+<li>Look at the results and try to prove them wrong or get convinced that solution works </li>
+<li>Glance over everything and make sure all your questions were answered </li>
+<li>Read it a couple of times or take breaks to have a good understanding</li>
+</ol>
+<p>视频中文搬运地址戳<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1dt4y197yH">此</a></p>
+<h3 id="2020-5-24"><a href="#2020-5-24" class="headerlink" title="2020.5.24"></a>2020.5.24</h3><p>今天偶然读到的CCF整理的<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ZCULMForCTQTub-INlTprA"> 未来5-10年计算机视觉发展趋势</a>的圆桌讨论，各位老师思想碰撞，给出了不少很深刻的领域见解和思想，非常值得一读。其中提到的几个方向也是我个人觉得比较有价值和意义的：</p>
+<ul>
+<li>3D machine  learning或者三维视觉；</li>
+<li>主动学习，比如说meta learning，选择样本/根据目标整条状态；</li>
+<li>视频理解；</li>
+<li>多模态学习；</li>
+<li>可以应对动态环境的视觉系统；</li>
+<li>统一的可处理多种任务的视觉体系，结合NAS网络架构搜索，嵌入式网络压缩剪枝处理等；</li>
+<li>benchmark是否是必须的，很多视觉问题单靠在一个问题的某个数据集上的精度意义不是很大，鲁棒性，抗干扰性以及好的ideas可能是未来视觉发展的有利催化剂；</li>
+<li>生物视觉，探索视觉机制以及可解释性。</li>
+</ul>
+<h3 id="2020-5-19"><a href="#2020-5-19" class="headerlink" title="2020.5.19"></a>2020.5.19</h3><blockquote>
+<p>A paper a day keep the unemployment checks away.</p>
+</blockquote>
+<h3 id="2020-4-19"><a href="#2020-4-19" class="headerlink" title="2020.4.19"></a>2020.4.19</h3><p>斯坦福的CS231N课程和作业终于搞完了，前前后后估计也花一个多月的时间了。在家学习效率不高，容易被叨扰，时间浪费了不少。接下来得好好准备求职需要的一些技能了，抓紧时间闭关刷题，学习思考算法，训练coding的能力。</p>
+<p>该做的还是得做，该有的基础和技术素养还是得具备，没有任何借口可以逃避。</p>
+<p>要么学习，要么思考，别再无聊。work cures everything.</p>
+<h3 id="2020-4-18"><a href="#2020-4-18" class="headerlink" title="2020.4.18"></a>2020.4.18</h3><p>实习春招已经过半，随着身边人的迅速行动和自己刷题计划的搁置，我逐渐紧张焦虑了起来。知乎上和周围的师兄，同行都在劝退深度学习算法工程师，推荐CS老本行开发岗，一时间也搞得我头昏脑胀。晚上烦躁借机和一位与自己跨行经历类似的好朋友通话交流了90多分钟，慢慢地平复了下来。他建议我一是想好自己想做的方向，细化到某个具体的领域，二是结合现在的市场情况以及自己对未来的预估，然后合理地规划自己职业。实际上，道理大家都懂，但是如今的风气和大环境让很多人无法认真地审视自己，盲目跟风不自己思考，一步登天不扎实锤炼。我从大二开始，在各个方向上兜兜转转，最终选择了视觉这块领域，兴趣和乐趣都慢慢培养了出来，我自己不愿放弃，即使现在求职难度相比开发高，大厂基本无望，只是说明暂时我的水平和能力还不足以胜任，因此我还是想继续坚持下去，去研究掌握一又一个专题。实在大不了毕业时候找个其他工作，比如新东方教书啥的先干着养活自己，不可能出现彻底失业的情况。</p>
+<p>其实想想，自己也不能太功利，不能因为可以捞金而去喜欢一个领域，而是应该多带点纯真的热情和赤子之心，或许找个不相干的轻松钱也够花的职业，平时有不少空闲时间可以继续搞些研究，发展发展自己的其他兴趣也不错。人生在世，生活还是应该放在第一位的，即使勉强拿到了大公司的一些算法岗之类的offer，全身心的all-in 工作中估计也是身心俱疲，不如work-life balance来得自在和健康。</p>
+<h3 id="2020-3-19"><a href="#2020-3-19" class="headerlink" title="2020.3.19"></a>2020.3.19</h3><p>凭着自己对胶卷的一股好奇和热情，最近终于把第一次拍完的三卷胶片给洗了出来，希望借此证明选择拍摄胶卷这件事对自己来说是正确的，合适的，可惜扫描出来的效果差强人意。我用的是两卷彩色（富士和柯达）和一卷黑白（伊尔福），彩色的看上去有些欠曝和失焦，整体效果看上去比数码的宽容度差很多，边缘更是差得出奇，可能是由于胶卷过期和阴天拍摄等问题，黑白看上去好点，有一种年代久远的模糊记忆感。从一些胶片博主的经验来看，彩色胶卷确实是在阳光充足的情况下拍会好看很多，黑白的话好像没这些要求，下次如果继续的话得注意这点。</p>
+<p>这次过后，我买胶卷的欲望开始慢慢降下来了，不仅是因为拍摄的技术和环境，还有后期处理的复杂度和长时间。然而对于要不要继续用胶卷拍下去这个问题，我的回答是肯定的，不仅是因为它的的确确可以让我认真地拍摄，还带给我一种事后的故事感，在此之前，我还是希望自己先好好在手头的数码相机上练练技术和对画面、故事、情感的捕捉力，不必再漫无目的地按下快门，而是借着一个主题去寻找。拍照是源于乐趣，而摄影是乐趣之外夹带着自己的表达、纪录和创造的产物。</p>
+<p>永远都要自己记住一点，<strong>照片的意义在任何时候都远比器材的意义大得多</strong>。</p>
+<h3 id="2020-3-06"><a href="#2020-3-06" class="headerlink" title="2020.3.06"></a>2020.3.06</h3><p><img src="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/paper_reading_process.JPG" alt="来自Stanford CS231N课程材料中的建议"></p>
+<p>之前也做过一些阅读和写作理工科论文的总结，比较冗长，后来自己也懒得回溯了。自去年入门DL后陆续看了一些相关的研究论文，私以为上图中所说的阅读方法比较适合，故单独拿出来日后借鉴学习。</p>
+<h3 id="2020-3-04"><a href="#2020-3-04" class="headerlink" title="2020.3.04"></a>2020.3.04</h3><p>今天看到一篇解说数学体系的<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MjM5MTAyNjcyMA==&amp;mid=2656550501&amp;idx=1&amp;sn=4e1091cd7d7d27a58ce628ea9c5395e0&amp;chksm=bd18c52a8a6f4c3cd2a33f6632e06051e34e1f0dfdea746619895223e79e46f72c157a695f86&amp;mpshare=1&amp;scene=1&amp;srcid=&amp;sharer_sharetime=1583281170527&amp;sharer_shareid=4ed82b8c86f7bdeb368019cfe429ee62&amp;key=3503aa848b16fe5b2dff56c2931087c1026da015d8b445d1e1245c98e11e5407b6ca906fcd62525e02b0a516db85dbf82c2cfe857d90f1792d9c7b9a74e2b984525cc928520a1f6bf649899304c6030a&amp;ascene=1&amp;uin=Mjg0MTMzNDQzMQ%3D%3D&amp;devicetype=Windows+10&amp;version=62080079&amp;lang=zh_CN&amp;exportkey=A3%2FYkEub9J0oHAi%2BQExLJ%2Fo%3D&amp;pass_ticket=QTLRAebj4UcRn5rF39kfrB7G%2BhkKlips89L2ztVuipeoAiXqZeyndhNaZInh%2F4Cj">微信推送</a>，也正好勾起我继续坚持体系化学习数学的热情。从去年开始，在就读数学专业朋友的鼓动和演说下，收集了很多经典的专业数学书籍，制定了一些大框架的计划，但是进行的不是很顺利，总是会被各种事务或者理由打断。19年年末的时候下定决心从台大数学系的《高等微积分》开始看起，慢慢往实分析，拓扑，李群，微分几何等领域推进，奈何看到第三节又停滞了下来 :)，跳到了其他CS和computer vision的课程上来…</p>
+<p>唉，要是时光能倒流，或者可以选择重来的话，就可以把之前大学本科浪费的时间拿来好好系统学习数学了&gt;_&lt;，可惜那个时候没能早点领悟，也没有遇到可以指点迷津的贵人。</p>
+<h3 id="2020-2-25"><a href="#2020-2-25" class="headerlink" title="2020.2.25"></a>2020.2.25</h3><p>最近又简单了看了下《West World》，发现其中很多重要的细节都忘了，只记得些剧情。其中有个关于阿诺德机器觉醒的金字塔理论，底层是记忆，我们看德洛丽丝等一系列初代机器人的觉醒都是在记忆碎片的触碰“冥思”中不断交织成长而完成的。“记忆”这个词又再一次出现在我脑海里，除了感叹编剧乔纳森·诺兰的高超构思和叙述技艺之外，我也在进一步思考“记忆”对人类的作用，但是讲来讲去也就那么些抽象的东西，诸如连接情感，意志力之类的，不如故事这个载体现的具体和深刻，这也我愈发着迷《索拉里斯》这个小说了，同时也渴望能进一步得到有关记忆的故事…</p>
+<h3 id="2020-1-28"><a href="#2020-1-28" class="headerlink" title="2020.1.28"></a>2020.1.28</h3><p>最近新型冠状病毒流行，各地都出现了不同程度的疫情，弄得大家人人自危，疫情当然也暴露很多国家卫生监管不足，人性复杂等问题，在此不想多作评论，只希望诸位都能牢记历史，过去永不会那么轻易过去。。</p>
+<p>“This year was supposed to be great…”待在家里我突然意识到自己很久没能好好独处下来思考一些东西，甚至连静下心来看书都无法轻易做到，这是个危险的信号。所有我现在的娱乐活动都在稀释我的大脑，将它变得愚钝和麻木。</p>
+<h3 id="2020-1-24"><a href="#2020-1-24" class="headerlink" title="2020.1.24"></a>2020.1.24</h3><p><img src="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/yanhua1.jpg" alt></p>
+<p><img src="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/yanhua2.jpg" alt></p>
+<p><img src="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/yanhua3.jpg" alt></p>
+<p><img src="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/yanhua4.jpg" alt></p>
+<p><img src="https://raw.githubusercontent.com/Richardyu114/minds-thoghts-and-resources-about-research-/master/images/yanhua5.jpg" alt></p>
+<p>今天是除夕佳节，记忆中就是放烟花，和小伙伴团聚的日子。可是不知道以后放烟花的机会还有多少，随着时光飞逝，身边人各自纷飞，往后的年味不知是否还会这般浓厚。想太多了似乎，还是好好享受当下，珍惜周围爱我们的人。</p>
+</div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://raw.githubusercontent.com/Richardyu114/minds-thoughts-and-resources-about-research-/master/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Richard YU</div><div class="author-info__description">Today everything exists to end in a photograph</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Richardyu114"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://twitter.com/Yu1145635107" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a><a class="social-icon" href="https://instagram.com/d.h.richard" target="_blank" title="Instagram"><i class="fab fa-instagram-square"></i></a><a class="social-icon" href="https://weibo.com/u/5211687990" target="_blank" title="Weibo"><i class="fab fa-weibo"></i></a><a class="social-icon" href="https://www.douban.com/people/161993653/" target="_blank" title="豆瓣"><i class="fas fa-bookmark"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/ssd-refinedet-paper/" title="SSD-RefineDet论文阅读"><img src="https://images.unsplash.com/photo-1606870655612-8eacd813984d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SSD-RefineDet论文阅读"/></a><div class="content"><a class="title" href="/posts/ssd-refinedet-paper/" title="SSD-RefineDet论文阅读">SSD-RefineDet论文阅读</a><time datetime="2020-08-03T13:25:33.000Z" title="发表于 2020-08-03 21:25:33">2020-08-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/houjieC++STL/" title="侯捷c++STL体系结构与内核分析"><img src="https://images.unsplash.com/photo-1608488426085-c8b7e9e4592f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1351&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="侯捷c++STL体系结构与内核分析"/></a><div class="content"><a class="title" href="/posts/houjieC++STL/" title="侯捷c++STL体系结构与内核分析">侯捷c++STL体系结构与内核分析</a><time datetime="2020-06-12T08:24:02.000Z" title="发表于 2020-06-12 16:24:02">2020-06-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/yolopaperreading/" title="yolo系列论文阅读笔记"><img src="https://images.unsplash.com/photo-1608971222449-15661fc7bdb6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=675&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="yolo系列论文阅读笔记"/></a><div class="content"><a class="title" href="/posts/yolopaperreading/" title="yolo系列论文阅读笔记">yolo系列论文阅读笔记</a><time datetime="2020-06-04T01:53:54.000Z" title="发表于 2020-06-04 09:53:54">2020-06-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/houjieC++/" title="侯捷C++面向对象程序设计"><img src="https://images.unsplash.com/photo-1608153498891-e895052f0cbe?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="侯捷C++面向对象程序设计"/></a><div class="content"><a class="title" href="/posts/houjieC++/" title="侯捷C++面向对象程序设计">侯捷C++面向对象程序设计</a><time datetime="2020-05-28T08:48:27.000Z" title="发表于 2020-05-28 16:48:27">2020-05-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/loopdetectioninBipartitegraph/" title="二分图搜无向定长环"><img src="https://images.unsplash.com/photo-1608971222449-15661fc7bdb6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=675&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="二分图搜无向定长环"/></a><div class="content"><a class="title" href="/posts/loopdetectioninBipartitegraph/" title="二分图搜无向定长环">二分图搜无向定长环</a><time datetime="2020-05-08T02:41:32.000Z" title="发表于 2020-05-08 10:41:32">2020-05-08</time></div></div></div></div></div><div class="card-widget card-categories"><div class="card-content"><div class="item-headline"><i class="fas fa-folder-open"></i><span>分类</span></div><ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MissingcourseofCS/"><span class="card-category-list-name">MissingcourseofCS</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"><span class="card-category-list-name">博客搭建</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%9F%BA%E7%A1%80%E6%95%B0%E5%AD%A6/"><span class="card-category-list-name">基础数学</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/"><span class="card-category-list-name">工作总结</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%94%AF%E6%8C%81/"><span class="card-category-list-name">技术支持</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"><span class="card-category-list-name">深度学习环境配置</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/"><span class="card-category-list-name">科研记录</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/"><span class="card-category-list-name">算法与实现</span><span class="card-category-list-count">1</span></a></li>
+            <li class="card-category-list-item more is-center"><a class="card-category-list-link-more" href="/categories/">
+                <span>查看更多</span><i class="fas fa-angle-right"></i></a></li>
+            </ul></div></div><div class="card-widget card-tags"><div class="card-content"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/AI-system/" style="font-size: 1.18em; color: #999ca1">AI system</a> <a href="/tags/C-11/" style="font-size: 1.34em; color: #99a3b0">C++11</a> <a href="/tags/CNN/" style="font-size: 1.1em; color: #999">CNN</a> <a href="/tags/Computer-vision/" style="font-size: 1.26em; color: #999fa8">Computer vision</a> <a href="/tags/Eigen/" style="font-size: 1.1em; color: #999">Eigen</a> <a href="/tags/Linux/" style="font-size: 1.26em; color: #999fa8">Linux</a> <a href="/tags/MIT/" style="font-size: 1.18em; color: #999ca1">MIT</a> <a href="/tags/Megvii/" style="font-size: 1.1em; color: #999">Megvii</a> <a href="/tags/OpenCV/" style="font-size: 1.1em; color: #999">OpenCV</a> <a href="/tags/SLAM/" style="font-size: 1.18em; color: #999ca1">SLAM</a> <a href="/tags/STL/" style="font-size: 1.1em; color: #999">STL</a> <a href="/tags/Sophus/" style="font-size: 1.1em; color: #999">Sophus</a> <a href="/tags/Standford/" style="font-size: 1.1em; color: #999">Standford</a> <a href="/tags/Ubuntu/" style="font-size: 1.1em; color: #999">Ubuntu</a> <a href="/tags/algorithm/" style="font-size: 1.1em; color: #999">algorithm</a> <a href="/tags/c-11/" style="font-size: 1.1em; color: #999">c++11</a> <a href="/tags/coding/" style="font-size: 1.1em; color: #999">coding</a> <a href="/tags/computer-science/" style="font-size: 1.1em; color: #999">computer science</a> <a href="/tags/computer-vision/" style="font-size: 1.5em; color: #99a9bf">computer vision</a> <a href="/tags/contest/" style="font-size: 1.1em; color: #999">contest</a> <a href="/tags/deep-learning/" style="font-size: 1.42em; color: #99a6b7">deep learning</a> <a href="/tags/deep-neural-network/" style="font-size: 1.1em; color: #999">deep neural network</a> <a href="/tags/domain-adaptation/" style="font-size: 1.1em; color: #999">domain adaptation</a> <a href="/tags/emotions/" style="font-size: 1.1em; color: #999">emotions</a> <a href="/tags/feelings/" style="font-size: 1.1em; color: #999">feelings</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/hardware/" style="font-size: 1.18em; color: #999ca1">hardware</a> <a href="/tags/hexo/" style="font-size: 1.1em; color: #999">hexo</a> <a href="/tags/job/" style="font-size: 1.1em; color: #999">job</a> <a href="/tags/leancloud/" style="font-size: 1.1em; color: #999">leancloud</a> <a href="/tags/learning/" style="font-size: 1.1em; color: #999">learning</a> <a href="/tags/linear-algebra/" style="font-size: 1.1em; color: #999">linear algebra</a> <a href="/tags/linux/" style="font-size: 1.1em; color: #999">linux</a> <a href="/tags/mapping/" style="font-size: 1.18em; color: #999ca1">mapping</a> <a href="/tags/mathematics/" style="font-size: 1.1em; color: #999">mathematics</a> <a href="/tags/medical-image-analysis/" style="font-size: 1.1em; color: #999">medical image analysis</a> <a href="/tags/memory/" style="font-size: 1.1em; color: #999">memory</a> <a href="/tags/movies/" style="font-size: 1.1em; color: #999">movies</a> <a href="/tags/next/" style="font-size: 1.1em; color: #999">next</a> <a href="/tags/nvidia-driver/" style="font-size: 1.1em; color: #999">nvidia driver</a></div></div></div><div class="card-widget card-archives"><div class="card-content"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/08/"><span class="card-archive-list-date">八月 2020</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/06/"><span class="card-archive-list-date">六月 2020</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/05/"><span class="card-archive-list-date">五月 2020</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/03/"><span class="card-archive-list-date">三月 2020</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/02/"><span class="card-archive-list-date">二月 2020</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/01/"><span class="card-archive-list-date">一月 2020</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2019/11/"><span class="card-archive-list-date">十一月 2019</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2019/10/"><span class="card-archive-list-date">十月 2019</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item more is-center"><a class="card-archive-list-link-more" href="/archives/">
+              <span>查看更多</span><i class="fas fa-angle-right"  ></i></a></li></ul></div></div><div class="card-widget card-webinfo"><div class="card-content"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">25</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">126.5k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2021-01-02T07:00:22.274Z"></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://images.unsplash.com/photo-1609105719290-3c8abfef183f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1348&amp;q=80)"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2021 By Richard YU</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">It's hard to tell that the world we live in is either a reality or a dream.</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="chat_btn" type="button" title="rightside.chat_btn"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.spacingElementById('content-inner')
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    loader: {
+      source: {
+        '[tex]/amsCd': '[tex]/amscd'
+      }
+    },
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        addClass: [200,() => {
+          document.querySelectorAll('mjx-container:not([display=\'true\']').forEach( node => {
+            const target = node.parentNode
+            if (!target.classList.contains('has-jax')) {
+              target.classList.add('mathjax-overflow')
+            }
+          })
+        }, '', false]
       }
     }
-  });
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
-        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
-      }
-    });
-  });</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>function loadValine () {
+  function initValine () {
+    let initData = {
+      el: '#vcomment',
+      appId: 'duGoywhUmLrx9pM6qQhmf47c-gzGzoHsz',
+      appKey: 'm7fc8w4Di5qnAXXaJ5Gp3Pgg',
+      placeholder: '欢迎评论！请留下你的邮箱',
+      avatar: 'robohash',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
     }
-  });</script><script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script><script>$(".highlight").not(".gist .highlight").each(function(t,e){var n=$("<div>").addClass("highlight-wrap");$(e).after(n),n.append($("<button>").addClass("copy-btn").append("复制").on("click",function(t){var e=$(this).parent().find(".code").find(".line").map(function(t,e){return $(e).text()}).toArray().join("\n"),n=document.createElement("textarea"),o=window.pageYOffset||document.documentElement.scrollTop;n.style.top=o+"px",n.style.position="absolute",n.style.opacity="0",n.readOnly=!0,n.value=e,document.body.appendChild(n),n.select(),n.setSelectionRange(0,e.length),n.readOnly=!1,document.execCommand("copy")?$(this).text("复制成功"):$(this).text("复制失败"),n.blur(),$(this).blur()})).on("mouseleave",function(t){var e=$(this).find(".copy-btn");setTimeout(function(){e.text("复制")},300)}).append(e)})</script></body></html>
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+    
+    if (false) {
+      const otherData = false
+      initData = Object.assign({}, initData, otherData)
+    }
+    
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>(function(){
+  const bp = document.createElement('script');
+  const curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  bp.dataset.pjax = ''
+  const s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})()</script></div></body></html>

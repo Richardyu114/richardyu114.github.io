@@ -1,358 +1,601 @@
-<!DOCTYPE html><html class="theme-next gemini use-motion" lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><script src="/lib/pace/pace.min.js?v=1.0.2"></script><link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2"><meta name="google-site-verification" content="true"><meta name="baidu-site-verification" content="true"><link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css"><link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"><link rel="stylesheet" href="/css/main.css?v=7.1.1"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1"><link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222"><script id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Gemini",version:"7.1.1",sidebar:{position:"left",display:"post",offset:12,onmobile:!1,dimmer:!1},back2top:!0,back2top_sidebar:!1,fancybox:!0,fastclick:!1,lazyload:!1,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><meta name="baidu-site-verification" content="0bqk4mbBLD"><meta name="google-site-verification" content="FvMbHVgnH7FO0GFRzTmOevjSaFwvzIQZv94LdufMMPY"><meta name="description" content="Aboutvideos;课件，密码kr24;认识headers、版本、重要资源以STL为目标探讨泛型编程。使用一个东西，却不明白它的道理，不高明！level 0: 使用C++标准库；level 1: 认识C++标准库（胸中自有丘壑，体系结构应当建立起来）；level 2: 良好使用C++标准库；level 3: 扩充C++标准库；Standard Template Library (6大部件：Co"><meta name="keywords" content="侯捷,c++11,STL"><meta property="og:type" content="article"><meta property="og:title" content="侯捷c++STL体系结构与内核分析"><meta property="og:url" content="http://densecollections.top/posts/houjieC++STL/index.html"><meta property="og:site_name" content="自拙集"><meta property="og:description" content="Aboutvideos;课件，密码kr24;认识headers、版本、重要资源以STL为目标探讨泛型编程。使用一个东西，却不明白它的道理，不高明！level 0: 使用C++标准库；level 1: 认识C++标准库（胸中自有丘壑，体系结构应当建立起来）；level 2: 良好使用C++标准库；level 3: 扩充C++标准库；Standard Template Library (6大部件：Co"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/STL.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/six_component.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/containers_classes.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/array_test1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/array_test2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/vector_test1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/vector_test2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/list_test.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/forward_list_test.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/slist.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/deque.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/deque_test.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/stack_test.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/queue_test.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/multiset_test.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/multimap_test.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/unordered_multiset_test.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/unordered_multiset_test2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/unordered_multimap_test.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/set_test.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/map_test.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/unordered_set_test.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/unordered_set_test2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/unordered_map_test.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/allocator_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/allocator_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/GP_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/GP_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/operator_overloading_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/operator_overloading_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/class_template.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/function_template.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/member_template.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/specialization.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/partial_specialization.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p11_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p11_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p11_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p11_4.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p11_5.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p12_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p13_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p13_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p13_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p14_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p14_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p15_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p15_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p15_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p15_4.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p16_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p16_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p16_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p16_4.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p17_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p17_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p18_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p18_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p18_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p18_4.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p18_5.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p19_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p19_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p19_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p19_4.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p19_5.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p19_6.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p19_7.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p19_8.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p19_9.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p19_10.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p19_11.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p20_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p20_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p20_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p20_4.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p20_5.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p21_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p21_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p22_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p22_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p22_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p23_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p23_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p23_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p23_4.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p23_5.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p23_6.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p23_7.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p26_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p26_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p27_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p28_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p28_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p28_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p28_4.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p28_5.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p29_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p29_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p29_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p29_4.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p29_5.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p29_6.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p30_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p30_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p30_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p30_4.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p30_5.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p30_6.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p30_7.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p30_8.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p30_9.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p31_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p31_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p31_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p32_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p32_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p33_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p34_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p35_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p36_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p37_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p38_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p39_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p39_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p40_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p40_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p40_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p41_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p41_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p42_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p42_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p42_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p43_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p43_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p44_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p44_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p45_1.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p45_2.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p45_3.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p45_4.JPG"><meta property="og:image" content="http://densecollections.top/posts/houjieC++STL/p45_5.JPG"><meta property="og:updated_time" content="2020-07-09T01:24:51.880Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="侯捷c++STL体系结构与内核分析"><meta name="twitter:description" content="Aboutvideos;课件，密码kr24;认识headers、版本、重要资源以STL为目标探讨泛型编程。使用一个东西，却不明白它的道理，不高明！level 0: 使用C++标准库；level 1: 认识C++标准库（胸中自有丘壑，体系结构应当建立起来）；level 2: 良好使用C++标准库；level 3: 扩充C++标准库；Standard Template Library (6大部件：Co"><meta name="twitter:image" content="http://densecollections.top/posts/houjieC++STL/STL.JPG"><link rel="alternate" href="/atom.xml" title="自拙集" type="application/atom+xml"><link rel="canonical" href="http://densecollections.top/posts/houjieC++STL/"><script id="page.configurations">CONFIG.page={sidebar:""}</script><title>侯捷c++STL体系结构与内核分析 | 自拙集</title><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-title,.use-motion .comments,.use-motion .menu-item,.use-motion .motion-element,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .logo,.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">自拙集</span> <span class="logo-line-after"><i></i></span></a></div><h1 class="site-subtitle" itemprop="description">Work cures everything</h1></div><div class="site-nav-toggle"><button aria-label="切换导航栏"><span class="btn-bar"></span> <span class="btn-bar"></span> <span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i><br>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i><br>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i><br>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>归档</a></li><li class="menu-item menu-item-paperstation"><a href="/PaperStation/" rel="section"><i class="menu-item-icon fa fa-fw fa-edit"></i><br>PaperStation</a></li><li class="menu-item menu-item-mindwandering"><a href="/MindWandering/" rel="section"><i class="menu-item-icon fa fa-fw fa-paper-plane"></i><br>MindWandering</a></li><li class="menu-item menu-item-search"><a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i><br>搜索</a></li></ul><div class="site-search"><div class="popup search-popup local-search-popup"><div class="local-search-header clearfix"><span class="search-icon"><i class="fa fa-search"></i> </span><span class="popup-btn-close"><i class="fa fa-times-circle"></i></span><div class="local-search-input-wrapper"><input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input"></div></div><div id="local-search-result"></div></div></div></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://densecollections.top/posts/houjieC++STL/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="name" content="Richard YU"><meta itemprop="description" content="Today everything exists to end in a photograph"><meta itemprop="image" content="/uploads/header.jpg"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="自拙集"></span><header class="post-header"><h2 class="post-title" itemprop="name headline">侯捷c++STL体系结构与内核分析</h2><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建时间：2020-06-12 16:24:02" itemprop="dateCreated datePublished" datetime="2020-06-12T16:24:02+08:00">2020-06-12</time> <span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-calendar-check-o"></i> </span><span class="post-meta-item-text">更新于</span> <time title="修改时间：2020-07-09 09:24:51" itemprop="dateModified" datetime="2020-07-09T09:24:51+08:00">2020-07-09</time> </span><span class="post-category"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-folder-o"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/课程记录/" itemprop="url" rel="index"><span itemprop="name">课程记录</span></a></span> </span><span class="post-comments-count"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-comment-o"></i> </span><span class="post-meta-item-text">评论数：</span> <a href="/posts/houjieC++STL/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/posts/houjieC++STL/" itemprop="commentCount"></span> </a></span><span id="/posts/houjieC++STL/" class="leancloud_visitors" data-flag-title="侯捷c++STL体系结构与内核分析"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-eye"></i> </span><span class="post-meta-item-text">阅读次数：</span> <span class="leancloud-visitors-count"></span></span><div class="post-symbolscount"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i> </span><span class="post-meta-item-text">本文字数：</span> <span title="本文字数">8.6k</span> <span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-clock-o"></i> </span><span class="post-meta-item-text">阅读时长 &asymp;</span> <span title="阅读时长">8 分钟</span></div></div></header><div class="post-body" itemprop="articleBody"><h2 id="About"><a href="#About" class="headerlink" title="About"></a>About</h2><p><a href="https://www.bilibili.com/video/BV1db411q7B8" target="_blank" rel="noopener">videos</a>;</p><p><a href="https://pan.baidu.com/s/1DkCctgH1BO2Cs0NuUcyHhg" target="_blank" rel="noopener">课件，密码kr24</a>;</p><h2 id="认识headers、版本、重要资源"><a href="#认识headers、版本、重要资源" class="headerlink" title="认识headers、版本、重要资源"></a>认识headers、版本、重要资源</h2><p>以STL为目标探讨泛型编程。</p><blockquote><p>使用一个东西，却不明白它的道理，不高明！</p></blockquote><ul><li><p>level 0: 使用C++标准库；</p></li><li><p>level 1: 认识C++标准库（胸中自有丘壑，体系结构应当建立起来）；</p></li><li><p>level 2: 良好使用C++标准库；</p></li><li><p>level 3: 扩充C++标准库；</p></li></ul><p>Standard Template Library (<a href="https://blog.csdn.net/qq_44770155/article/details/97882816" target="_blank" rel="noopener">6大部件</a>：Container(容器) 各种基本数据结构；Adapter(适配器) 可改变containers、Iterators或Function object接口的一种组件；Algorithm(算法) 各种基本算法如sort、search…等；Iterator(迭代器) 连接containers和algorithms；Function object(函数对象)；Allocator(分配器)) 加上其他一些零碎的东西构成了C++ Standard Library.</p><a id="more"></a><p><img src="/posts/houjieC++STL/STL.JPG" alt></p><h2 id="STL体系结构基础介绍"><a href="#STL体系结构基础介绍" class="headerlink" title="STL体系结构基础介绍"></a>STL体系结构基础介绍</h2><p>STL六大部件（component）：</p><p>数据在容器（内存的事情我们不必管，由分配器支持），处理数据在算法，连接之间的桥梁是迭代器（泛化的指针）。仿函数可以处理类之间的一些操作，适配器转换。</p><p><img src="/posts/houjieC++STL/six_component.JPG" alt="STL六大部件"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">int stl_component()</span><br><span class="line">&#123;</span><br><span class="line">  int ia[6] = &#123;27, 210, 12, 47, 109, 83&#125;;</span><br><span class="line">  //用到了容器和分配器定义一个vector</span><br><span class="line">  vector &lt;int, allocator&lt;int&gt; &gt; vi(ia, ia+6);</span><br><span class="line">  //用到了算法，迭代器，函数适配器，函数对象</span><br><span class="line">  // vi.begin()和vi.end()迭代指向vi中的元素</span><br><span class="line">  // not1是negator，否定less的作用，变成了大于等于40的数</span><br><span class="line">  // bind2nd绑定了less比较的第二个对象，固定在40</span><br><span class="line">  cout &lt;&lt; count_if(vi.begin(), vi.end(),</span><br><span class="line">         not1(bind2nd(less&lt;int&gt;(), 40))) &lt;&lt; endl;</span><br><span class="line"> </span><br><span class="line">  return 0;  </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>简单提及时间复杂度。</p><p>“前闭后开”曲间，标准库规定容器迭代器的最后一个元素取不到，即[iter.begin(), iter.end() )，此外容器也不一定是连续空间，比如链表。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Container&lt;T&gt; c;</span><br><span class="line">...</span><br><span class="line">Container&lt;T&gt;::iterator ite = c.begin();</span><br><span class="line">// for语句的语法规定，括号里面一定要有两个分号，分开三个句子。</span><br><span class="line">//第一个句子是初始化用的，如果没有初始化的必要，就视为空语句，加上分号；</span><br><span class="line">//第二个句子作为判断条件，如果没有判断条件，也视为空语句，后加一个分号。这种情况，会无限循环，相当于while(1)。如果for的执行部分，就是&#123;&#125;之间有专break语句，可以退出；</span><br><span class="line">//第三个句子是执行部分执行完毕再执行的语句；无则视为属空语句；此时不用再加分号</span><br><span class="line">for (; ite != ite.end(); ++ite)</span><br><span class="line">   ...</span><br></pre></td></tr></table></figure><p>建议使用range-based for statement (since c++11):</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (decl:coll)&#123;</span><br><span class="line">statement</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (int i : &#123;2,3,5,7,9,13&#125;) &#123;</span><br><span class="line">  std::cout&lt;&lt;i&lt;&lt;std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="容器与分类之各种测试（1）"><a href="#容器与分类之各种测试（1）" class="headerlink" title="容器与分类之各种测试（1）"></a>容器与分类之各种测试（1）</h2><p>容器-结构与分类</p><p><img src="/posts/houjieC++STL/containers_classes.JPG" alt="标红的是C++11新加入的特性"></p><p>1.sequence containers 序列式：</p><p>array（不可扩充）, vector（分配器动态扩容）, deque（前后快速插入）, list（双向循环链表）, forward-list（单向链表）；</p><p>2.associative containers 关联式，便于查找：</p><p>set/multiset, map/multimap, 两者编译器所带标准库都用红黑树实现。set只带key，map带有key和value，两者意思与python的set和dict类似。multiset/multimap代表key是可以重复的。</p><p>3.unordered containers (since c++11)：</p><p>不定序，hash table，其实也可以属于一种associative containers.内部采用链表法解决哈希冲突。</p><hr><p>使用容器array示例：</p><p>array必须指定固定大小，不能是变量大小；</p><p><code>array.data()</code>首地址；</p><p><code>clock()</code>得到的是ms；</p><p><code>snprintf()</code>是c标注库函数，在这里是将数字转成字符串，具体可参考<a href="https://blog.csdn.net/qq_34707315/article/details/77895735#commentBox" target="_blank" rel="noopener">此</a>；</p><p><img src="/posts/houjieC++STL/array_test1.JPG" alt="在固定大小的array中随机生成数并出初始化填充，然后快排再二分查找指定的数字，并打印出消耗的时间"></p><p><img src="/posts/houjieC++STL/array_test2.JPG" alt></p><h2 id="容器与分类之各种测试（2）"><a href="#容器与分类之各种测试（2）" class="headerlink" title="容器与分类之各种测试（2）"></a>容器与分类之各种测试（2）</h2><p>侯捷老师给的一些建议：</p><p>1.通过给每个测试定义不同的namespace，使得每一部分都是独立的，方便测试。</p><p>2.用到变量的时候去定义，然后缩排方便寻找。</p><hr><p>使用容器vector：</p><p><code>vector.push_back()</code>把元素放到尾巴；</p><p>vector 2倍扩容增长空间；</p><p><code>vecotr.size()</code>元素个数；</p><p><code>vector.capacity()</code>容器容量，一般比size的结果大；</p><p><code>try, catch</code>目的是了解当前是否可以抓取到指定的内存大小；</p><p><code>::find</code>中双冒号代表全局的，find()是模板函数（循序查找），返回的是iterator;</p><p><img src="/posts/houjieC++STL/vector_test1.JPG" alt="定义一个vector，然后不断填充随机数初始化，然后利用模板函数find和二分查找去搜索指定的数，比较两者的时间差异"></p><p><img src="/posts/houjieC++STL/vector_test2.JPG" alt></p><h2 id="容器与分类之各种测试（3）"><a href="#容器与分类之各种测试（3）" class="headerlink" title="容器与分类之各种测试（3）"></a>容器与分类之各种测试（3）</h2><p>1.使用容器list:</p><p>容器的第二个参数是分配器，一般我们不写使用默认的默认器分配内容；</p><p><code>list.max_size()</code></p><p><code>list.size()</code></p><p><code>list.front()</code></p><p><code>list.back()</code></p><p><code>list.sort()</code>对其进行排序</p><p><img src="/posts/houjieC++STL/list_test.JPG" alt></p><p>2.使用容器forward_list:</p><p><code>forward_list.push_front</code>只提供单向的放数据</p><p><code>forward_list.max_size()</code></p><p><code>forward_list.front()</code></p><p>没有<code>forward_list.back()</code>和<code>forward_list.szie()</code></p><p><img src="/posts/houjieC++STL/forward_list_test.JPG" alt></p><p>3.使用容器slist:</p><p>非C++11标准库；</p><p><code>#include&lt;ext\list&gt;</code>头文件包含。</p><p><img src="/posts/houjieC++STL/slist.JPG" alt></p><p>4.使用容器deque:</p><p>双向开口，可进可出。</p><p>分段连续的buffer构成的，但是给使用者感觉是连续的，内部其实不是，分段连续，buffer内部连续。每次扩充一个buffer.</p><p>vector扩充方便，但是容易浪费，list每次扩充一个节点，但是查找麻烦，deque每次一个buffer,相对折衷。</p><p><code>deque.size()</code></p><p><code>deque.front()</code></p><p><code>deque.back()</code></p><p><code>deque.max_size()</code></p><p>没有自己的sort()函数</p><p><img src="/posts/houjieC++STL/deque.JPG" alt></p><p><img src="/posts/houjieC++STL/deque_test.JPG" alt></p><p>5.使用容器stack:</p><p><code>stack.pop()</code></p><p><code>stack.push()</code></p><p><code>stack.size()</code></p><p><code>stack.top()</code></p><p><img src="/posts/houjieC++STL/stack_test.JPG" alt></p><p>6.使用容器queue:</p><p><code>queue.push()</code></p><p><code>queue.pop()</code></p><p><code>queue.front()</code></p><p><code>queue.back()</code></p><p><code>queue.size()</code></p><p>stack和queue用的deque，因此在技术上称容器的adapter, 不提供iterator</p><p><img src="/posts/houjieC++STL/queue_test.JPG" alt></p><h2 id="容器之分类与各种测试（4）"><a href="#容器之分类与各种测试（4）" class="headerlink" title="容器之分类与各种测试（4）"></a>容器之分类与各种测试（4）</h2><p>关联式容器</p><p>1.使用容器multiset:</p><p>key就是value, 可插入相同元素，内部红黑树组织数据</p><p><code>multiset.insert()</code></p><p><code>multiset.size()</code></p><p><code>multiset.max_size()</code></p><p><code>multiset.find()</code>容器自带find()函数</p><p><img src="/posts/houjieC++STL/multiset_test.JPG" alt></p><p>2.使用容器multimap:</p><p>，内部使用红黑树，key可以重复，指定key和value的数据类型，<code>multimap&lt;long, string&gt; c;</code></p><p><code>multimap.insert()</code>, <code>c.insert(pair&lt;long,string&gt;(i,buff))</code>，利用pair插入和取出</p><p><code>multimap.find()</code></p><p><img src="/posts/houjieC++STL/multimap_test.JPG" alt></p><p>3.使用容器unordered_multiset:</p><p>内部使用hash_table, 链表法解决哈希冲突，一个篮子bucket后续可以挂链表</p><p><code>load_facotr</code>载重因子</p><p><img src="/posts/houjieC++STL/unordered_multiset_test.JPG" alt></p><p><img src="/posts/houjieC++STL/unordered_multiset_test2.JPG" alt></p><p>4.使用容器unordered_multimap:</p><p><img src="/posts/houjieC++STL/unordered_multimap_test.JPG" alt></p><p>5.使用容器set:</p><p>内部用红黑树实现，元素不允许相同</p><p><img src="/posts/houjieC++STL/set_test.JPG" alt></p><p>6.使用容器map:</p><p>内部用红黑树实现，key不允许相同</p><p><code>c[i] = string(buf)</code>，与之前的multimap插入元素不同，可以用这种特殊写法，在内部会合成pair</p><p><img src="/posts/houjieC++STL/map_test.JPG" alt></p><p>7.使用容器unordered_set:</p><p>内部用hash_table</p><p><img src="/posts/houjieC++STL/unordered_set_test.JPG" alt></p><p><img src="/posts/houjieC++STL/unordered_set_test2.JPG" alt></p><p>8.使用容器unordered_map:</p><p>内部用hash_table</p><p><img src="/posts/houjieC++STL/unordered_map_test.JPG" alt></p><h2 id="分配器测试"><a href="#分配器测试" class="headerlink" title="分配器测试"></a>分配器测试</h2><p>使用分配器：</p><p>不使用标准库自带的std::allocator, 调用GNU c++编译器的allocator</p><p><img src="/posts/houjieC++STL/allocator_1.JPG" alt></p><p><img src="/posts/houjieC++STL/allocator_2.JPG" alt></p><h2 id="OOP-vs-GP"><a href="#OOP-vs-GP" class="headerlink" title="OOP vs. GP"></a>OOP vs. GP</h2><p>object-oriented programming and generic programming, 面对对象编程与泛型编程</p><p>OOP企图将data和methods放在一起，GP却将data和methods分开来</p><p>算法通过迭代器操作容器数据</p><p><img src="/posts/houjieC++STL/GP_1.JPG" alt></p><p><img src="/posts/houjieC++STL/GP_2.JPG" alt></p><h2 id="操作符重载和模板（泛化，全特化，偏特化）"><a href="#操作符重载和模板（泛化，全特化，偏特化）" class="headerlink" title="操作符重载和模板（泛化，全特化，偏特化）"></a>操作符重载和模板（泛化，全特化，偏特化）</h2><p>再次强调和复习operator overloading，templates（类模板，成员模板，函数模板；模板的泛化，全特化和偏特化）。</p><p>1.操作符重载的情况主要是为了满足用户自己定义类的一些操作，可以在相关网站查询，并不是每个操作符都可以重载。</p><p><img src="/posts/houjieC++STL/operator_overloading_1.JPG" alt></p><p><img src="/posts/houjieC++STL/operator_overloading_2.JPG" alt></p><p>2.模板</p><p><img src="/posts/houjieC++STL/class_template.JPG" alt="类模板，指定类参数类型"></p><p><img src="/posts/houjieC++STL/function_template.JPG" alt="函数模板，自动推导传入函数的参数类型并根据作相应的操作符调用"></p><p><img src="/posts/houjieC++STL/member_template.JPG" alt="成员模板"></p><p><img src="/posts/houjieC++STL/specialization.JPG" alt="在模板中，对于某种类型的做特殊处理（比如此时会有更适合和高效的处理），调用时也会自动调用特化的版本，标志template&lt;&gt;为空声明"></p><p><img src="/posts/houjieC++STL/partial_specialization.JPG" alt="部分模板参数指定为某类型时有特殊处理，只绑定其中一个模板参数，标志template&lt;&gt;为非空声明"></p><h2 id="Allocator"><a href="#Allocator" class="headerlink" title="Allocator"></a>Allocator</h2><p>不建议你单独使用分配器。</p><p><code>operator new()</code>和底层的内存分配函数<code>malloc()</code></p><p><code>malloc()</code>分配给申请内存大小的空间时会额外给一些空间放必要的东西，有一些额外的开销cookie，<code>free</code>释放内存。但是一般使用时，由于申请的size不大，所以这些额外的空间占所有的比例比较大，所以是个缺陷。</p><blockquote><p>P11总结一下，allocator就是用来分配内存的，最重要的两个函数是allocate和deallocate，就是用来申请内存和回收内存的，外部（一般指容器）调用的时候只需要知道这些就够了。内部实现，目前的所有编译器都是直接调用的::operator new()和::operator delete()，说白了就是和直接使用new运算符的效果是一样的，所以老师说它们都没做任何特殊处理。G2.9里的那个更好的allocator，在老师的另一门课《C++内存管理》里讲得特别细，大概从P23开始讲细节，更早的几P也有使用用例。</p></blockquote><p><img src="/posts/houjieC++STL/p11_1.JPG" alt="malloc开辟内存示意"></p><p><img src="/posts/houjieC++STL/p11_2.JPG" alt="一般的VC等编译器只是将malloc包装成allocator，然后调用，缺陷没有改变"></p><p><img src="/posts/houjieC++STL/p11_3.JPG" alt="GNU2.9使用了alloc这个函数，利用16个链表来分配申请的size的内存，减少了不必要的cookie"></p><p><img src="/posts/houjieC++STL/p11_4.JPG" alt="alloc 16个链表示意。每个代表8个字节长度，从8-128个字节"></p><p><img src="/posts/houjieC++STL/p11_5.JPG" alt="但是到了GNU4.9时候又抛弃了alloc，转而回到了原始的有缺陷的设计。不过依然可以调用GNU命名空间中的_pool_alloc来使用2.9版本中的alloac函数"></p><h2 id="容器之间的实现关系与分类"><a href="#容器之间的实现关系与分类" class="headerlink" title="容器之间的实现关系与分类"></a>容器之间的实现关系与分类</h2><p><img src="/posts/houjieC++STL/p12_1.JPG" alt="容器之间的关联，复合关系，不是继承，只是会有某些容器的功能"></p><h2 id="深度探索list（上）"><a href="#深度探索list（上）" class="headerlink" title="深度探索list（上）"></a>深度探索list（上）</h2><p>最具代表性的容器，双向循环列表，优先介绍。</p><p>定义自己的迭代器iterator， 其中要有typedef和operator reloading（操作符重载）</p><p><img src="/posts/houjieC++STL/p13_1.JPG" alt="list的iterator定义"></p><p><img src="/posts/houjieC++STL/p13_2.JPG" alt="提到了迭代器++所体现的智能指针的作用，取出prev或next指针赋给node。其中要特别注意前++和后++的区别，由于C++中整数连续后++是违法的，所以这里操作符重载后++时返回原值，也造成迭代器后++违法的现象"></p><p><img src="/posts/houjieC++STL/p13_3.JPG" alt="取出list中的data"></p><h2 id="深度探索list（下）"><a href="#深度探索list（下）" class="headerlink" title="深度探索list（下）"></a>深度探索list（下）</h2><p><img src="/posts/houjieC++STL/p14_1.JPG" alt="G2.9和G4.9版本链表源代码的比较，一处修改了iterator模板传入参数个数，一个是修改指针指向自己这个类，而非void然后再强制转换"></p><p><img src="/posts/houjieC++STL/p14_2.JPG" alt="容器的一般都是满足左闭右开的特点，也就是最后一个值取不到，所以这里最后再环状末尾加了一个空的节点，但是指向begin节点"></p><h2 id="迭代器的设计原则和Iterator-Traits的作用与设计"><a href="#迭代器的设计原则和Iterator-Traits的作用与设计" class="headerlink" title="迭代器的设计原则和Iterator Traits的作用与设计"></a>迭代器的设计原则和Iterator Traits的作用与设计</h2><p>容器用域存储数据，算法用以处理数据，而迭代器iterator就是沟通容器和算法的桥梁。上一讲提到，容器需要自己定义iterator，并且写出<strong>五个</strong>规定的typedef，这个就是为了算法询问iterator，得出这样的特性然后进行定制的数据操作。但是如果iterator不是类，无法写出typedef的时候，就需要traits这样的中间变量来让算法得出迭代器的特性。</p><p><img src="/posts/houjieC++STL/p15_1.JPG" alt="算法询问迭代器的特性，但是迭代器只是指针的话就无法直接询问"></p><p><img src="/posts/houjieC++STL/p15_2.JPG" alt="利用traits萃取机来充当中间人的角色"></p><p><img src="/posts/houjieC++STL/p15_3.JPG" alt="如果迭代器是类，直接询问得出结果，否则利用偏特化替迭代器回答。其中注意const的使用"></p><p><img src="/posts/houjieC++STL/p15_4.JPG" alt="traits传递完整的五个必须的特性"></p><p>除了iterator traits之外，还有各式的traits, 包括type traits, char traits, pointer traits等等。</p><h2 id="Vector深度探索"><a href="#Vector深度探索" class="headerlink" title="Vector深度探索"></a>Vector深度探索</h2><p><img src="/posts/houjieC++STL/p16_1.JPG" alt="vector不在原地扩充，而是请求重新分配2倍大小的空间"></p><p><img src="/posts/houjieC++STL/p16_2.JPG" alt="申请空间并搬运，这里的insert_aux函数还可能被其他函数调用，所以又重新判断了一次"></p><p><img src="/posts/houjieC++STL/p16_3.JPG" alt></p><p><img src="/posts/houjieC++STL/p16_4.JPG" alt="vector的iterator就是个指针，因为是连续空间，所以利用traits为算法传递typedef. G4.9版本中对vector做了多层推导，所以可读性不高，也被侯老师吐嘈。"></p><h2 id="array-forward-list深度探索"><a href="#array-forward-list深度探索" class="headerlink" title="array, forward_list深度探索"></a>array, forward_list深度探索</h2><p>把array包装成容器，然后利用指针当iterator进行操作。</p><p><img src="/posts/houjieC++STL/p17_1.JPG" alt></p><p><img src="/posts/houjieC++STL/p17_2.JPG" alt="单向链表与前面的双向循环链表类似，只不过没有prev的指针，因此迭代器没有--操作"></p><h2 id="deque-queue和stack深度探索（上）"><a href="#deque-queue和stack深度探索（上）" class="headerlink" title="deque, queue和stack深度探索（上）"></a>deque, queue和stack深度探索（上）</h2><p>双向队列deque在上层调用时表现是连续的，但是底层实现是用分段连续的buffer来实现的，通过迭代器和操作符重载来营造连续插入或弹出的假象。</p><p><img src="/posts/houjieC++STL/p18_1.JPG" alt="一个迭代内部有四个指针：cur,first, last, node，其中前三个指针是针对buffer而言的，而node指的是当前deque中用到了哪个buffer"></p><p><img src="/posts/houjieC++STL/p18_2.JPG" alt="deque class内部有四个数据，start和finish是类似begin()和end()的两个首尾迭代器，一般的容器都会有，map指向这个包含buffer的deque，map_size表示大小，所以整个deque大小是2x16+2x4=40 bytes. 此外，G2.9还可以预设buff_size大小，否则的话按照默认规则设定。"></p><p><img src="/posts/houjieC++STL/p18_3.JPG" alt="deque的迭代器设计，其类型是可以随意访问的iterator，map pointer是指向指针的指针，因此deque内部存着buffer的node指针"></p><p><img src="/posts/houjieC++STL/p18_4.JPG" alt></p><p><img src="/posts/houjieC++STL/p18_5.JPG" alt="deque的元素插入，是将左右两边比较短的那一部分进行搬移"></p><h2 id="deque-queue和stack深度探索（下）"><a href="#deque-queue和stack深度探索（下）" class="headerlink" title="deque, queue和stack深度探索（下）"></a>deque, queue和stack深度探索（下）</h2><p>deque内部通过iterator操作符重载并做一些处理来进行表面上连续空间的模拟。</p><p><img src="/posts/houjieC++STL/p19_1.JPG" alt="back代表最后一个元素，而容器中的finish是开的，取不到，所以需要减去1得到最后一个元素"></p><p><img src="/posts/houjieC++STL/p19_2.JPG" alt="dwque元素size计算，前面的buffer后面的buffer元素不一定是满的（双向的特点），只有中间是满的，所以分三步计算"></p><p><img src="/posts/houjieC++STL/p19_3.JPG" alt="迭代器++和--操作符重载"></p><p><img src="/posts/houjieC++STL/p19_4.JPG" alt="迭代器跳着加的操作符重载"></p><p><img src="/posts/houjieC++STL/p19_5.JPG" alt="迭代器跳着减的操作转为跳着加的操作"></p><p><img src="/posts/houjieC++STL/p19_6.JPG" alt="G4.9版本的deque，其中取消了用户对buffsize的预设"></p><p><img src="/posts/houjieC++STL/p19_7.JPG" alt="利用deque模拟队列queue"></p><p><img src="/posts/houjieC++STL/p19_8.JPG" alt="用deque模拟stack"></p><p><img src="/posts/houjieC++STL/p19_9.JPG" alt="queue和stack也可用list模拟，但是默认是deque，因为速度较快"></p><p><img src="/posts/houjieC++STL/p19_10.JPG" alt="queue不可用vector模拟，以为vector没有pop_front操作"></p><p><img src="/posts/houjieC++STL/p19_11.JPG" alt="queue和stack都不可用map或set模拟，因为没有该数据结构弹出元素这一操作"></p><h2 id="RB-Tree深度探索"><a href="#RB-Tree深度探索" class="headerlink" title="RB-Tree深度探索"></a>RB-Tree深度探索</h2><p>关联式查找容器的底层支撑结构。</p><p><img src="/posts/houjieC++STL/p20_1.JPG" alt="这里红黑树的header不是根节点，是空的，为了容器前闭后开处理方便"></p><p><img src="/posts/houjieC++STL/p20_2.JPG" alt="红黑树的五个模板参数，key和value是数据类型，keyofvalue代表如何从value取出key(value可能是key-data组成的pair)，compare代表key的比较函数"></p><p><img src="/posts/houjieC++STL/p20_3.JPG" alt="四个模板参数的一个实例，其中key和value都是int类型，identity函数代表取key函数，不是C++标准库函数，是G2.9的函数"></p><p><img src="/posts/houjieC++STL/p20_4.JPG" alt></p><p><img src="/posts/houjieC++STL/p20_5.JPG" alt="G4.9与2.9版本的红黑树使用上改了一些命名字母"></p><h2 id="Set-Multiset深度探索"><a href="#Set-Multiset深度探索" class="headerlink" title="Set, Multiset深度探索"></a>Set, Multiset深度探索</h2><p>set和multiset底层利用Rb_tree实现，所以基本上它们的事内部都是交给红黑树去完成，所以又被叫成container adapter. 其中需要注意的是它们中的key和value是一样的，所以不能被改变，否则key就会变化。</p><p><img src="/posts/houjieC++STL/p21_1.JPG" alt="set和multiset"></p><p><img src="/posts/houjieC++STL/p21_2.JPG" alt="set具有三个模板参数，因为value和keyofcompare只有一种默认情况。其中const_iterator的类型只能用于读取容器内的元素，但不能改变其值，对const_iterator类型解引用，得到的是一个指向const对象的引用。"></p><h2 id="Map-Multimap深度探索"><a href="#Map-Multimap深度探索" class="headerlink" title="Map, Multimap深度探索"></a>Map, Multimap深度探索</h2><p><a href="https://www.cnblogs.com/ChinaHook/p/6985518.html" target="_blank" rel="noopener">related blog</a></p><p><img src="/posts/houjieC++STL/p22_1.JPG" alt="map和multimap使用红黑树实现key-value的存储，且不允许改变key值"></p><p><img src="/posts/houjieC++STL/p22_2.JPG" alt="map的模板参数，其中会将key-data打包成pair存入Rb_tree中当作value，且为了防止key不被修改，在key前加了const关键字"></p><p><img src="/posts/houjieC++STL/p22_3.JPG" alt="map可以使用[]操作符和lower_bound函数插入key-value，如果key不存在会返回一个合适的位置，但是这个性质multimap没有，只能用insert函数插入pair(), 应该是因为multimap可以有多个相同的key，所以用[]操作符可能无法加入相同的key."></p><h2 id="Hash-Table深度探索"><a href="#Hash-Table深度探索" class="headerlink" title="Hash Table深度探索"></a>Hash Table深度探索</h2><p>另一个关联式容器哈希表，或散列表，是一种常用的存储较多数据的数据结构（减少查找时间），其中难点在于hasd function的选择和对对哈希碰撞的处理（一般是开放式寻址法或者链表法）。</p><p><img src="/posts/houjieC++STL/p23_1.JPG" alt="hash table示意，利用bucket和list来存储数据。其中G2.9硬编码了一系列质数作为扩充后的长度，但是G4.9没有继续沿用了"></p><p><img src="/posts/houjieC++STL/p23_2.JPG" alt="hashtable的6个模板参数，其中key指定篮子，value是pair，HashFcn是哈希函数，映射要存的object为key，ExtractKey是从存入的value pair中取出key的方式，同Rb_tree类似，EqualKey是判断key是否相等的函数。hashtable的大小为1+1+1+12+4=19个字节，为了对齐取4的倍数，为20 bytes. 其迭代器包含指向当前元素位置的指针和指向当前hashtable的指针。"></p><p><img src="/posts/houjieC++STL/p23_3.JPG" alt="hashtable使用示例，其中eqstr是自己写的函数，调用C中比较char的函数strcmp，然后根据其返回的int值（1，0，-1）返回bool值"></p><p><img src="/posts/houjieC++STL/p23_4.JPG" alt="c++标准库中偏特化了一些hash函数"></p><p><img src="/posts/houjieC++STL/p23_5.JPG" alt="但是G2.9内没有提供针对string的现成的hash函数，只有针对C的字符串的哈希函数。到了G4.9版本，基本的数据类型都有了自己的hash function, 包括string"></p><p><img src="/posts/houjieC++STL/p23_6.JPG" alt="找到存放的位置key，这里做了取余处理，也就是对编码出的hash值对bucket长度取余"></p><p><img src="/posts/houjieC++STL/p23_7.JPG" alt="上面的示例程序计算hash key示意，注意还有一个取余操作。在这里哈希表是单向链表存储，实际有的可能是双向链表存储"></p><h2 id="Unordered容器概念"><a href="#Unordered容器概念" class="headerlink" title="Unordered容器概念"></a>Unordered容器概念</h2><p>利用hash table实现unordered_set, unordered_multiset, unordered_map, unordered_multimap容器。</p><p><img src="/posts/houjieC++STL/p26_1.JPG" alt="四个unordered容器的模板参数"></p><p><img src="/posts/houjieC++STL/p26_2.JPG" alt="回顾之前利用unordered_set存储随机数的例子，验证两个事情：1. hashtable的bucket数量比要存的object的数量多；2. 扩容后的长度不一定是之前指定的质数了。"></p><h2 id="算法的形式"><a href="#算法的形式" class="headerlink" title="算法的形式"></a>算法的形式</h2><p>算法通过迭代器联通容器，进行数据处理和函数运行。从语言层面上讲，容器是class template, 而算法是function template, 其中有些算法还可传入你定制的准则criterion, 比如sort函数的比较函数。</p><p><img src="/posts/houjieC++STL/p27_1.JPG" alt="STL中算法algorithm的作用"></p><h2 id="迭代器的分类"><a href="#迭代器的分类" class="headerlink" title="迭代器的分类"></a>迭代器的分类</h2><p>STL容器中总共会用到三种种类，分别是random_access_iterator_tag (array, vector, deque), bidirectional_iterator_tag(list, rb_tree), forward_iterator_tag(forward_list, hashtable可能是) 这三种。多出来的两种input_iterator_tag和output_iterator_tag属于istream和ostream. 五种之间是继承关系，同时用这种tag的方式，非简单的12345.</p><p><img src="/posts/houjieC++STL/p28_1.JPG" alt="各种容器的迭代器种类"></p><p><img src="/posts/houjieC++STL/p28_2.JPG" alt="打印出各个容器的迭代器种类。右边的容器(typename)::iterator()表示临时对象，传给display_category()函数作为具体的模板参数，然后利用萃取机traits得出出入的迭代器的category，然后利用函数重载传给具体的_display_category()，打印出结果。istream和ostream利用直接指定的方式打印出。"></p><p><img src="/posts/houjieC++STL/p28_3.JPG" alt="也可直接利用C++的typeid取出迭代器的name属性，打印出类型名称。"></p><p><img src="/posts/houjieC++STL/p28_4.JPG" alt></p><p><img src="/posts/houjieC++STL/p28_5.JPG" alt></p><h2 id="迭代器类别对算法的影响"><a href="#迭代器类别对算法的影响" class="headerlink" title="迭代器类别对算法的影响"></a>迭代器类别对算法的影响</h2><p>STL算法内部会利用迭代器的类别开辟出不同的处理分支，想尽方法达到最快的处理速度。</p><p><img src="/posts/houjieC++STL/p29_1.JPG" alt="根据不同的迭代器类别计算其距离。主函数部分的inline语句会预先判断该迭代器是否有difference_type，如果有才会进行下一步。主函数利用萃取机得出的category当作临时对象调用次函数，虽然次函数只写了两种情况，但是其他的迭代器类型会根据继承关系进行调用，这样做就是为了方便，不必写出冗余的代码。"></p><p><img src="/posts/houjieC++STL/p29_2.JPG" alt="举了advance的例子（前进），与之前的distance计算类似，这里只不过把得出迭代器类型的语句包装成了一个小函数。"></p><p><img src="/posts/houjieC++STL/p29_3.JPG" alt="举了第三个例子，copy函数。一般的思路是给出三个参数：要拷贝的起点和终点，以及拷贝到的起点，但是这里根据迭代器的类型，极尽所能做了很多的分支，优化到最快。memmove是C语言的底层比较安全的内存复制函数，trivial代表“不重要的‘，由标准库提供的type traits提供，目的为了决定哪一种拷贝赋值比较快。其中对判断语句的first!=last和n&lt;first-last都做了速度衡量，可以说是非常精炼了。"></p><p><img src="/posts/houjieC++STL/p29_4.JPG" alt="举的第四个例子，destroy函数，与copy类似，也做了很多判断处理。"></p><p><img src="/posts/houjieC++STL/p29_5.JPG" alt="第五个例子，unique_copy函数"></p><p><img src="/posts/houjieC++STL/p29_6.JPG" alt></p><h2 id="算法源码剖析（几个例子）"><a href="#算法源码剖析（几个例子）" class="headerlink" title="算法源码剖析（几个例子）"></a>算法源码剖析（几个例子）</h2><p>举了几个C++标准库中的例子。表明与迭代器结合很紧密。</p><p><img src="/posts/houjieC++STL/p30_1.JPG" alt="C++标准库的函数与C函数在形式上有些不同，是一种函数模板，并且与迭代器联系紧密"></p><p><img src="/posts/houjieC++STL/p30_2.JPG" alt="第一个例子accumulate,累计函数，有两个版本，一种就是传入三个参数进行累加，另一种可以指定二元操作函数，进行定制的累计操作。在右边的代码示例中，利用了自定义函数传入和函数对象/仿函数重载operator()，两者都可以起作用，作为可被调用的对象。"></p><p><img src="/posts/houjieC++STL/p30_3.JPG" alt="第二个例子for_each，跟第一个例子类似也使用了自定义函数和函数对象，同时强调C++11可以用range-based for statement进行操作"></p><p><img src="/posts/houjieC++STL/p30_4.JPG" alt="第三个例子replace函数，replace单纯地根据相等替换数值,replace_if可以传入判断条件, replace_copy是在copy过程中替换旧值为新值。"></p><p><img src="/posts/houjieC++STL/p30_5.JPG" alt="第四个例子count函数，count函数简单判断值相等进行加一操作，而count_if可以传入判断条件。在这里侯老师提到了C++标准库的这些函数虽然是全局的，但是不一定适用于所有的容器，有的容器可能有自己定义的同名成员函数，这个时候就要调用容器自己的对应函数。右边的例子表明不带其同名成员函数的容器可以调用C++标准库全局的这个函数，但是有了同名成员函数就要最好调用自己的。"></p><p><img src="/posts/houjieC++STL/p30_6.JPG" alt="第五个例子find函数，这个在最开始容器使用测试时候使用过，属于全局函数，有些容器比如那几个关联式容器就有自己定制的find()函数"></p><p><img src="/posts/houjieC++STL/p30_7.JPG" alt="第六个例子sort函数，其中提到了逆序迭代器。"></p><p><img src="/posts/houjieC++STL/p30_8.JPG" alt="reverse iterator示意"></p><p><img src="/posts/houjieC++STL/p30_9.JPG" alt="第七个例子二分搜索binary_search, 内部调用lower_bound函数取出位置。这里侯老师认为在查找时候应该进行一下开头检查，然后再根据结果选择进不进去查找。"></p><h2 id="仿函数和函数对象"><a href="#仿函数和函数对象" class="headerlink" title="仿函数和函数对象"></a>仿函数和函数对象</h2><p>在前面一些的算法的使用中，已经见识到了函数对象/仿函数传入其中进行特殊的操作。在C++的STL中有三大类functors，分别是算术类，逻辑运算类和相对关系类。他们都继承了某个适当者，这样是为了后续利用适配器进行改造，而前提就是像algorithm对iterator一样利用traits询问问题，继承的作用就是为了融入STL，利用被继承者的typedef来回答问题。此外，GNU中也会有一些仿函数供用户使用，比如前面提到的<code>Identity</code>和<code>Select1st</code></p><p><img src="/posts/houjieC++STL/p31_1.JPG" alt="几个标准库仿函数示例，利用类的对象形式，重载了操作符()，并继承了二元变量操作binary_function"></p><p><img src="/posts/houjieC++STL/p31_2.JPG" alt="举例前面自定义的仿函数，由于没有继承，所以后续无法融入STL进行适配"></p><p><img src="/posts/houjieC++STL/p31_3.JPG" alt="仿函数的可适配条件就是需要挑选适当者进行继承"></p><h2 id="存在多种适配器"><a href="#存在多种适配器" class="headerlink" title="存在多种适配器"></a>存在多种适配器</h2><p><img src="/posts/houjieC++STL/p32_1.JPG" alt="仿函数适配器与仿函数类似于算法与迭代器。把仿函数包成adapter给算法使用"></p><p>适配器可以认为具有一个桥梁作用：把某个底层B包装下做成A交给用户使用，但是内部仍然是调用B来运作。在C++中，适配器采用复合的方式获得某种功能，非继承。</p><p>容器适配器方面，典型的是stack和queue，它们内部都是内含了deque作为其底层容器，然后改造成具有自己特性和接口的容器。</p><p><img src="/posts/houjieC++STL/p32_2.JPG" alt></p><h2 id="Binder2nd-not1-bind"><a href="#Binder2nd-not1-bind" class="headerlink" title="Binder2nd/not1/bind"></a>Binder2nd/not1/bind</h2><p>介绍了前面使用过的一个计数语句<code>cout &lt;&lt; count_if(vi.begin(), vi.end(), not1(bind2nd(less&lt;int&gt;, 40)))</code>，其中用到了算法，函数适配器和函数对象。</p><p><code>bind2nd</code>和<code>not1</code>都是函数适配器，用以修饰后面的函数并将其包装。<code>bind2nd</code>绑定第二实参，限制less函数调用时保持第二参数为40不变。修饰后的函数继续被<code>not1</code>修饰，将结果取反，也就是不小于40的数计数。</p><p><code>bind2nd</code>内部使用<code>binder2nd</code>函数，目的是为了简化用户使用难度，自动帮你推导<code>operation</code>模板参数。侯老师提到<code>binder1st</code>, <code>binder2nd</code>这些函数后来都被<code>bind</code>函数取代，但是旧的函数依旧可以使用。</p><p><img src="/posts/houjieC++STL/p33_1.JPG" alt="bin2nd函数内部做了很多工作，包括继承一元参数函数unary_function，询问和操作符重载。注意这里的less&lt;int&gt;()一开始是函数对象，属于typename加()的形式，非函数调用"></p><p><img src="/posts/houjieC++STL/p34_1.JPG" alt="not1继续修饰bind2nd, 对pred取反"></p><p>在C++2.0版本中，<code>bind</code>函数取代了<code>bind2nd</code>，可以用来绑定函数/函数对象/成员函数和数据成员，同时可以指定绑定哪个参数，哪个参数不用绑定，利用诸如_1这样下划线加数字的形式（palceholder，占位符）代表第几个参数可以被后续调用再指明。<code>bind</code>可以指定一个模板参数，代表返回类型。更多的例子和示意见下面的图片。</p><p><img src="/posts/houjieC++STL/p35_1.JPG" alt="右边举了几个用bind绑定的例子。fn_invert中my_divide的第一参数在后面，所以调用时是_1/_2，fn_rounding就指定了返回类型为int，bound_memfn绑定了函数为Mypair类中的multioly函数，允许用户传递数据，bound_memdata和bound_memdata2绑定函数为传出类中成员数据。最后的例子比较了bind2nd和bind使用的区别，其中cbegin中的c是const的意思"></p><h2 id="迭代器适配器reverse-iterator-inserter"><a href="#迭代器适配器reverse-iterator-inserter" class="headerlink" title="迭代器适配器reverse_iterator/inserter"></a>迭代器适配器reverse_iterator/inserter</h2><p>Adapter在容器，仿函数和迭代器上都有使用。侯老师在这里举了两个例子，一个是前面用到过的reverse_iterator，逆序迭代器遍历方向，另一个是inserter，用来插入数据。在这里侯老师再次强调，adapter是把所有需要的东西系起来，打包好，然后供日后再用，起到一种修饰改造作用。</p><p><img src="/posts/houjieC++STL/p36_1.JPG" alt="逆向迭代器内部也是调用正向迭代器，进行操作符重载，包装成想要的样子。"></p><p><img src="/posts/houjieC++STL/p37_1.JPG" alt="inserter配合copy函数，通过对=操作符进行重载，实现在foo中选定位置进行bar数组的安插，而不是原先的覆盖赋值搬移。其中由于是list容器所以利用advance实现起始迭代器加3"></p><p>copy函数内部已经把流程写死了，就是按照指定的result迭代器，一步步搬移前面两个迭代器指定范围内的数据，后续的一些adapter改造操作，通过利用操作符重载各自解读，来实现自己定制的特性。</p><h2 id="X适配器ostream-iterator-istream-iterator"><a href="#X适配器ostream-iterator-istream-iterator" class="headerlink" title="X适配器ostream_iterator/istream_iterator"></a>X适配器ostream_iterator/istream_iterator</h2><p>ostream和istream是两个特殊的迭代器，他们不属于一般的迭代器适配器，容器适配器和仿函数适配器中的任何一个，因此侯老师称之为X适配器，X代表一种未知。</p><p><img src="/posts/houjieC++STL/p38_1.JPG" alt="利用out_it迭代器重载操作符=配合copy函数把数据传给cout打印出来"></p><p><img src="/posts/houjieC++STL/p39_1.JPG" alt="eos可以认为是一个标志，代表cin的结束标志，没有实际参数，iit才是真正的属于输入数据的迭代器，参数为cin,与eos比较判断是否读入完成"></p><p><img src="/posts/houjieC++STL/p39_2.JPG" alt="如果在例2的两个语句中间加“请输出数字”这样的提示语永远都不会出现，因为这个istream_iterator一旦创建就开始read，读一个传一个"></p><h2 id="一个万用的Hash-Function"><a href="#一个万用的Hash-Function" class="headerlink" title="一个万用的Hash Function"></a>一个万用的Hash Function</h2><p>hash function的制定可以没有任何规律，但是效果是一定要够乱，尽量减少碰撞。这里侯老师先以一个比较简单的customerhash函数开场，说明这样虽然简单，但是hash code比较容易重复。之后引出了C++标准库中的一个“万用的hash function”, 其中的重点是<strong>variadic templates</strong>, 这个是C++ 2.0中比较重要的新特性，大意就是可变的模板参数，常用…表示，比如下图中的序号1表示的函数，其中的<code>template&lt;typename...Types&gt;</code>就表示可以接受任意数量的模板参数。</p><p><img src="/posts/houjieC++STL/p40_1.JPG" alt="右上角的hash_val函数先调用序号1函数，然后转到了序号2，序号2函数根据4中的hash_combine生成seed，然后再返回2继续拿出seed，不断在序号2和序号4中递归循环，参数会一个一个的拿做当seed，最后只剩一个的时候转去序号3函数，再通过4得到最后的hash code. ^=属于异或操作，0x9e3779b9是根据黄金比例来选取的。"></p><p><img src="/posts/houjieC++STL/p40_2.JPG" alt></p><p><img src="/posts/houjieC++STL/p40_3.JPG" alt="G4.9版本中已经实现对string类型的hash function的偏特化"></p><h2 id="Tuple用例"><a href="#Tuple用例" class="headerlink" title="Tuple用例"></a>Tuple用例</h2><p>Tuple是可以将几个不同的数据结构的变量绑在一起的类型，使用上利用直接声明<code>tuple&lt;&gt;</code>创建，也可以利用<code>make_tuple()</code>实现，或者<code>tie</code>函数快速对变量进行赋值，如下图所示。其中可以对&lt;和=这样的操作符进行重载实现特性上的适配。</p><p><img src="/posts/houjieC++STL/p41_1.JPG" alt="tuple的用法示例。最后的tuple_size,::value,tuple_element类似于traits的问答式。此外ppt中tuple的大小为32，侯老师没有给出合适的解释，按照后一页ppt中tuple存在套娃继承的思路，大小应该是4+4+4+16=28，如果最顶的tuple没有被继承，那个就是28+1=29，然后要对齐是4的倍数，结果就是32，但是因为被继承，不是单独的，所以就没有大小，还是28.这里我倾向认为是类似struct的大小计算，最后的大小要是complex大小的倍数，所以是32（但是还没有查证）."></p><p><img src="/posts/houjieC++STL/p41_2.JPG" alt="tuple内部实现了自动递归套娃继承，也是通过使用variadic templats可变模板参数完成。不断地划分head-tail构建父类，而且取相应tail地址的时候也是指向一整个模块，如右下角示意。"></p><h2 id="type-traits"><a href="#type-traits" class="headerlink" title="type traits"></a>type traits</h2><p>type traits主要是为了给用户自己写的类提供一些特征信息，用户自己不需要对其进行偏特化处理就可以自动获取，节省代码工作量，广泛用于C++泛型编程。这些特征信息通过询问的方式进行获取，指导该类后续的相应操作。</p><p><img src="/posts/houjieC++STL/p42_1.JPG" alt="type_traits部分内容示例（G2.9版本）"></p><p>上图出现的Plain Old Data (POD)是一个类型（比如class或者struct），但是没有构造函数，析构函数，虚函数等成分。<a href="https://zh.wikipedia.org/wiki/POD_(%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1" target="_blank" rel="noopener">维基百科</a>_)的解释是：</p><blockquote><p>POD类类型就是指class、struct、union，且不具有用户定义的构造函数、析构函数、拷贝算子、赋值算子；不具有继承关系，因此没有基类；不具有虚函数，所以就没有虚表；非静态数据成员没有私有或保护属性的、没有引用类型的、没有非POD类类型的（即嵌套类都必须是POD）、没有指针到成员类型的（因为这个类型内含了this指针）。</p></blockquote><p>stackoverflow有也相关<a href="https://stackoverflow.com/questions/146452/what-are-pod-types-in-c" target="_blank" rel="noopener">问题</a>：</p><blockquote><p>In short, it is all built-in data types (e.g. <code>int</code>, <code>char</code>, <code>float</code>, <code>long</code>, <code>unsigned char</code>, <code>double</code>, etc.) and all aggregation of POD data. Yes, it’s a recursive definition. ;)</p><p>To be more clear, a POD is what we call “a struct”: a unit or a group of units that just store data.</p></blockquote><p><img src="/posts/houjieC++STL/p42_2.JPG" alt="C++2.0的type_traits非常强大，包含不少特性信息，更多见：http://www.cplusplus.com/reference/type_traits/"></p><p>一个类如果没有没有涉及到指针，就可以不必写析构函数，使用编译器分配的默认的即可。像string内部带了指针，就必须写析构函数。此外，如果不是父类base，没有覆写的虚函数，也不必写virtual destructor.</p><p><img src="/posts/houjieC++STL/p42_3.JPG" alt="利用自定义的类Zoo来测试type traits, 其中刚开始的冒号语句为初始化列，后面四句分别为拷贝构造，搬移构造，拷贝赋值，搬移赋值，&amp;&amp;代表C++2.0新特性move,后面会专门谈到。delete也是2.0新特性，表示写出来但是摧毁掉，default表示使用默认方式，即使你不写也是使用编译器给的默认方式。中间的打印结果中，is_polymorphic为1代表这个类继承了虚函数，所以左边写了虚函数destructor, 相应的右边的结果也显示为1."></p><p>type traits通过模板实现，对类型进行操作，比如下面的例子，利用泛化，偏特化，传回真假值。</p><p><img src="/posts/houjieC++STL/p43_1.JPG" alt="type traits实现is_void，拿掉cv，再借助helper，给出0/1值"></p><p>此外有些type traits实现的特性未曾出现于C++源码标准库。侯老师说这种情况可能就是编译器编译的时候来回答支持，不以源代码的方式呈现。</p><p><img src="/posts/houjieC++STL/p43_2.JPG" alt></p><p><a href="https://blog.csdn.net/mogoweb/article/details/79264925" target="_blank" rel="noopener">traits的理解</a></p><p><a href="https://blog.csdn.net/lihao21/article/details/55043881" target="_blank" rel="noopener">type traits 理解</a></p><h2 id="cout的操作符重载"><a href="#cout的操作符重载" class="headerlink" title="cout的操作符重载"></a>cout的操作符重载</h2><p>cout为何可以接收各式各样的object？因为其内部对各类型都做了操作符重载。注意其返回类型为ostream&amp;，为了可以继续接收，非void返回类型。</p><p><img src="/posts/houjieC++STL/p44_1.JPG" alt></p><p><img src="/posts/houjieC++STL/p44_2.JPG" alt="G4.9版本中cout的操作符重载示例。sub_match代表正则表达式（字符串处理），bitset代表处理二进制对象的类型，类似位图。"></p><h2 id="movable的使用"><a href="#movable的使用" class="headerlink" title="movable的使用"></a>movable的使用</h2><p>move是C++2.0一个比较重要的特性，其内部就是拷贝指针，属于浅拷贝，在type traits中见到的&amp;&amp;符号就代表move功能，而拷贝构造则是深拷贝。move的速度很快，侯捷老师也在课程中比较了加不加move功能对容器元素拷贝速度的影响，同时也给出了一些测试例子，但是在使用move时需要自己对元素的使用有清晰的认识，因为move是拷贝指针，等于是两个指针指向同一个位置，这个是危险的，C++内部会在move时做一些处理去规避这个行为带来的危险情况，所以move完之后的原始对象就最好不要再用了。</p><p><img src="/posts/houjieC++STL/p45_1.JPG" alt="move的速度一般比拷贝构造快很多。这里侯捷老师测试了不少容器，他提到自己都是用insert函数来完成插值，但是像红黑树这样的容器是自动选择位置的，不允许用户手动指定位置。在这样的情况下insert函数也可以使用，但是具体的位置不一定是用户指定的。"></p><p><img src="/posts/houjieC++STL/p45_2.JPG" alt="从下面的程序中可以看出，为了避免delete错误，move的对象在执行时会指向NULL，所以最好不要再去使用之前被拷贝的对象了。"></p><p><img src="/posts/houjieC++STL/p45_3.JPG" alt="对于临时创建的对象，如果有move函数操作，编译器就会自动调用，像Mc11(c1)这样的语句，由于c1不是临时对象，编译器还是老老实实用的深拷贝，但是用户自己可以利用下一行的std::move进行安排编译器去用move操作，但是move之后，用户就要确保不要用到c1这个对象了。"></p><p><img src="/posts/houjieC++STL/p45_4.JPG" alt></p><p><img src="/posts/houjieC++STL/p45_5.JPG" alt="vector的move拷贝动作，利用swap函数对三个指针操作，所以相比较默认的拷贝构造速度会快上很多。"></p><p><a href="https://www.cnblogs.com/catch/p/3500678.html" target="_blank" rel="noopener">C++的左值和右值</a></p></div><div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者： </strong>Richard YU</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="http://densecollections.top/posts/houjieC++STL/" title="侯捷c++STL体系结构与内核分析">http://densecollections.top/posts/houjieC++STL/</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"><a href="/tags/侯捷/" rel="tag"><i class="fa fa-tag"></i> 侯捷</a> <a href="/tags/c-11/" rel="tag"><i class="fa fa-tag"></i> c++11</a> <a href="/tags/STL/" rel="tag"><i class="fa fa-tag"></i> STL</a></div><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/posts/yolopaperreading/" rel="next" title="yolo系列论文阅读笔记"><i class="fa fa-chevron-left"></i> yolo系列论文阅读笔记</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"></div></div></footer></div></article></div></div><div class="comments" id="comments"></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span> <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span> <span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap">站点概览</li></ul><div class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" src="/uploads/header.jpg" alt="Richard YU"><p class="site-author-name" itemprop="name">Richard YU</p><div class="site-description motion-element" itemprop="description">Today everything exists to end in a photograph</div></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"><a href="/archives/"><span class="site-state-item-count">24</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/"><span class="site-state-item-count">13</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/"><span class="site-state-item-count">54</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="feed-link motion-element"><a href="/atom.xml" rel="alternate"><i class="fa fa-rss"></i> RSS</a></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/richardyu114" title="GitHub &rarr; https://github.com/richardyu114" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a> </span><span class="links-of-author-item"><a href="https://twitter.com/Yu1145635107" title="Twitter &rarr; https://twitter.com/Yu1145635107" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a> </span><span class="links-of-author-item"><a href="https://instagram.com/d.h.richard" title="Instagram &rarr; https://instagram.com/d.h.richard" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a> </span><span class="links-of-author-item"><a href="https://weibo.com/u/5211687990" title="Weibo &rarr; https://weibo.com/u/5211687990" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a> </span><span class="links-of-author-item"><a href="https://www.douban.com/people/161993653/" title="豆瓣 &rarr; https://www.douban.com/people/161993653/" rel="noopener" target="_blank"><i class="fa fa-fw fa-paperclip"></i>豆瓣</a></span></div><div class="cc-license motion-element" itemprop="license"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a></div></div></div><div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#About"><span class="nav-number">1.</span> <span class="nav-text">About</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#认识headers、版本、重要资源"><span class="nav-number">2.</span> <span class="nav-text">认识headers、版本、重要资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#STL体系结构基础介绍"><span class="nav-number">3.</span> <span class="nav-text">STL体系结构基础介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器与分类之各种测试（1）"><span class="nav-number">4.</span> <span class="nav-text">容器与分类之各种测试（1）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器与分类之各种测试（2）"><span class="nav-number">5.</span> <span class="nav-text">容器与分类之各种测试（2）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器与分类之各种测试（3）"><span class="nav-number">6.</span> <span class="nav-text">容器与分类之各种测试（3）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器之分类与各种测试（4）"><span class="nav-number">7.</span> <span class="nav-text">容器之分类与各种测试（4）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分配器测试"><span class="nav-number">8.</span> <span class="nav-text">分配器测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOP-vs-GP"><span class="nav-number">9.</span> <span class="nav-text">OOP vs. GP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作符重载和模板（泛化，全特化，偏特化）"><span class="nav-number">10.</span> <span class="nav-text">操作符重载和模板（泛化，全特化，偏特化）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Allocator"><span class="nav-number">11.</span> <span class="nav-text">Allocator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器之间的实现关系与分类"><span class="nav-number">12.</span> <span class="nav-text">容器之间的实现关系与分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深度探索list（上）"><span class="nav-number">13.</span> <span class="nav-text">深度探索list（上）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深度探索list（下）"><span class="nav-number">14.</span> <span class="nav-text">深度探索list（下）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代器的设计原则和Iterator-Traits的作用与设计"><span class="nav-number">15.</span> <span class="nav-text">迭代器的设计原则和Iterator Traits的作用与设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vector深度探索"><span class="nav-number">16.</span> <span class="nav-text">Vector深度探索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#array-forward-list深度探索"><span class="nav-number">17.</span> <span class="nav-text">array, forward_list深度探索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deque-queue和stack深度探索（上）"><span class="nav-number">18.</span> <span class="nav-text">deque, queue和stack深度探索（上）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deque-queue和stack深度探索（下）"><span class="nav-number">19.</span> <span class="nav-text">deque, queue和stack深度探索（下）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RB-Tree深度探索"><span class="nav-number">20.</span> <span class="nav-text">RB-Tree深度探索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Set-Multiset深度探索"><span class="nav-number">21.</span> <span class="nav-text">Set, Multiset深度探索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map-Multimap深度探索"><span class="nav-number">22.</span> <span class="nav-text">Map, Multimap深度探索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hash-Table深度探索"><span class="nav-number">23.</span> <span class="nav-text">Hash Table深度探索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unordered容器概念"><span class="nav-number">24.</span> <span class="nav-text">Unordered容器概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法的形式"><span class="nav-number">25.</span> <span class="nav-text">算法的形式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代器的分类"><span class="nav-number">26.</span> <span class="nav-text">迭代器的分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代器类别对算法的影响"><span class="nav-number">27.</span> <span class="nav-text">迭代器类别对算法的影响</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法源码剖析（几个例子）"><span class="nav-number">28.</span> <span class="nav-text">算法源码剖析（几个例子）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#仿函数和函数对象"><span class="nav-number">29.</span> <span class="nav-text">仿函数和函数对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存在多种适配器"><span class="nav-number">30.</span> <span class="nav-text">存在多种适配器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Binder2nd-not1-bind"><span class="nav-number">31.</span> <span class="nav-text">Binder2nd/not1/bind</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代器适配器reverse-iterator-inserter"><span class="nav-number">32.</span> <span class="nav-text">迭代器适配器reverse_iterator/inserter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#X适配器ostream-iterator-istream-iterator"><span class="nav-number">33.</span> <span class="nav-text">X适配器ostream_iterator/istream_iterator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个万用的Hash-Function"><span class="nav-number">34.</span> <span class="nav-text">一个万用的Hash Function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tuple用例"><span class="nav-number">35.</span> <span class="nav-text">Tuple用例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#type-traits"><span class="nav-number">36.</span> <span class="nav-text">type traits</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cout的操作符重载"><span class="nav-number">37.</span> <span class="nav-text">cout的操作符重载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#movable的使用"><span class="nav-number">38.</span> <span class="nav-text">movable的使用</span></a></li></ol></div></div></div></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2020</span> <span class="with-love" id="animate"><i class="fa fa-user"></i> </span><span class="author" itemprop="copyrightHolder">Richard YU</span> <span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-area-chart"></i> </span><span title="站点总字数">268k</span> <span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-coffee"></i> </span><span title="站点阅读时长">4:03</span></div><div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div><span class="post-meta-divider">|</span><div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.1</div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i></div></div><script>"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script><script src="/lib/jquery/index.js?v=2.1.3"></script><script src="/lib/velocity/velocity.min.js?v=1.2.1"></script><script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script><script src="/lib/three/three.min.js"></script><script src="/lib/three/canvas_lines.min.js"></script><script src="/js/utils.js?v=7.1.1"></script><script src="/js/motion.js?v=7.1.1"></script><script src="/js/affix.js?v=7.1.1"></script><script src="/js/schemes/pisces.js?v=7.1.1"></script><script src="/js/scrollspy.js?v=7.1.1"></script><script src="/js/post-details.js?v=7.1.1"></script><script src="/js/next-boot.js?v=7.1.1"></script><script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script><script src="//unpkg.com/valine/dist/Valine.min.js"></script><script>var GUEST=["nick","mail","link"],guest="nick,mail,link";guest=guest.split(",").filter(function(e){return-1<GUEST.indexOf(e)}),new Valine({el:"#comments",verify:!0,notify:!0,appId:"duGoywhUmLrx9pM6qQhmf47c-gzGzoHsz",appKey:"m7fc8w4Di5qnAXXaJ5Gp3Pgg",placeholder:"欢迎评论！请留下你的邮箱",avatar:"mm",meta:guest,pageSize:"10",visitor:!0,lang:"zh-cn"})</script><script>// Popup Window;
-    var isfetched = false;
-    var isXml = true;
-    // Search DB path;
-    var search_path = "search.xml";
-    if (search_path.length === 0) {
-      search_path = "search.xml";
-    } else if (/json$/i.test(search_path)) {
-      isXml = false;
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    var onPopupClose = function (e) {
-      $('.popup').hide();
-      $('#local-search-input').val('');
-      $('.search-result-list').remove();
-      $('#no-result').remove();
-      $(".local-search-pop-overlay").remove();
-      $('body').css('overflow', '');
-    }
-
-    function proceedsearch() {
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
-        .css('overflow', 'hidden');
-      $('.search-popup-overlay').click(onPopupClose);
-      $('.popup').toggle();
-      var $localSearchInput = $('#local-search-input');
-      $localSearchInput.attr("autocapitalize", "none");
-      $localSearchInput.attr("autocorrect", "off");
-      $localSearchInput.focus();
-    }
-
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-      'use strict';
-
-      // start loading animation
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
-          '<div id="search-loading-icon">' +
-          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
-          '</div>' +
-          '</div>')
-        .css('overflow', 'hidden');
-      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
-
-      
-        // ref: https://github.com/ForbesLindesay/unescape-html
-        var unescapeHtml = function(html) {
-          return String(html)
-            .replace(/&quot;/g, '"')
-            .replace(/&#39;/g, '\'')
-            .replace(/&#x3A;/g, ':')
-            // replace all the other &#x; chars
-            .replace(/&#(\d+);/g, function (m, p) { return String.fromCharCode(p); })
-            .replace(/&lt;/g, '<')
-            .replace(/&gt;/g, '>')
-            .replace(/&amp;/g, '&');
-        };
-      
-
-      $.ajax({
-        url: path,
-        dataType: isXml ? "xml" : "json",
-        async: true,
-        success: function(res) {
-          // get the contents from search data
-          isfetched = true;
-          $('.popup').detach().appendTo('.header-inner');
-          var datas = isXml ? $("entry", res).map(function() {
-            return {
-              title: $("title", this).text(),
-              content: $("content",this).text(),
-              url: $("url" , this).text()
-            };
-          }).get() : res;
-          var input = document.getElementById(search_id);
-          var resultContent = document.getElementById(content_id);
-          var inputEventFunction = function() {
-            var searchText = input.value.trim().toLowerCase();
-            var keywords = searchText.split(/[\s\-]+/);
-            if (keywords.length > 1) {
-              keywords.push(searchText);
-            }
-            var resultItems = [];
-            if (searchText.length > 0) {
-              // perform local searching
-              datas.forEach(function(data) {
-                var isMatch = false;
-                var hitCount = 0;
-                var searchTextCount = 0;
-                var title = data.title.trim();
-                var titleInLowerCase = title.toLowerCase();
-                var content = data.content.trim().replace(/<[^>]+>/g,"");
-                
-                content = unescapeHtml(content);
-                
-                var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
-                var indexOfTitle = [];
-                var indexOfContent = [];
-                // only match articles with not empty titles
-                if(title != '') {
-                  keywords.forEach(function(keyword) {
-                    function getIndexByWord(word, text, caseSensitive) {
-                      var wordLen = word.length;
-                      if (wordLen === 0) {
-                        return [];
-                      }
-                      var startPosition = 0, position = [], index = [];
-                      if (!caseSensitive) {
-                        text = text.toLowerCase();
-                        word = word.toLowerCase();
-                      }
-                      while ((position = text.indexOf(word, startPosition)) > -1) {
-                        index.push({position: position, word: word});
-                        startPosition = position + wordLen;
-                      }
-                      return index;
-                    }
-
-                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
-                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
-                  });
-                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
-                    isMatch = true;
-                    hitCount = indexOfTitle.length + indexOfContent.length;
-                  }
-                }
-
-                // show search results
-
-                if (isMatch) {
-                  // sort index by position of keyword
-
-                  [indexOfTitle, indexOfContent].forEach(function (index) {
-                    index.sort(function (itemLeft, itemRight) {
-                      if (itemRight.position !== itemLeft.position) {
-                        return itemRight.position - itemLeft.position;
-                      } else {
-                        return itemLeft.word.length - itemRight.word.length;
-                      }
-                    });
-                  });
-
-                  // merge hits into slices
-
-                  function mergeIntoSlice(text, start, end, index) {
-                    var item = index[index.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    var hits = [];
-                    var searchTextCountInSlice = 0;
-                    while (position + word.length <= end && index.length != 0) {
-                      if (word === searchText) {
-                        searchTextCountInSlice++;
-                      }
-                      hits.push({position: position, length: word.length});
-                      var wordEnd = position + word.length;
-
-                      // move to next position of hit
-
-                      index.pop();
-                      while (index.length != 0) {
-                        item = index[index.length - 1];
-                        position = item.position;
-                        word = item.word;
-                        if (wordEnd > position) {
-                          index.pop();
-                        } else {
-                          break;
-                        }
-                      }
-                    }
-                    searchTextCount += searchTextCountInSlice;
-                    return {
-                      hits: hits,
-                      start: start,
-                      end: end,
-                      searchTextCount: searchTextCountInSlice
-                    };
-                  }
-
-                  var slicesOfTitle = [];
-                  if (indexOfTitle.length != 0) {
-                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
-                  }
-
-                  var slicesOfContent = [];
-                  while (indexOfContent.length != 0) {
-                    var item = indexOfContent[indexOfContent.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    // cut out 100 characters
-                    var start = position - 20;
-                    var end = position + 80;
-                    if(start < 0){
-                      start = 0;
-                    }
-                    if (end < position + word.length) {
-                      end = position + word.length;
-                    }
-                    if(end > content.length){
-                      end = content.length;
-                    }
-                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
-                  }
-
-                  // sort slices in content by search text's count and hits' count
-
-                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
-                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
-                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
-                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
-                      return sliceRight.hits.length - sliceLeft.hits.length;
-                    } else {
-                      return sliceLeft.start - sliceRight.start;
-                    }
-                  });
-
-                  // select top N slices in content
-
-                  var upperBound = parseInt('1');
-                  if (upperBound >= 0) {
-                    slicesOfContent = slicesOfContent.slice(0, upperBound);
-                  }
-
-                  // highlight title and content
-
-                  function highlightKeyword(text, slice) {
-                    var result = '';
-                    var prevEnd = slice.start;
-                    slice.hits.forEach(function (hit) {
-                      result += text.substring(prevEnd, hit.position);
-                      var end = hit.position + hit.length;
-                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
-                      prevEnd = end;
-                    });
-                    result += text.substring(prevEnd, slice.end);
-                    return result;
-                  }
-
-                  var resultItem = '';
-
-                  if (slicesOfTitle.length != 0) {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
-                  } else {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
-                  }
-
-                  slicesOfContent.forEach(function (slice) {
-                    resultItem += "<a href='" + articleUrl + "'>" +
-                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
-                      "...</p>" + "</a>";
-                  });
-
-                  resultItem += "</li>";
-                  resultItems.push({
-                    item: resultItem,
-                    searchTextCount: searchTextCount,
-                    hitCount: hitCount,
-                    id: resultItems.length
-                  });
-                }
-              })
-            };
-            if (keywords.length === 1 && keywords[0] === "") {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
-            } else if (resultItems.length === 0) {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
-            } else {
-              resultItems.sort(function (resultLeft, resultRight) {
-                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
-                  return resultRight.searchTextCount - resultLeft.searchTextCount;
-                } else if (resultLeft.hitCount !== resultRight.hitCount) {
-                  return resultRight.hitCount - resultLeft.hitCount;
-                } else {
-                  return resultRight.id - resultLeft.id;
-                }
-              });
-              var searchResultList = '<ul class=\"search-result-list\">';
-              resultItems.forEach(function (result) {
-                searchResultList += result.item;
-              })
-              searchResultList += "</ul>";
-              resultContent.innerHTML = searchResultList;
-            }
-          }
-
-          if ('auto' === 'auto') {
-            input.addEventListener('input', inputEventFunction);
-          } else {
-            $('.search-icon').click(inputEventFunction);
-            input.addEventListener('keypress', function (event) {
-              if (event.keyCode === 13) {
-                inputEventFunction();
-              }
-            });
-          }
-
-          // remove loading animation
-          $(".local-search-pop-overlay").remove();
-          $('body').css('overflow', '');
-
-          proceedsearch();
-        }
-      });
-    }
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched === false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(onPopupClose);
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-    $(document).on('keyup', function (event) {
-      var shouldDismissSearchPopup = event.which === 27 &&
-        $('.search-popup').is(':visible');
-      if (shouldDismissSearchPopup) {
-        onPopupClose();
-      }
-    });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>侯捷c++STL体系结构与内核分析 | 自拙集</title><meta name="keywords" content="侯捷,c++11,STL"><meta name="author" content="Richard YU"><meta name="copyright" content="Richard YU"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="Aboutvideos; 课件，密码kr24; 认识headers、版本、重要资源以STL为目标探讨泛型编程。  使用一个东西，却不明白它的道理，不高明！   level 0: 使用C++标准库；  level 1: 认识C++标准库（胸中自有丘壑，体系结构应当建立起来）；  level 2: 良好使用C++标准库；  level 3: 扩充C++标准库；   Standard Template">
+<meta property="og:type" content="article">
+<meta property="og:title" content="侯捷c++STL体系结构与内核分析">
+<meta property="og:url" content="http://densecollections.top/posts/houjieC++STL/index.html">
+<meta property="og:site_name" content="自拙集">
+<meta property="og:description" content="Aboutvideos; 课件，密码kr24; 认识headers、版本、重要资源以STL为目标探讨泛型编程。  使用一个东西，却不明白它的道理，不高明！   level 0: 使用C++标准库；  level 1: 认识C++标准库（胸中自有丘壑，体系结构应当建立起来）；  level 2: 良好使用C++标准库；  level 3: 扩充C++标准库；   Standard Template">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.unsplash.com/photo-1608488426085-c8b7e9e4592f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80">
+<meta property="article:published_time" content="2020-06-12T08:24:02.000Z">
+<meta property="article:modified_time" content="2020-07-09T01:24:51.880Z">
+<meta property="article:author" content="Richard YU">
+<meta property="article:tag" content="侯捷">
+<meta property="article:tag" content="c++11">
+<meta property="article:tag" content="STL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1608488426085-c8b7e9e4592f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://densecollections.top/posts/houjieC++STL/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Richard YU","link":"链接: ","source":"来源: 自拙集","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
     },
-    TeX: {
-      
-      equationNumbers: {
-        autoNumber: 'AMS'
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2020-07-09 09:24:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="自拙集" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://raw.githubusercontent.com/Richardyu114/minds-thoughts-and-resources-about-research-/master/images/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/PaperStation/"><i class="fa-fw fas fa-edit"></i><span> PaperStation</span></a></div><div class="menus_item"><a class="site-page" href="/MindWandering/"><i class="fa-fw fas fa-paper-plane"></i><span> MindWandering</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1608488426085-c8b7e9e4592f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1351&amp;q=80)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">自拙集</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/PaperStation/"><i class="fa-fw fas fa-edit"></i><span> PaperStation</span></a></div><div class="menus_item"><a class="site-page" href="/MindWandering/"><i class="fa-fw fas fa-paper-plane"></i><span> MindWandering</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">侯捷c++STL体系结构与内核分析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-06-12T08:24:02.000Z" title="发表于 2020-06-12 16:24:02">2020-06-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-07-09T01:24:51.880Z" title="更新于 2020-07-09 09:24:51">2020-07-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E8%AE%B0%E5%BD%95/">课程记录</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>15分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="About"><a href="#About" class="headerlink" title="About"></a>About</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1db411q7B8">videos</a>;</p>
+<p><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1DkCctgH1BO2Cs0NuUcyHhg">课件，密码kr24</a>;</p>
+<h2 id="认识headers、版本、重要资源"><a href="#认识headers、版本、重要资源" class="headerlink" title="认识headers、版本、重要资源"></a>认识headers、版本、重要资源</h2><p>以STL为目标探讨泛型编程。</p>
+<blockquote>
+<p>使用一个东西，却不明白它的道理，不高明！</p>
+</blockquote>
+<ul>
+<li><p>level 0: 使用C++标准库；</p>
+</li>
+<li><p>level 1: 认识C++标准库（胸中自有丘壑，体系结构应当建立起来）；</p>
+</li>
+<li><p>level 2: 良好使用C++标准库；</p>
+</li>
+<li><p>level 3: 扩充C++标准库；</p>
+</li>
+</ul>
+<p>Standard Template Library (<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44770155/article/details/97882816">6大部件</a>：Container(容器) 各种基本数据结构；Adapter(适配器) 可改变containers、Iterators或Function object接口的一种组件；Algorithm(算法) 各种基本算法如sort、search…等；Iterator(迭代器) 连接containers和algorithms；Function object(函数对象)；Allocator(分配器)) 加上其他一些零碎的东西构成了C++ Standard Library.</p>
+<a id="more"></a>
+<p><img src="/.top//STL.JPG" alt></p>
+<h2 id="STL体系结构基础介绍"><a href="#STL体系结构基础介绍" class="headerlink" title="STL体系结构基础介绍"></a>STL体系结构基础介绍</h2><p>STL六大部件（component）：</p>
+<p>数据在容器（内存的事情我们不必管，由分配器支持），处理数据在算法，连接之间的桥梁是迭代器（泛化的指针）。仿函数可以处理类之间的一些操作，适配器转换。</p>
+<p><img src="/.top//six_component.JPG" alt="STL六大部件"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">int stl_component()</span><br><span class="line">&#123;</span><br><span class="line">  int ia[6] &#x3D; &#123;27, 210, 12, 47, 109, 83&#125;;</span><br><span class="line">  &#x2F;&#x2F;用到了容器和分配器定义一个vector</span><br><span class="line">  vector &lt;int, allocator&lt;int&gt; &gt; vi(ia, ia+6);</span><br><span class="line">  &#x2F;&#x2F;用到了算法，迭代器，函数适配器，函数对象</span><br><span class="line">  &#x2F;&#x2F; vi.begin()和vi.end()迭代指向vi中的元素</span><br><span class="line">  &#x2F;&#x2F; not1是negator，否定less的作用，变成了大于等于40的数</span><br><span class="line">  &#x2F;&#x2F; bind2nd绑定了less比较的第二个对象，固定在40</span><br><span class="line">  cout &lt;&lt; count_if(vi.begin(), vi.end(),</span><br><span class="line">         not1(bind2nd(less&lt;int&gt;(), 40))) &lt;&lt; endl;</span><br><span class="line"> </span><br><span class="line">  return 0;  </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简单提及时间复杂度。</p>
+<p>“前闭后开”曲间，标准库规定容器迭代器的最后一个元素取不到，即[iter.begin(), iter.end() )，此外容器也不一定是连续空间，比如链表。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Container&lt;T&gt; c;</span><br><span class="line">...</span><br><span class="line">Container&lt;T&gt;::iterator ite &#x3D; c.begin();</span><br><span class="line">&#x2F;&#x2F; for语句的语法规定，括号里面一定要有两个分号，分开三个句子。</span><br><span class="line">&#x2F;&#x2F;第一个句子是初始化用的，如果没有初始化的必要，就视为空语句，加上分号；</span><br><span class="line">&#x2F;&#x2F;第二个句子作为判断条件，如果没有判断条件，也视为空语句，后加一个分号。这种情况，会无限循环，相当于while(1)。如果for的执行部分，就是&#123;&#125;之间有专break语句，可以退出；</span><br><span class="line">&#x2F;&#x2F;第三个句子是执行部分执行完毕再执行的语句；无则视为属空语句；此时不用再加分号</span><br><span class="line">for (; ite !&#x3D; ite.end(); ++ite)</span><br><span class="line">   ...</span><br></pre></td></tr></table></figure>
+<p>建议使用range-based for statement (since c++11):</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for (decl:coll)&#123;</span><br><span class="line">statement</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for (int i : &#123;2,3,5,7,9,13&#125;) &#123;</span><br><span class="line">  std::cout&lt;&lt;i&lt;&lt;std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="容器与分类之各种测试（1）"><a href="#容器与分类之各种测试（1）" class="headerlink" title="容器与分类之各种测试（1）"></a>容器与分类之各种测试（1）</h2><p>容器-结构与分类</p>
+<p><img src="/.top//containers_classes.JPG" alt="标红的是C++11新加入的特性"></p>
+<p>1.sequence containers 序列式：</p>
+<p>array（不可扩充）, vector（分配器动态扩容）, deque（前后快速插入）, list（双向循环链表）, forward-list（单向链表）；</p>
+<p>2.associative containers 关联式，便于查找：</p>
+<p>set/multiset, map/multimap, 两者编译器所带标准库都用红黑树实现。set只带key，map带有key和value，两者意思与python的set和dict类似。multiset/multimap代表key是可以重复的。</p>
+<p>3.unordered containers (since c++11)：</p>
+<p>不定序，hash table，其实也可以属于一种associative containers.内部采用链表法解决哈希冲突。</p>
+<hr>
+<p>使用容器array示例：</p>
+<p>array必须指定固定大小，不能是变量大小；</p>
+<p><code>array.data()</code>首地址；</p>
+<p><code>clock()</code>得到的是ms；</p>
+<p><code>snprintf()</code>是c标注库函数，在这里是将数字转成字符串，具体可参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34707315/article/details/77895735#commentBox">此</a>；</p>
+<p><img src="/.top//array_test1.JPG" alt="在固定大小的array中随机生成数并出初始化填充，然后快排再二分查找指定的数字，并打印出消耗的时间"></p>
+<p><img src="/.top//array_test2.JPG" alt></p>
+<h2 id="容器与分类之各种测试（2）"><a href="#容器与分类之各种测试（2）" class="headerlink" title="容器与分类之各种测试（2）"></a>容器与分类之各种测试（2）</h2><p>侯捷老师给的一些建议：</p>
+<p>1.通过给每个测试定义不同的namespace，使得每一部分都是独立的，方便测试。</p>
+<p>2.用到变量的时候去定义，然后缩排方便寻找。</p>
+<hr>
+<p>使用容器vector：</p>
+<p><code>vector.push_back()</code>把元素放到尾巴；</p>
+<p>vector 2倍扩容增长空间；</p>
+<p><code>vecotr.size()</code>元素个数；</p>
+<p><code>vector.capacity()</code>容器容量，一般比size的结果大；</p>
+<p><code>try, catch</code>目的是了解当前是否可以抓取到指定的内存大小；</p>
+<p><code>::find</code>中双冒号代表全局的，find()是模板函数（循序查找），返回的是iterator;</p>
+<p><img src="/.top//vector_test1.JPG" alt="定义一个vector，然后不断填充随机数初始化，然后利用模板函数find和二分查找去搜索指定的数，比较两者的时间差异"></p>
+<p><img src="/.top//vector_test2.JPG" alt></p>
+<h2 id="容器与分类之各种测试（3）"><a href="#容器与分类之各种测试（3）" class="headerlink" title="容器与分类之各种测试（3）"></a>容器与分类之各种测试（3）</h2><p>1.使用容器list:</p>
+<p>容器的第二个参数是分配器，一般我们不写使用默认的默认器分配内容；</p>
+<p><code>list.max_size()</code></p>
+<p><code>list.size()</code></p>
+<p><code>list.front()</code></p>
+<p><code>list.back()</code></p>
+<p><code>list.sort()</code>对其进行排序</p>
+<p><img src="/.top//list_test.JPG" alt></p>
+<p>2.使用容器forward_list:</p>
+<p><code>forward_list.push_front</code>只提供单向的放数据</p>
+<p><code>forward_list.max_size()</code></p>
+<p><code>forward_list.front()</code></p>
+<p>没有<code>forward_list.back()</code>和<code>forward_list.szie()</code></p>
+<p><img src="/.top//forward_list_test.JPG" alt></p>
+<p>3.使用容器slist:</p>
+<p>非C++11标准库；</p>
+<p><code>#include&lt;ext\list&gt;</code>头文件包含。</p>
+<p><img src="/.top//slist.JPG" alt></p>
+<p>4.使用容器deque:</p>
+<p>双向开口，可进可出。</p>
+<p>分段连续的buffer构成的，但是给使用者感觉是连续的，内部其实不是，分段连续，buffer内部连续。每次扩充一个buffer.</p>
+<p>vector扩充方便，但是容易浪费，list每次扩充一个节点，但是查找麻烦，deque每次一个buffer,相对折衷。</p>
+<p><code>deque.size()</code></p>
+<p><code>deque.front()</code></p>
+<p><code>deque.back()</code></p>
+<p><code>deque.max_size()</code></p>
+<p>没有自己的sort()函数</p>
+<p><img src="/.top//deque.JPG" alt></p>
+<p><img src="/.top//deque_test.JPG" alt></p>
+<p>5.使用容器stack:</p>
+<p><code>stack.pop()</code></p>
+<p><code>stack.push()</code></p>
+<p><code>stack.size()</code></p>
+<p><code>stack.top()</code></p>
+<p><img src="/.top//stack_test.JPG" alt></p>
+<p>6.使用容器queue:</p>
+<p><code>queue.push()</code></p>
+<p><code>queue.pop()</code></p>
+<p><code>queue.front()</code></p>
+<p><code>queue.back()</code></p>
+<p><code>queue.size()</code></p>
+<p>stack和queue用的deque，因此在技术上称容器的adapter, 不提供iterator</p>
+<p><img src="/.top//queue_test.JPG" alt></p>
+<h2 id="容器之分类与各种测试（4）"><a href="#容器之分类与各种测试（4）" class="headerlink" title="容器之分类与各种测试（4）"></a>容器之分类与各种测试（4）</h2><p>关联式容器</p>
+<p>1.使用容器multiset:</p>
+<p>key就是value, 可插入相同元素，内部红黑树组织数据</p>
+<p><code>multiset.insert()</code></p>
+<p><code>multiset.size()</code></p>
+<p><code>multiset.max_size()</code></p>
+<p><code>multiset.find()</code>容器自带find()函数</p>
+<p><img src="/.top//multiset_test.JPG" alt></p>
+<p>2.使用容器multimap:</p>
+<p>，内部使用红黑树，key可以重复，指定key和value的数据类型，<code>multimap&lt;long, string&gt; c;</code></p>
+<p><code>multimap.insert()</code>, <code>c.insert(pair&lt;long,string&gt;(i,buff))</code>，利用pair插入和取出</p>
+<p><code>multimap.find()</code></p>
+<p><img src="/.top//multimap_test.JPG" alt></p>
+<p>3.使用容器unordered_multiset:</p>
+<p>内部使用hash_table, 链表法解决哈希冲突，一个篮子bucket后续可以挂链表</p>
+<p><code>load_facotr</code>载重因子</p>
+<p><img src="/.top//unordered_multiset_test.JPG" alt></p>
+<p><img src="/.top//unordered_multiset_test2.JPG" alt></p>
+<p>4.使用容器unordered_multimap:</p>
+<p><img src="/.top//unordered_multimap_test.JPG" alt></p>
+<p>5.使用容器set:</p>
+<p>内部用红黑树实现，元素不允许相同</p>
+<p><img src="/.top//set_test.JPG" alt></p>
+<p>6.使用容器map:</p>
+<p>内部用红黑树实现，key不允许相同</p>
+<p><code>c[i] = string(buf)</code>，与之前的multimap插入元素不同，可以用这种特殊写法，在内部会合成pair</p>
+<p><img src="/.top//map_test.JPG" alt></p>
+<p>7.使用容器unordered_set:</p>
+<p>内部用hash_table</p>
+<p><img src="/.top//unordered_set_test.JPG" alt></p>
+<p><img src="/.top//unordered_set_test2.JPG" alt></p>
+<p>8.使用容器unordered_map:</p>
+<p>内部用hash_table</p>
+<p><img src="/.top//unordered_map_test.JPG" alt></p>
+<h2 id="分配器测试"><a href="#分配器测试" class="headerlink" title="分配器测试"></a>分配器测试</h2><p>使用分配器：</p>
+<p>不使用标准库自带的std::allocator, 调用GNU c++编译器的allocator</p>
+<p><img src="/.top//allocator_1.JPG" alt></p>
+<p><img src="/.top//allocator_2.JPG" alt></p>
+<h2 id="OOP-vs-GP"><a href="#OOP-vs-GP" class="headerlink" title="OOP vs. GP"></a>OOP vs. GP</h2><p>object-oriented programming and generic programming, 面对对象编程与泛型编程</p>
+<p>OOP企图将data和methods放在一起，GP却将data和methods分开来</p>
+<p>算法通过迭代器操作容器数据</p>
+<p><img src="/.top//GP_1.JPG" alt></p>
+<p><img src="/.top//GP_2.JPG" alt></p>
+<h2 id="操作符重载和模板（泛化，全特化，偏特化）"><a href="#操作符重载和模板（泛化，全特化，偏特化）" class="headerlink" title="操作符重载和模板（泛化，全特化，偏特化）"></a>操作符重载和模板（泛化，全特化，偏特化）</h2><p>再次强调和复习operator overloading，templates（类模板，成员模板，函数模板；模板的泛化，全特化和偏特化）。</p>
+<p>1.操作符重载的情况主要是为了满足用户自己定义类的一些操作，可以在相关网站查询，并不是每个操作符都可以重载。</p>
+<p><img src="/.top//operator_overloading_1.JPG" alt></p>
+<p><img src="/.top//operator_overloading_2.JPG" alt></p>
+<p>2.模板</p>
+<p><img src="/.top//class_template.JPG" alt="类模板，指定类参数类型"></p>
+<p><img src="/.top//function_template.JPG" alt="函数模板，自动推导传入函数的参数类型并根据作相应的操作符调用"></p>
+<p><img src="/.top//member_template.JPG" alt="成员模板"></p>
+<p><img src="/.top//specialization.JPG" alt="在模板中，对于某种类型的做特殊处理（比如此时会有更适合和高效的处理），调用时也会自动调用特化的版本，标志template&lt;&gt;为空声明"></p>
+<p><img src="/.top//partial_specialization.JPG" alt="部分模板参数指定为某类型时有特殊处理，只绑定其中一个模板参数，标志template&lt;&gt;为非空声明"></p>
+<h2 id="Allocator"><a href="#Allocator" class="headerlink" title="Allocator"></a>Allocator</h2><p>不建议你单独使用分配器。</p>
+<p><code>operator new()</code>和底层的内存分配函数<code>malloc()</code></p>
+<p><code>malloc()</code>分配给申请内存大小的空间时会额外给一些空间放必要的东西，有一些额外的开销cookie，<code>free</code>释放内存。但是一般使用时，由于申请的size不大，所以这些额外的空间占所有的比例比较大，所以是个缺陷。</p>
+<blockquote>
+<p>P11总结一下，allocator就是用来分配内存的，最重要的两个函数是allocate和deallocate，就是用来申请内存和回收内存的，外部（一般指容器）调用的时候只需要知道这些就够了。内部实现，目前的所有编译器都是直接调用的::operator new()和::operator delete()，说白了就是和直接使用new运算符的效果是一样的，所以老师说它们都没做任何特殊处理。G2.9里的那个更好的allocator，在老师的另一门课《C++内存管理》里讲得特别细，大概从P23开始讲细节，更早的几P也有使用用例。</p>
+</blockquote>
+<p><img src="/.top//p11_1.JPG" alt="malloc开辟内存示意"></p>
+<p><img src="/.top//p11_2.JPG" alt="一般的VC等编译器只是将malloc包装成allocator，然后调用，缺陷没有改变"></p>
+<p><img src="/.top//p11_3.JPG" alt="GNU2.9使用了alloc这个函数，利用16个链表来分配申请的size的内存，减少了不必要的cookie"></p>
+<p><img src="/.top//p11_4.JPG" alt="alloc 16个链表示意。每个代表8个字节长度，从8-128个字节"></p>
+<p><img src="/.top//p11_5.JPG" alt="但是到了GNU4.9时候又抛弃了alloc，转而回到了原始的有缺陷的设计。不过依然可以调用GNU命名空间中的_pool_alloc来使用2.9版本中的alloac函数"></p>
+<h2 id="容器之间的实现关系与分类"><a href="#容器之间的实现关系与分类" class="headerlink" title="容器之间的实现关系与分类"></a>容器之间的实现关系与分类</h2><p><img src="/.top//p12_1.JPG" alt="容器之间的关联，复合关系，不是继承，只是会有某些容器的功能"></p>
+<h2 id="深度探索list（上）"><a href="#深度探索list（上）" class="headerlink" title="深度探索list（上）"></a>深度探索list（上）</h2><p>最具代表性的容器，双向循环列表，优先介绍。</p>
+<p>定义自己的迭代器iterator， 其中要有typedef和operator reloading（操作符重载）</p>
+<p><img src="/.top//p13_1.JPG" alt="list的iterator定义"></p>
+<p><img src="/.top//p13_2.JPG" alt="提到了迭代器++所体现的智能指针的作用，取出prev或next指针赋给node。其中要特别注意前++和后++的区别，由于C++中整数连续后++是违法的，所以这里操作符重载后++时返回原值，也造成迭代器后++违法的现象"></p>
+<p><img src="/.top//p13_3.JPG" alt="取出list中的data"></p>
+<h2 id="深度探索list（下）"><a href="#深度探索list（下）" class="headerlink" title="深度探索list（下）"></a>深度探索list（下）</h2><p><img src="/.top//p14_1.JPG" alt="G2.9和G4.9版本链表源代码的比较，一处修改了iterator模板传入参数个数，一个是修改指针指向自己这个类，而非void然后再强制转换"></p>
+<p><img src="/.top//p14_2.JPG" alt="容器的一般都是满足左闭右开的特点，也就是最后一个值取不到，所以这里最后再环状末尾加了一个空的节点，但是指向begin节点"></p>
+<h2 id="迭代器的设计原则和Iterator-Traits的作用与设计"><a href="#迭代器的设计原则和Iterator-Traits的作用与设计" class="headerlink" title="迭代器的设计原则和Iterator Traits的作用与设计"></a>迭代器的设计原则和Iterator Traits的作用与设计</h2><p>容器用域存储数据，算法用以处理数据，而迭代器iterator就是沟通容器和算法的桥梁。上一讲提到，容器需要自己定义iterator，并且写出<strong>五个</strong>规定的typedef，这个就是为了算法询问iterator，得出这样的特性然后进行定制的数据操作。但是如果iterator不是类，无法写出typedef的时候，就需要traits这样的中间变量来让算法得出迭代器的特性。</p>
+<p><img src="/.top//p15_1.JPG" alt="算法询问迭代器的特性，但是迭代器只是指针的话就无法直接询问"></p>
+<p><img src="/.top//p15_2.JPG" alt="利用traits萃取机来充当中间人的角色"></p>
+<p><img src="/.top//p15_3.JPG" alt="如果迭代器是类，直接询问得出结果，否则利用偏特化替迭代器回答。其中注意const的使用"></p>
+<p><img src="/.top//p15_4.JPG" alt="traits传递完整的五个必须的特性"></p>
+<p>除了iterator traits之外，还有各式的traits, 包括type traits, char traits, pointer traits等等。</p>
+<h2 id="Vector深度探索"><a href="#Vector深度探索" class="headerlink" title="Vector深度探索"></a>Vector深度探索</h2><p><img src="/.top//p16_1.JPG" alt="vector不在原地扩充，而是请求重新分配2倍大小的空间"></p>
+<p><img src="/.top//p16_2.JPG" alt="申请空间并搬运，这里的insert_aux函数还可能被其他函数调用，所以又重新判断了一次"></p>
+<p><img src="/.top//p16_3.JPG" alt></p>
+<p><img src="/.top//p16_4.JPG" alt="vector的iterator就是个指针，因为是连续空间，所以利用traits为算法传递typedef. G4.9版本中对vector做了多层推导，所以可读性不高，也被侯老师吐嘈。"></p>
+<h2 id="array-forward-list深度探索"><a href="#array-forward-list深度探索" class="headerlink" title="array, forward_list深度探索"></a>array, forward_list深度探索</h2><p>把array包装成容器，然后利用指针当iterator进行操作。</p>
+<p><img src="/.top//p17_1.JPG" alt></p>
+<p><img src="/.top//p17_2.JPG" alt="单向链表与前面的双向循环链表类似，只不过没有prev的指针，因此迭代器没有--操作"></p>
+<h2 id="deque-queue和stack深度探索（上）"><a href="#deque-queue和stack深度探索（上）" class="headerlink" title="deque, queue和stack深度探索（上）"></a>deque, queue和stack深度探索（上）</h2><p>双向队列deque在上层调用时表现是连续的，但是底层实现是用分段连续的buffer来实现的，通过迭代器和操作符重载来营造连续插入或弹出的假象。</p>
+<p><img src="/.top//p18_1.JPG" alt="一个迭代内部有四个指针：cur,first, last, node，其中前三个指针是针对buffer而言的，而node指的是当前deque中用到了哪个buffer"></p>
+<p><img src="/.top//p18_2.JPG" alt="deque class内部有四个数据，start和finish是类似begin()和end()的两个首尾迭代器，一般的容器都会有，map指向这个包含buffer的deque，map_size表示大小，所以整个deque大小是2x16+2x4=40 bytes. 此外，G2.9还可以预设buff_size大小，否则的话按照默认规则设定。"></p>
+<p><img src="/.top//p18_3.JPG" alt="deque的迭代器设计，其类型是可以随意访问的iterator，map pointer是指向指针的指针，因此deque内部存着buffer的node指针"></p>
+<p><img src="/.top//p18_4.JPG" alt></p>
+<p><img src="/.top//p18_5.JPG" alt="deque的元素插入，是将左右两边比较短的那一部分进行搬移"></p>
+<h2 id="deque-queue和stack深度探索（下）"><a href="#deque-queue和stack深度探索（下）" class="headerlink" title="deque, queue和stack深度探索（下）"></a>deque, queue和stack深度探索（下）</h2><p>deque内部通过iterator操作符重载并做一些处理来进行表面上连续空间的模拟。</p>
+<p><img src="/.top//p19_1.JPG" alt="back代表最后一个元素，而容器中的finish是开的，取不到，所以需要减去1得到最后一个元素"></p>
+<p><img src="/.top//p19_2.JPG" alt="dwque元素size计算，前面的buffer后面的buffer元素不一定是满的（双向的特点），只有中间是满的，所以分三步计算"></p>
+<p><img src="/.top//p19_3.JPG" alt="迭代器++和--操作符重载"></p>
+<p><img src="/.top//p19_4.JPG" alt="迭代器跳着加的操作符重载"></p>
+<p><img src="/.top//p19_5.JPG" alt="迭代器跳着减的操作转为跳着加的操作"></p>
+<p><img src="/.top//p19_6.JPG" alt="G4.9版本的deque，其中取消了用户对buffsize的预设"></p>
+<p><img src="/.top//p19_7.JPG" alt="利用deque模拟队列queue"></p>
+<p><img src="/.top//p19_8.JPG" alt="用deque模拟stack"></p>
+<p><img src="/.top//p19_9.JPG" alt="queue和stack也可用list模拟，但是默认是deque，因为速度较快"></p>
+<p><img src="/.top//p19_10.JPG" alt="queue不可用vector模拟，以为vector没有pop_front操作"></p>
+<p><img src="/.top//p19_11.JPG" alt="queue和stack都不可用map或set模拟，因为没有该数据结构弹出元素这一操作"></p>
+<h2 id="RB-Tree深度探索"><a href="#RB-Tree深度探索" class="headerlink" title="RB-Tree深度探索"></a>RB-Tree深度探索</h2><p>关联式查找容器的底层支撑结构。</p>
+<p><img src="/.top//p20_1.JPG" alt="这里红黑树的header不是根节点，是空的，为了容器前闭后开处理方便"></p>
+<p><img src="/.top//p20_2.JPG" alt="红黑树的五个模板参数，key和value是数据类型，keyofvalue代表如何从value取出key(value可能是key-data组成的pair)，compare代表key的比较函数"></p>
+<p><img src="/.top//p20_3.JPG" alt="四个模板参数的一个实例，其中key和value都是int类型，identity函数代表取key函数，不是C++标准库函数，是G2.9的函数"></p>
+<p><img src="/.top//p20_4.JPG" alt></p>
+<p><img src="/.top//p20_5.JPG" alt="G4.9与2.9版本的红黑树使用上改了一些命名字母"></p>
+<h2 id="Set-Multiset深度探索"><a href="#Set-Multiset深度探索" class="headerlink" title="Set, Multiset深度探索"></a>Set, Multiset深度探索</h2><p>set和multiset底层利用Rb_tree实现，所以基本上它们的事内部都是交给红黑树去完成，所以又被叫成container adapter. 其中需要注意的是它们中的key和value是一样的，所以不能被改变，否则key就会变化。</p>
+<p><img src="/.top//p21_1.JPG" alt="set和multiset"></p>
+<p><img src="/.top//p21_2.JPG" alt="set具有三个模板参数，因为value和keyofcompare只有一种默认情况。其中const_iterator的类型只能用于读取容器内的元素，但不能改变其值，对const_iterator类型解引用，得到的是一个指向const对象的引用。"></p>
+<h2 id="Map-Multimap深度探索"><a href="#Map-Multimap深度探索" class="headerlink" title="Map, Multimap深度探索"></a>Map, Multimap深度探索</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ChinaHook/p/6985518.html">related blog</a></p>
+<p><img src="/.top//p22_1.JPG" alt="map和multimap使用红黑树实现key-value的存储，且不允许改变key值"></p>
+<p><img src="/.top//p22_2.JPG" alt="map的模板参数，其中会将key-data打包成pair存入Rb_tree中当作value，且为了防止key不被修改，在key前加了const关键字"></p>
+<p><img src="/.top//p22_3.JPG" alt="map可以使用[]操作符和lower_bound函数插入key-value，如果key不存在会返回一个合适的位置，但是这个性质multimap没有，只能用insert函数插入pair(), 应该是因为multimap可以有多个相同的key，所以用[]操作符可能无法加入相同的key."></p>
+<h2 id="Hash-Table深度探索"><a href="#Hash-Table深度探索" class="headerlink" title="Hash Table深度探索"></a>Hash Table深度探索</h2><p>另一个关联式容器哈希表，或散列表，是一种常用的存储较多数据的数据结构（减少查找时间），其中难点在于hasd function的选择和对对哈希碰撞的处理（一般是开放式寻址法或者链表法）。</p>
+<p><img src="/.top//p23_1.JPG" alt="hash table示意，利用bucket和list来存储数据。其中G2.9硬编码了一系列质数作为扩充后的长度，但是G4.9没有继续沿用了"></p>
+<p><img src="/.top//p23_2.JPG" alt="hashtable的6个模板参数，其中key指定篮子，value是pair，HashFcn是哈希函数，映射要存的object为key，ExtractKey是从存入的value pair中取出key的方式，同Rb_tree类似，EqualKey是判断key是否相等的函数。hashtable的大小为1+1+1+12+4=19个字节，为了对齐取4的倍数，为20 bytes. 其迭代器包含指向当前元素位置的指针和指向当前hashtable的指针。"></p>
+<p><img src="/.top//p23_3.JPG" alt="hashtable使用示例，其中eqstr是自己写的函数，调用C中比较char的函数strcmp，然后根据其返回的int值（1，0，-1）返回bool值"></p>
+<p><img src="/.top//p23_4.JPG" alt="c++标准库中偏特化了一些hash函数"></p>
+<p><img src="/.top//p23_5.JPG" alt="但是G2.9内没有提供针对string的现成的hash函数，只有针对C的字符串的哈希函数。到了G4.9版本，基本的数据类型都有了自己的hash function, 包括string"></p>
+<p><img src="/.top//p23_6.JPG" alt="找到存放的位置key，这里做了取余处理，也就是对编码出的hash值对bucket长度取余"></p>
+<p><img src="/.top//p23_7.JPG" alt="上面的示例程序计算hash key示意，注意还有一个取余操作。在这里哈希表是单向链表存储，实际有的可能是双向链表存储"></p>
+<h2 id="Unordered容器概念"><a href="#Unordered容器概念" class="headerlink" title="Unordered容器概念"></a>Unordered容器概念</h2><p>利用hash table实现unordered_set, unordered_multiset, unordered_map, unordered_multimap容器。</p>
+<p><img src="/.top//p26_1.JPG" alt="四个unordered容器的模板参数"></p>
+<p><img src="/.top//p26_2.JPG" alt="回顾之前利用unordered_set存储随机数的例子，验证两个事情：1. hashtable的bucket数量比要存的object的数量多；2. 扩容后的长度不一定是之前指定的质数了。"></p>
+<h2 id="算法的形式"><a href="#算法的形式" class="headerlink" title="算法的形式"></a>算法的形式</h2><p>算法通过迭代器联通容器，进行数据处理和函数运行。从语言层面上讲，容器是class template, 而算法是function template, 其中有些算法还可传入你定制的准则criterion, 比如sort函数的比较函数。</p>
+<p><img src="/.top//p27_1.JPG" alt="STL中算法algorithm的作用"></p>
+<h2 id="迭代器的分类"><a href="#迭代器的分类" class="headerlink" title="迭代器的分类"></a>迭代器的分类</h2><p>STL容器中总共会用到三种种类，分别是random_access_iterator_tag (array, vector, deque), bidirectional_iterator_tag(list, rb_tree), forward_iterator_tag(forward_list, hashtable可能是) 这三种。多出来的两种input_iterator_tag和output_iterator_tag属于istream和ostream. 五种之间是继承关系，同时用这种tag的方式，非简单的12345.</p>
+<p><img src="/.top//p28_1.JPG" alt="各种容器的迭代器种类"></p>
+<p><img src="/.top//p28_2.JPG" alt="打印出各个容器的迭代器种类。右边的容器(typename)::iterator()表示临时对象，传给display_category()函数作为具体的模板参数，然后利用萃取机traits得出出入的迭代器的category，然后利用函数重载传给具体的_display_category()，打印出结果。istream和ostream利用直接指定的方式打印出。"></p>
+<p><img src="/.top//p28_3.JPG" alt="也可直接利用C++的typeid取出迭代器的name属性，打印出类型名称。"></p>
+<p><img src="/.top//p28_4.JPG" alt></p>
+<p><img src="/.top//p28_5.JPG" alt></p>
+<h2 id="迭代器类别对算法的影响"><a href="#迭代器类别对算法的影响" class="headerlink" title="迭代器类别对算法的影响"></a>迭代器类别对算法的影响</h2><p>STL算法内部会利用迭代器的类别开辟出不同的处理分支，想尽方法达到最快的处理速度。</p>
+<p><img src="/.top//p29_1.JPG" alt="根据不同的迭代器类别计算其距离。主函数部分的inline语句会预先判断该迭代器是否有difference_type，如果有才会进行下一步。主函数利用萃取机得出的category当作临时对象调用次函数，虽然次函数只写了两种情况，但是其他的迭代器类型会根据继承关系进行调用，这样做就是为了方便，不必写出冗余的代码。"></p>
+<p><img src="/.top//p29_2.JPG" alt="举了advance的例子（前进），与之前的distance计算类似，这里只不过把得出迭代器类型的语句包装成了一个小函数。"></p>
+<p><img src="/.top//p29_3.JPG" alt="举了第三个例子，copy函数。一般的思路是给出三个参数：要拷贝的起点和终点，以及拷贝到的起点，但是这里根据迭代器的类型，极尽所能做了很多的分支，优化到最快。memmove是C语言的底层比较安全的内存复制函数，trivial代表“不重要的‘，由标准库提供的type traits提供，目的为了决定哪一种拷贝赋值比较快。其中对判断语句的first!=last和n&lt;first-last都做了速度衡量，可以说是非常精炼了。"></p>
+<p><img src="/.top//p29_4.JPG" alt="举的第四个例子，destroy函数，与copy类似，也做了很多判断处理。"></p>
+<p><img src="/.top//p29_5.JPG" alt="第五个例子，unique_copy函数"></p>
+<p><img src="/.top//p29_6.JPG" alt></p>
+<h2 id="算法源码剖析（几个例子）"><a href="#算法源码剖析（几个例子）" class="headerlink" title="算法源码剖析（几个例子）"></a>算法源码剖析（几个例子）</h2><p>举了几个C++标准库中的例子。表明与迭代器结合很紧密。</p>
+<p><img src="/.top//p30_1.JPG" alt="C++标准库的函数与C函数在形式上有些不同，是一种函数模板，并且与迭代器联系紧密"></p>
+<p><img src="/.top//p30_2.JPG" alt="第一个例子accumulate,累计函数，有两个版本，一种就是传入三个参数进行累加，另一种可以指定二元操作函数，进行定制的累计操作。在右边的代码示例中，利用了自定义函数传入和函数对象/仿函数重载operator()，两者都可以起作用，作为可被调用的对象。"></p>
+<p><img src="/.top//p30_3.JPG" alt="第二个例子for_each，跟第一个例子类似也使用了自定义函数和函数对象，同时强调C++11可以用range-based for statement进行操作"></p>
+<p><img src="/.top//p30_4.JPG" alt="第三个例子replace函数，replace单纯地根据相等替换数值,replace_if可以传入判断条件, replace_copy是在copy过程中替换旧值为新值。"></p>
+<p><img src="/.top//p30_5.JPG" alt="第四个例子count函数，count函数简单判断值相等进行加一操作，而count_if可以传入判断条件。在这里侯老师提到了C++标准库的这些函数虽然是全局的，但是不一定适用于所有的容器，有的容器可能有自己定义的同名成员函数，这个时候就要调用容器自己的对应函数。右边的例子表明不带其同名成员函数的容器可以调用C++标准库全局的这个函数，但是有了同名成员函数就要最好调用自己的。"></p>
+<p><img src="/.top//p30_6.JPG" alt="第五个例子find函数，这个在最开始容器使用测试时候使用过，属于全局函数，有些容器比如那几个关联式容器就有自己定制的find()函数"></p>
+<p><img src="/.top//p30_7.JPG" alt="第六个例子sort函数，其中提到了逆序迭代器。"></p>
+<p><img src="/.top//p30_8.JPG" alt="reverse iterator示意"></p>
+<p><img src="/.top//p30_9.JPG" alt="第七个例子二分搜索binary_search, 内部调用lower_bound函数取出位置。这里侯老师认为在查找时候应该进行一下开头检查，然后再根据结果选择进不进去查找。"></p>
+<h2 id="仿函数和函数对象"><a href="#仿函数和函数对象" class="headerlink" title="仿函数和函数对象"></a>仿函数和函数对象</h2><p>在前面一些的算法的使用中，已经见识到了函数对象/仿函数传入其中进行特殊的操作。在C++的STL中有三大类functors，分别是算术类，逻辑运算类和相对关系类。他们都继承了某个适当者，这样是为了后续利用适配器进行改造，而前提就是像algorithm对iterator一样利用traits询问问题，继承的作用就是为了融入STL，利用被继承者的typedef来回答问题。此外，GNU中也会有一些仿函数供用户使用，比如前面提到的<code>Identity</code>和<code>Select1st</code></p>
+<p><img src="/.top//p31_1.JPG" alt="几个标准库仿函数示例，利用类的对象形式，重载了操作符()，并继承了二元变量操作binary_function"></p>
+<p><img src="/.top//p31_2.JPG" alt="举例前面自定义的仿函数，由于没有继承，所以后续无法融入STL进行适配"></p>
+<p><img src="/.top//p31_3.JPG" alt="仿函数的可适配条件就是需要挑选适当者进行继承"></p>
+<h2 id="存在多种适配器"><a href="#存在多种适配器" class="headerlink" title="存在多种适配器"></a>存在多种适配器</h2><p><img src="/.top//p32_1.JPG" alt="仿函数适配器与仿函数类似于算法与迭代器。把仿函数包成adapter给算法使用"></p>
+<p>适配器可以认为具有一个桥梁作用：把某个底层B包装下做成A交给用户使用，但是内部仍然是调用B来运作。在C++中，适配器采用复合的方式获得某种功能，非继承。</p>
+<p>容器适配器方面，典型的是stack和queue，它们内部都是内含了deque作为其底层容器，然后改造成具有自己特性和接口的容器。</p>
+<p><img src="/.top//p32_2.JPG" alt></p>
+<h2 id="Binder2nd-not1-bind"><a href="#Binder2nd-not1-bind" class="headerlink" title="Binder2nd/not1/bind"></a>Binder2nd/not1/bind</h2><p>介绍了前面使用过的一个计数语句<code>cout &lt;&lt; count_if(vi.begin(), vi.end(), not1(bind2nd(less&lt;int&gt;, 40)))</code>，其中用到了算法，函数适配器和函数对象。</p>
+<p><code>bind2nd</code>和<code>not1</code>都是函数适配器，用以修饰后面的函数并将其包装。<code>bind2nd</code>绑定第二实参，限制less函数调用时保持第二参数为40不变。修饰后的函数继续被<code>not1</code>修饰，将结果取反，也就是不小于40的数计数。</p>
+<p><code>bind2nd</code>内部使用<code>binder2nd</code>函数，目的是为了简化用户使用难度，自动帮你推导<code>operation</code>模板参数。侯老师提到<code>binder1st</code>, <code>binder2nd</code>这些函数后来都被<code>bind</code>函数取代，但是旧的函数依旧可以使用。</p>
+<p><img src="/.top//p33_1.JPG" alt="bin2nd函数内部做了很多工作，包括继承一元参数函数unary_function，询问和操作符重载。注意这里的less&lt;int&gt;()一开始是函数对象，属于typename加()的形式，非函数调用"></p>
+<p><img src="/.top//p34_1.JPG" alt="not1继续修饰bind2nd, 对pred取反"></p>
+<p>在C++2.0版本中，<code>bind</code>函数取代了<code>bind2nd</code>，可以用来绑定函数/函数对象/成员函数和数据成员，同时可以指定绑定哪个参数，哪个参数不用绑定，利用诸如_1这样下划线加数字的形式（palceholder，占位符）代表第几个参数可以被后续调用再指明。<code>bind</code>可以指定一个模板参数，代表返回类型。更多的例子和示意见下面的图片。</p>
+<p><img src="/.top//p35_1.JPG" alt="右边举了几个用bind绑定的例子。fn_invert中my_divide的第一参数在后面，所以调用时是_1/_2，fn_rounding就指定了返回类型为int，bound_memfn绑定了函数为Mypair类中的multioly函数，允许用户传递数据，bound_memdata和bound_memdata2绑定函数为传出类中成员数据。最后的例子比较了bind2nd和bind使用的区别，其中cbegin中的c是const的意思"></p>
+<h2 id="迭代器适配器reverse-iterator-inserter"><a href="#迭代器适配器reverse-iterator-inserter" class="headerlink" title="迭代器适配器reverse_iterator/inserter"></a>迭代器适配器reverse_iterator/inserter</h2><p>Adapter在容器，仿函数和迭代器上都有使用。侯老师在这里举了两个例子，一个是前面用到过的reverse_iterator，逆序迭代器遍历方向，另一个是inserter，用来插入数据。在这里侯老师再次强调，adapter是把所有需要的东西系起来，打包好，然后供日后再用，起到一种修饰改造作用。</p>
+<p><img src="/.top//p36_1.JPG" alt="逆向迭代器内部也是调用正向迭代器，进行操作符重载，包装成想要的样子。"></p>
+<p><img src="/.top//p37_1.JPG" alt="inserter配合copy函数，通过对=操作符进行重载，实现在foo中选定位置进行bar数组的安插，而不是原先的覆盖赋值搬移。其中由于是list容器所以利用advance实现起始迭代器加3"></p>
+<p>copy函数内部已经把流程写死了，就是按照指定的result迭代器，一步步搬移前面两个迭代器指定范围内的数据，后续的一些adapter改造操作，通过利用操作符重载各自解读，来实现自己定制的特性。</p>
+<h2 id="X适配器ostream-iterator-istream-iterator"><a href="#X适配器ostream-iterator-istream-iterator" class="headerlink" title="X适配器ostream_iterator/istream_iterator"></a>X适配器ostream_iterator/istream_iterator</h2><p>ostream和istream是两个特殊的迭代器，他们不属于一般的迭代器适配器，容器适配器和仿函数适配器中的任何一个，因此侯老师称之为X适配器，X代表一种未知。</p>
+<p><img src="/.top//p38_1.JPG" alt="利用out_it迭代器重载操作符=配合copy函数把数据传给cout打印出来"></p>
+<p><img src="/.top//p39_1.JPG" alt="eos可以认为是一个标志，代表cin的结束标志，没有实际参数，iit才是真正的属于输入数据的迭代器，参数为cin,与eos比较判断是否读入完成"></p>
+<p><img src="/.top//p39_2.JPG" alt="如果在例2的两个语句中间加“请输出数字”这样的提示语永远都不会出现，因为这个istream_iterator一旦创建就开始read，读一个传一个"></p>
+<h2 id="一个万用的Hash-Function"><a href="#一个万用的Hash-Function" class="headerlink" title="一个万用的Hash Function"></a>一个万用的Hash Function</h2><p>hash function的制定可以没有任何规律，但是效果是一定要够乱，尽量减少碰撞。这里侯老师先以一个比较简单的customerhash函数开场，说明这样虽然简单，但是hash code比较容易重复。之后引出了C++标准库中的一个“万用的hash function”, 其中的重点是<strong>variadic templates</strong>, 这个是C++ 2.0中比较重要的新特性，大意就是可变的模板参数，常用…表示，比如下图中的序号1表示的函数，其中的<code>template&lt;typename...Types&gt;</code>就表示可以接受任意数量的模板参数。</p>
+<p><img src="/.top//p40_1.JPG" alt="右上角的hash_val函数先调用序号1函数，然后转到了序号2，序号2函数根据4中的hash_combine生成seed，然后再返回2继续拿出seed，不断在序号2和序号4中递归循环，参数会一个一个的拿做当seed，最后只剩一个的时候转去序号3函数，再通过4得到最后的hash code. ^=属于异或操作，0x9e3779b9是根据黄金比例来选取的。"></p>
+<p><img src="/.top//p40_2.JPG" alt></p>
+<p><img src="/.top//p40_3.JPG" alt="G4.9版本中已经实现对string类型的hash function的偏特化"></p>
+<h2 id="Tuple用例"><a href="#Tuple用例" class="headerlink" title="Tuple用例"></a>Tuple用例</h2><p>Tuple是可以将几个不同的数据结构的变量绑在一起的类型，使用上利用直接声明<code>tuple&lt;&gt;</code>创建，也可以利用<code>make_tuple()</code>实现，或者<code>tie</code>函数快速对变量进行赋值，如下图所示。其中可以对&lt;和=这样的操作符进行重载实现特性上的适配。</p>
+<p><img src="/.top//p41_1.JPG" alt="tuple的用法示例。最后的tuple_size,::value,tuple_element类似于traits的问答式。此外ppt中tuple的大小为32，侯老师没有给出合适的解释，按照后一页ppt中tuple存在套娃继承的思路，大小应该是4+4+4+16=28，如果最顶的tuple没有被继承，那个就是28+1=29，然后要对齐是4的倍数，结果就是32，但是因为被继承，不是单独的，所以就没有大小，还是28.这里我倾向认为是类似struct的大小计算，最后的大小要是complex大小的倍数，所以是32（但是还没有查证）."></p>
+<p><img src="/.top//p41_2.JPG" alt="tuple内部实现了自动递归套娃继承，也是通过使用variadic templats可变模板参数完成。不断地划分head-tail构建父类，而且取相应tail地址的时候也是指向一整个模块，如右下角示意。"></p>
+<h2 id="type-traits"><a href="#type-traits" class="headerlink" title="type traits"></a>type traits</h2><p>type traits主要是为了给用户自己写的类提供一些特征信息，用户自己不需要对其进行偏特化处理就可以自动获取，节省代码工作量，广泛用于C++泛型编程。这些特征信息通过询问的方式进行获取，指导该类后续的相应操作。</p>
+<p><img src="/.top//p42_1.JPG" alt="type_traits部分内容示例（G2.9版本）"></p>
+<p>上图出现的Plain Old Data (POD)是一个类型（比如class或者struct），但是没有构造函数，析构函数，虚函数等成分。<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/POD_(%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1">维基百科</a>_)的解释是：</p>
+<blockquote>
+<p>POD类类型就是指class、struct、union，且不具有用户定义的构造函数、析构函数、拷贝算子、赋值算子；不具有继承关系，因此没有基类；不具有虚函数，所以就没有虚表；非静态数据成员没有私有或保护属性的、没有引用类型的、没有非POD类类型的（即嵌套类都必须是POD）、没有指针到成员类型的（因为这个类型内含了this指针）。</p>
+</blockquote>
+<p>stackoverflow有也相关<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/146452/what-are-pod-types-in-c">问题</a>：</p>
+<blockquote>
+<p>In short, it is all built-in data types (e.g. <code>int</code>, <code>char</code>, <code>float</code>, <code>long</code>, <code>unsigned char</code>, <code>double</code>, etc.) and all aggregation of POD data. Yes, it’s a recursive definition. ;)</p>
+<p>To be more clear, a POD is what we call “a struct”: a unit or a group of units that just store data.</p>
+</blockquote>
+<p><img src="/.top//p42_2.JPG" alt="C++2.0的type_traits非常强大，包含不少特性信息，更多见：http://www.cplusplus.com/reference/type_traits/"></p>
+<p>一个类如果没有没有涉及到指针，就可以不必写析构函数，使用编译器分配的默认的即可。像string内部带了指针，就必须写析构函数。此外，如果不是父类base，没有覆写的虚函数，也不必写virtual destructor.</p>
+<p><img src="/.top//p42_3.JPG" alt="利用自定义的类Zoo来测试type traits, 其中刚开始的冒号语句为初始化列，后面四句分别为拷贝构造，搬移构造，拷贝赋值，搬移赋值，&amp;&amp;代表C++2.0新特性move,后面会专门谈到。delete也是2.0新特性，表示写出来但是摧毁掉，default表示使用默认方式，即使你不写也是使用编译器给的默认方式。中间的打印结果中，is_polymorphic为1代表这个类继承了虚函数，所以左边写了虚函数destructor, 相应的右边的结果也显示为1."></p>
+<p>type traits通过模板实现，对类型进行操作，比如下面的例子，利用泛化，偏特化，传回真假值。</p>
+<p><img src="/.top//p43_1.JPG" alt="type traits实现is_void，拿掉cv，再借助helper，给出0/1值"></p>
+<p>此外有些type traits实现的特性未曾出现于C++源码标准库。侯老师说这种情况可能就是编译器编译的时候来回答支持，不以源代码的方式呈现。</p>
+<p><img src="/.top//p43_2.JPG" alt></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mogoweb/article/details/79264925">traits的理解</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lihao21/article/details/55043881">type  traits 理解</a></p>
+<h2 id="cout的操作符重载"><a href="#cout的操作符重载" class="headerlink" title="cout的操作符重载"></a>cout的操作符重载</h2><p>cout为何可以接收各式各样的object？因为其内部对各类型都做了操作符重载。注意其返回类型为ostream&amp;，为了可以继续接收，非void返回类型。</p>
+<p><img src="/.top//p44_1.JPG" alt></p>
+<p><img src="/.top//p44_2.JPG" alt="G4.9版本中cout的操作符重载示例。sub_match代表正则表达式（字符串处理），bitset代表处理二进制对象的类型，类似位图。"></p>
+<h2 id="movable的使用"><a href="#movable的使用" class="headerlink" title="movable的使用"></a>movable的使用</h2><p>move是C++2.0一个比较重要的特性，其内部就是拷贝指针，属于浅拷贝，在type traits中见到的&amp;&amp;符号就代表move功能，而拷贝构造则是深拷贝。move的速度很快，侯捷老师也在课程中比较了加不加move功能对容器元素拷贝速度的影响，同时也给出了一些测试例子，但是在使用move时需要自己对元素的使用有清晰的认识，因为move是拷贝指针，等于是两个指针指向同一个位置，这个是危险的，C++内部会在move时做一些处理去规避这个行为带来的危险情况，所以move完之后的原始对象就最好不要再用了。</p>
+<p><img src="/.top//p45_1.JPG" alt="move的速度一般比拷贝构造快很多。这里侯捷老师测试了不少容器，他提到自己都是用insert函数来完成插值，但是像红黑树这样的容器是自动选择位置的，不允许用户手动指定位置。在这样的情况下insert函数也可以使用，但是具体的位置不一定是用户指定的。"></p>
+<p><img src="/.top//p45_2.JPG" alt="从下面的程序中可以看出，为了避免delete错误，move的对象在执行时会指向NULL，所以最好不要再去使用之前被拷贝的对象了。"></p>
+<p><img src="/.top//p45_3.JPG" alt="对于临时创建的对象，如果有move函数操作，编译器就会自动调用，像Mc11(c1)这样的语句，由于c1不是临时对象，编译器还是老老实实用的深拷贝，但是用户自己可以利用下一行的std::move进行安排编译器去用move操作，但是move之后，用户就要确保不要用到c1这个对象了。"></p>
+<p><img src="/.top//p45_4.JPG" alt></p>
+<p><img src="/.top//p45_5.JPG" alt="vector的move拷贝动作，利用swap函数对三个指针操作，所以相比较默认的拷贝构造速度会快上很多。"></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/catch/p/3500678.html">C++的左值和右值</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Richard YU</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://densecollections.top/posts/houjieC++STL/">http://densecollections.top/posts/houjieC++STL/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://densecollections.top" target="_blank">自拙集</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BE%AF%E6%8D%B7/">侯捷</a><a class="post-meta__tags" href="/tags/c-11/">c++11</a><a class="post-meta__tags" href="/tags/STL/">STL</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ff01204250e8048" async="async"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/ssd-refinedet-paper/"><img class="prev-cover" src="https://images.unsplash.com/photo-1606870655612-8eacd813984d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SSD-RefineDet论文阅读</div></div></a></div><div class="next-post pull-right"><a href="/posts/yolopaperreading/"><img class="next-cover" src="https://images.unsplash.com/photo-1608971222449-15661fc7bdb6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=675&amp;q=80" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">yolo系列论文阅读笔记</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/houjieC++/" title="侯捷C++面向对象程序设计"><img class="cover" src="https://images.unsplash.com/photo-1608153498891-e895052f0cbe?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-05-28</div><div class="title">侯捷C++面向对象程序设计</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://raw.githubusercontent.com/Richardyu114/minds-thoughts-and-resources-about-research-/master/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Richard YU</div><div class="author-info__description">Today everything exists to end in a photograph</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Richardyu114"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://twitter.com/Yu1145635107" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a><a class="social-icon" href="https://instagram.com/d.h.richard" target="_blank" title="Instagram"><i class="fab fa-instagram-square"></i></a><a class="social-icon" href="https://weibo.com/u/5211687990" target="_blank" title="Weibo"><i class="fab fa-weibo"></i></a><a class="social-icon" href="https://www.douban.com/people/161993653/" target="_blank" title="豆瓣"><i class="fas fa-bookmark"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#About"><span class="toc-number">1.</span> <span class="toc-text">About</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A4%E8%AF%86headers%E3%80%81%E7%89%88%E6%9C%AC%E3%80%81%E9%87%8D%E8%A6%81%E8%B5%84%E6%BA%90"><span class="toc-number">2.</span> <span class="toc-text">认识headers、版本、重要资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#STL%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.</span> <span class="toc-text">STL体系结构基础介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E4%B8%8E%E5%88%86%E7%B1%BB%E4%B9%8B%E5%90%84%E7%A7%8D%E6%B5%8B%E8%AF%95%EF%BC%881%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">容器与分类之各种测试（1）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E4%B8%8E%E5%88%86%E7%B1%BB%E4%B9%8B%E5%90%84%E7%A7%8D%E6%B5%8B%E8%AF%95%EF%BC%882%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">容器与分类之各种测试（2）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E4%B8%8E%E5%88%86%E7%B1%BB%E4%B9%8B%E5%90%84%E7%A7%8D%E6%B5%8B%E8%AF%95%EF%BC%883%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">容器与分类之各种测试（3）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E4%B9%8B%E5%88%86%E7%B1%BB%E4%B8%8E%E5%90%84%E7%A7%8D%E6%B5%8B%E8%AF%95%EF%BC%884%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">容器之分类与各种测试（4）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E9%85%8D%E5%99%A8%E6%B5%8B%E8%AF%95"><span class="toc-number">8.</span> <span class="toc-text">分配器测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OOP-vs-GP"><span class="toc-number">9.</span> <span class="toc-text">OOP vs. GP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6%E9%87%8D%E8%BD%BD%E5%92%8C%E6%A8%A1%E6%9D%BF%EF%BC%88%E6%B3%9B%E5%8C%96%EF%BC%8C%E5%85%A8%E7%89%B9%E5%8C%96%EF%BC%8C%E5%81%8F%E7%89%B9%E5%8C%96%EF%BC%89"><span class="toc-number">10.</span> <span class="toc-text">操作符重载和模板（泛化，全特化，偏特化）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Allocator"><span class="toc-number">11.</span> <span class="toc-text">Allocator</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E4%B9%8B%E9%97%B4%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%85%B3%E7%B3%BB%E4%B8%8E%E5%88%86%E7%B1%BB"><span class="toc-number">12.</span> <span class="toc-text">容器之间的实现关系与分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2list%EF%BC%88%E4%B8%8A%EF%BC%89"><span class="toc-number">13.</span> <span class="toc-text">深度探索list（上）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2list%EF%BC%88%E4%B8%8B%EF%BC%89"><span class="toc-number">14.</span> <span class="toc-text">深度探索list（下）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E5%92%8CIterator-Traits%E7%9A%84%E4%BD%9C%E7%94%A8%E4%B8%8E%E8%AE%BE%E8%AE%A1"><span class="toc-number">15.</span> <span class="toc-text">迭代器的设计原则和Iterator Traits的作用与设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vector%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2"><span class="toc-number">16.</span> <span class="toc-text">Vector深度探索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#array-forward-list%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2"><span class="toc-number">17.</span> <span class="toc-text">array, forward_list深度探索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#deque-queue%E5%92%8Cstack%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%B8%8A%EF%BC%89"><span class="toc-number">18.</span> <span class="toc-text">deque, queue和stack深度探索（上）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#deque-queue%E5%92%8Cstack%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%B8%8B%EF%BC%89"><span class="toc-number">19.</span> <span class="toc-text">deque, queue和stack深度探索（下）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RB-Tree%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2"><span class="toc-number">20.</span> <span class="toc-text">RB-Tree深度探索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set-Multiset%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2"><span class="toc-number">21.</span> <span class="toc-text">Set, Multiset深度探索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Map-Multimap%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2"><span class="toc-number">22.</span> <span class="toc-text">Map, Multimap深度探索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hash-Table%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2"><span class="toc-number">23.</span> <span class="toc-text">Hash Table深度探索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Unordered%E5%AE%B9%E5%99%A8%E6%A6%82%E5%BF%B5"><span class="toc-number">24.</span> <span class="toc-text">Unordered容器概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E7%9A%84%E5%BD%A2%E5%BC%8F"><span class="toc-number">25.</span> <span class="toc-text">算法的形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-number">26.</span> <span class="toc-text">迭代器的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%B1%BB%E5%88%AB%E5%AF%B9%E7%AE%97%E6%B3%95%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-number">27.</span> <span class="toc-text">迭代器类别对算法的影响</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%EF%BC%88%E5%87%A0%E4%B8%AA%E4%BE%8B%E5%AD%90%EF%BC%89"><span class="toc-number">28.</span> <span class="toc-text">算法源码剖析（几个例子）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%BF%E5%87%BD%E6%95%B0%E5%92%8C%E5%87%BD%E6%95%B0%E5%AF%B9%E8%B1%A1"><span class="toc-number">29.</span> <span class="toc-text">仿函数和函数对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%9C%A8%E5%A4%9A%E7%A7%8D%E9%80%82%E9%85%8D%E5%99%A8"><span class="toc-number">30.</span> <span class="toc-text">存在多种适配器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Binder2nd-not1-bind"><span class="toc-number">31.</span> <span class="toc-text">Binder2nd&#x2F;not1&#x2F;bind</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%80%82%E9%85%8D%E5%99%A8reverse-iterator-inserter"><span class="toc-number">32.</span> <span class="toc-text">迭代器适配器reverse_iterator&#x2F;inserter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#X%E9%80%82%E9%85%8D%E5%99%A8ostream-iterator-istream-iterator"><span class="toc-number">33.</span> <span class="toc-text">X适配器ostream_iterator&#x2F;istream_iterator</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E4%B8%87%E7%94%A8%E7%9A%84Hash-Function"><span class="toc-number">34.</span> <span class="toc-text">一个万用的Hash Function</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tuple%E7%94%A8%E4%BE%8B"><span class="toc-number">35.</span> <span class="toc-text">Tuple用例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#type-traits"><span class="toc-number">36.</span> <span class="toc-text">type traits</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cout%E7%9A%84%E6%93%8D%E4%BD%9C%E7%AC%A6%E9%87%8D%E8%BD%BD"><span class="toc-number">37.</span> <span class="toc-text">cout的操作符重载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#movable%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">38.</span> <span class="toc-text">movable的使用</span></a></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/ssd-refinedet-paper/" title="SSD-RefineDet论文阅读"><img src="https://images.unsplash.com/photo-1606870655612-8eacd813984d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SSD-RefineDet论文阅读"/></a><div class="content"><a class="title" href="/posts/ssd-refinedet-paper/" title="SSD-RefineDet论文阅读">SSD-RefineDet论文阅读</a><time datetime="2020-08-03T13:25:33.000Z" title="发表于 2020-08-03 21:25:33">2020-08-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/houjieC++STL/" title="侯捷c++STL体系结构与内核分析"><img src="https://images.unsplash.com/photo-1608488426085-c8b7e9e4592f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1351&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="侯捷c++STL体系结构与内核分析"/></a><div class="content"><a class="title" href="/posts/houjieC++STL/" title="侯捷c++STL体系结构与内核分析">侯捷c++STL体系结构与内核分析</a><time datetime="2020-06-12T08:24:02.000Z" title="发表于 2020-06-12 16:24:02">2020-06-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/yolopaperreading/" title="yolo系列论文阅读笔记"><img src="https://images.unsplash.com/photo-1608971222449-15661fc7bdb6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=675&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="yolo系列论文阅读笔记"/></a><div class="content"><a class="title" href="/posts/yolopaperreading/" title="yolo系列论文阅读笔记">yolo系列论文阅读笔记</a><time datetime="2020-06-04T01:53:54.000Z" title="发表于 2020-06-04 09:53:54">2020-06-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/houjieC++/" title="侯捷C++面向对象程序设计"><img src="https://images.unsplash.com/photo-1608153498891-e895052f0cbe?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="侯捷C++面向对象程序设计"/></a><div class="content"><a class="title" href="/posts/houjieC++/" title="侯捷C++面向对象程序设计">侯捷C++面向对象程序设计</a><time datetime="2020-05-28T08:48:27.000Z" title="发表于 2020-05-28 16:48:27">2020-05-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/loopdetectioninBipartitegraph/" title="二分图搜无向定长环"><img src="https://images.unsplash.com/photo-1608971222449-15661fc7bdb6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=675&amp;q=80" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="二分图搜无向定长环"/></a><div class="content"><a class="title" href="/posts/loopdetectioninBipartitegraph/" title="二分图搜无向定长环">二分图搜无向定长环</a><time datetime="2020-05-08T02:41:32.000Z" title="发表于 2020-05-08 10:41:32">2020-05-08</time></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://images.unsplash.com/photo-1608488426085-c8b7e9e4592f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1351&amp;q=80)"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2021 By Richard YU</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">It's hard to tell that the world we live in is either a reality or a dream.</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="rightside.chat_btn"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.spacingElementById('content-inner')
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    loader: {
+      source: {
+        '[tex]/amsCd': '[tex]/amscd'
+      }
+    },
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        addClass: [200,() => {
+          document.querySelectorAll('mjx-container:not([display=\'true\']').forEach( node => {
+            const target = node.parentNode
+            if (!target.classList.contains('has-jax')) {
+              target.classList.add('mathjax-overflow')
+            }
+          })
+        }, '', false]
       }
     }
-  });
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
-        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
-      }
-    });
-  });</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>function loadValine () {
+  function initValine () {
+    let initData = {
+      el: '#vcomment',
+      appId: 'duGoywhUmLrx9pM6qQhmf47c-gzGzoHsz',
+      appKey: 'm7fc8w4Di5qnAXXaJ5Gp3Pgg',
+      placeholder: '欢迎评论！请留下你的邮箱',
+      avatar: 'robohash',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
     }
-  });</script><script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script><script>$(".highlight").not(".gist .highlight").each(function(t,e){var n=$("<div>").addClass("highlight-wrap");$(e).after(n),n.append($("<button>").addClass("copy-btn").append("复制").on("click",function(t){var e=$(this).parent().find(".code").find(".line").map(function(t,e){return $(e).text()}).toArray().join("\n"),n=document.createElement("textarea"),o=window.pageYOffset||document.documentElement.scrollTop;n.style.top=o+"px",n.style.position="absolute",n.style.opacity="0",n.readOnly=!0,n.value=e,document.body.appendChild(n),n.select(),n.setSelectionRange(0,e.length),n.readOnly=!1,document.execCommand("copy")?$(this).text("复制成功"):$(this).text("复制失败"),n.blur(),$(this).blur()})).on("mouseleave",function(t){var e=$(this).find(".copy-btn");setTimeout(function(){e.text("复制")},300)}).append(e)})</script></body></html>
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+    
+    if (false) {
+      const otherData = false
+      initData = Object.assign({}, initData, otherData)
+    }
+    
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>(function(){
+  const bp = document.createElement('script');
+  const curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  bp.dataset.pjax = ''
+  const s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})()</script></div></body></html>
