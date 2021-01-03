@@ -119,6 +119,8 @@
 <p>fluid：<a href="https://github.com/fluid-dev/hexo-theme-fluid">https://github.com/fluid-dev/hexo-theme-fluid</a></p>
 <p>icarus：<a href="https://blog.zhangruipeng.me/hexo-theme-icarus/">https://blog.zhangruipeng.me/hexo-theme-icarus/</a></p>
 <p><strong>butterfly：<a href="https://butterfly.js.org/">https://butterfly.js.org/</a></strong>（最后选择了这个主题，很好用，也容易配置，不会有奇奇怪怪的问题）</p>
+<p>需要注意一下这个主题中<code>Pangu</code>参数，如果设置为true，就会给中英文字符等自动空格，但是开了之后可能会让mathjax插件的行内公式出现奇奇怪怪的错误，所以慎用。</p>
+<p>另外可以对博客进行优化，见<a href="https://butterfly.js.org/posts/4073eda/#Gulp%E5%A3%93%E7%B8%AE">此</a>，记得在<code>hexo g</code>之后进行<code>gulp</code>优化</p>
 <p>23.重装系统后恢复Hexo博客</p>
 <p><a href="https://zalmon.cn/2020/01/11/%E7%94%B5%E8%84%91%E9%87%8D%E8%A3%85%E7%B3%BB%E7%BB%9F%E5%90%8E%E6%81%A2%E5%A4%8Dhexo%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2/">https://zalmon.cn/2020/01/11/%E7%94%B5%E8%84%91%E9%87%8D%E8%A3%85%E7%B3%BB%E7%BB%9F%E5%90%8E%E6%81%A2%E5%A4%8Dhexo%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2/</a></p>
 <p>21.更新hexo版本</p>
@@ -2610,7 +2612,7 @@ M=\sigma_{1}u_{1}v_{1}^{T}+\sigma_{2}u_{2}v_{2}^{T}+\cdots+\sigma_{n}u_{n}v_{n}^
     <url>/posts/visualSLAMbyGaoxiang-3/</url>
     <content><![CDATA[<p>本次课程主要研究李群和李代数(Lie Group, Lie Algebra)，主要的目的是为了能够相机得旋转和平移进行微调。因为相机的运动估计可能不准确，而无法对旋转矩阵加上微小量之后依然是旋转矩阵（旋转矩阵无法定义加法，如果用四元数，必须是单位四元数，那么也无法定义加法）。李群李代数与后面的优化，流形都会有很大的联系。</p>
 <blockquote>
-<p>在视觉SLAM中，相机的位姿是未知的，而我们需要解决什么样的相机位姿最符合当前观测数据这样的问题。一种典型的方式是把其构建成一个优化问题，求解最优的$R$和$t$，使得误差最小化。</p>
+<p>在视觉SLAM中，相机的位姿是未知的，而我们需要解决什么样的相机位姿最符合当前观测数据这样的问题。一种典型的方式是把其构建成一个优化问题，求解最优的 $R$ 和 $t$，使得误差最小化。</p>
 <p>由于旋转矩阵自身带有约束，即必须正交且行列式为1，因此作为优化变量会引入额外的约束，使得优化变得困难。而通过李群李代数的转换关系，可以顺利求导，把位姿估计变成无约束的优化问题。</p>
 </blockquote>
 <h2 id="群"><a href="#群" class="headerlink" title="群"></a>群</h2><p>群(Group)是一种集合加上一种运算的代数结构，满足封闭性，结合律，<strong>幺元</strong>，逆。其中幺元可以认为是单位元，就是与其他元素作用不改变这个元素，逆是元素和和它的逆进行运算后得到了幺元。</p>
@@ -2646,7 +2648,7 @@ R \in SO(3), t \in {\mathbb R}^{3}
 <p>上面的式子表示，对旋转矩阵求导，就是在其左侧乘以一个$\phi (t)$，类似于指数函数的求导。</p>
 <p>下面进行进一步地近似，假设在单位元附近，$t_{0}=0, R(0)=I$，则：</p>
 <script type="math/tex; mode=display">
-R(t) \approx R(t_{0}) + \dot {R}(t_{0})(t-t_{0}) = I + \phi (t_{0})^{\wedge} (t) \quad \quad 将R在t_{0}进行泰勒展开，并忽略二次及以上高阶项</script><p>进一步假设，在$t_{0}$附近，$\phi$不变，则$\dot {R} (t) = \phi (t_{0}) ^{\wedge} R(t) = \phi _{0} ^{\wedge} R(t)$，再根据初值条件，得出：</p>
+R(t) \approx R(t_{0}) + \dot {R}(t_{0})(t-t_{0}) = I + \phi (t_{0})^{\wedge} (t) \quad \quad 将R在t_{0}进行泰勒展开，并忽略二次及以上高阶项</script><p>进一步假设，在$t_{0}$附近，$\phi$不变，则$\dot{R}(t)=\phi(t_{0})^{\wedge}R(t)=\phi_{0}^{\wedge} R(t)$，再根据初值条件，得出：</p>
 <script type="math/tex; mode=display">
 R(t) = \exp( \phi _{0} ^{\wedge} t)</script><p>在泰勒展开那一步可以看出，$\phi$反映的是一阶导数的性质，位于旋转正交群的正切空间上（tangent space，切平面上）。</p>
 <p>上述证明提供了一种思路，可能不太严谨。实际上可以证明最后得出的式子在任意时间都适用，且该关系称为指数映射（exponential map），$\phi$称为$SO(3)$对应的李代数$\mathfrak so(3)$。</p>
