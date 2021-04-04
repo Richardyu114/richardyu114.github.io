@@ -1741,8 +1741,8 @@ w_{1}^{2}+x_{1}^{2}-y_{1}^{2}-z_{1}^{2} & 2x_{1}y_{1}-2w_{1}z_{1} & 2x_{1}z_{1}+
 \begin{array}{rl}
 \operatorname{loss}_{t}=\sum_{i=0}^{W} \sum_{j=0}^{H} \sum_{k=0}^{A} & 1_{\text {Max } 100<\text { Thresh }} \lambda_{\text {noobj }} *\left(-b_{i j k}^{o}\right)^{2} \\
 & +1_{t<12800} \lambda_{\text {prior }} * \sum_{r_{\epsilon}(x, y, w, h)}\left(\text { prior }_{k}^{r}-b_{i j k}^{r}\right)^{2} \\
-& +1_{k}^{\text {truth }}\left(\lambda_{\text {coord }} * \sum_{r_{\epsilon}(x, y, w, h)}\left(\text { truth }^{r}-b_{i j k}^{r}\right)^{2}\right. & \left.+b_{i j k}^{2}\right)^{2} \\
-& +\lambda_{\text {obj }} *\left(I O U_{\text {truth }}^{k}\right. \\
+& +1_{k}^{\text {truth }}\left(\lambda_{\text {coord }} * \sum_{r_{\epsilon}(x, y, w, h)}\left(\text { truth }^{r}-b_{i j k}^{r}\right)^{2}\right. & \left.+b_{i j k}^{r}\right)^{2} \\
+& +\lambda_{\text {obj }} *\left(I O U_{\text {truth }}^{k} - b_{ijk}^{o}\right)^{2} \\
 & \left.+\lambda_{\text {class }} *\left(\sum_{c=1}^{C}\left(t r u t h^{c}-b_{i j k}^{c}\right)^{2}\right)\right)
 \end{array}</script><p>先验框匹配，样本选择 ，IOU计算只考虑形状大小，不考虑坐标，移到原点计算，每个groudtruth只会分配一个最合适的预测框。前面先让预测框学着预测先验框anchor</p>
 <p>训练，多scale训练，通道数不变，只是特征图的尺寸会变化。先用$224 \times 224$尺寸ImageNet图片对Darknet-19进行第一阶段训练，然后将图片尺寸调整为$448 \times 448$继续进行第二阶段的训练，目的是为了让网络可以适应大尺寸的图片输入。之后移除最后的卷积层，global avgpooling和分类的softmax, 增加一些卷积层改为分类backbone进行训练。输出的通道数为$anchor_nums \times (4+1+num_classes)$，以VOC数据集为例，最后的网络输出shape为$(N,W,H,125)$，先reshape为$(N,W,H,5,25)$，其中$[:,:,:,:,0:4]$为边界框的位置和大小$(t_{x},t_{y},t_{w},t_{h})$，$[:,:,:,:,4]$为边界框的置信度，$[:,:,:,:,5:]$为边界框的类别预测，最后还需要对其进行NMS等后处理</p>
@@ -3208,7 +3208,7 @@ R & t^{\wedge}R\\
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">int stl_component()</span><br><span class="line">&#123;</span><br><span class="line">  int ia[6] &#x3D; &#123;27, 210, 12, 47, 109, 83&#125;;</span><br><span class="line">  &#x2F;&#x2F;用到了容器和分配器定义一个vector</span><br><span class="line">  vector &lt;int, allocator&lt;int&gt; &gt; vi(ia, ia+6);</span><br><span class="line">  &#x2F;&#x2F;用到了算法，迭代器，函数适配器，函数对象</span><br><span class="line">  &#x2F;&#x2F; vi.begin()和vi.end()迭代指向vi中的元素</span><br><span class="line">  &#x2F;&#x2F; not1是negator，否定less的作用，变成了大于等于40的数</span><br><span class="line">  &#x2F;&#x2F; bind2nd绑定了less比较的第二个对象，固定在40</span><br><span class="line">  cout &lt;&lt; count_if(vi.begin(), vi.end(),</span><br><span class="line">         not1(bind2nd(less&lt;int&gt;(), 40))) &lt;&lt; endl;</span><br><span class="line"> </span><br><span class="line">  return 0;  </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>简单提及时间复杂度。</p>
 <p>“前闭后开”曲间，标准库规定容器迭代器的最后一个元素取不到，即[iter.begin(), iter.end() )，此外容器也不一定是连续空间，比如链表。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Container&lt;T&gt; c;</span><br><span class="line">...</span><br><span class="line">Container&lt;T&gt;::iterator ite &#x3D; c.begin();</span><br><span class="line">&#x2F;&#x2F; for语句的语法规定，括号里面一定要有两个分号，分开三个句子。</span><br><span class="line">&#x2F;&#x2F;第一个句子是初始化用的，如果没有初始化的必要，就视为空语句，加上分号；</span><br><span class="line">&#x2F;&#x2F;第二个句子作为判断条件，如果没有判断条件，也视为空语句，后加一个分号。这种情况，会无限循环，相当于while(1)。如果for的执行部分，就是&#123;&#125;之间有专break语句，可以退出；</span><br><span class="line">&#x2F;&#x2F;第三个句子是执行部分执行完毕再执行的语句；无则视为属空语句；此时不用再加分号</span><br><span class="line">for (; ite !&#x3D; ite.end(); ++ite)</span><br><span class="line">   ...</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Container&lt;T&gt; c;</span><br><span class="line">...</span><br><span class="line">Container&lt;T&gt;::iterator ite &#x3D; c.begin();</span><br><span class="line">&#x2F;&#x2F; for语句的语法规定，括号里面一定要有两个分号，分开三个句子。</span><br><span class="line">&#x2F;&#x2F;第一个句子是初始化用的，如果没有初始化的必要，就视为空语句，加上分号；</span><br><span class="line">&#x2F;&#x2F;第二个句子作为判断条件，如果没有判断条件，也视为空语句，后加一个分号。这种情况，会无限循环，相当于while(1)。如果for的执行部分，就是&#123;&#125;之间有break语句，可以退出；</span><br><span class="line">&#x2F;&#x2F;第三个句子是执行部分执行完毕再执行的语句；无则视为属空语句；此时不用再加分号</span><br><span class="line">for (; ite !&#x3D; ite.end(); ++ite)</span><br><span class="line">   ...</span><br></pre></td></tr></table></figure>
 <p>建议使用range-based for statement (since c++11):</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for (decl:coll)&#123;</span><br><span class="line">statement</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for (int i : &#123;2,3,5,7,9,13&#125;) &#123;</span><br><span class="line">  std::cout&lt;&lt;i&lt;&lt;std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -3225,7 +3225,7 @@ R & t^{\wedge}R\\
 <p>array必须指定固定大小，不能是变量大小；</p>
 <p><code>array.data()</code>首地址；</p>
 <p><code>clock()</code>得到的是ms；</p>
-<p><code>snprintf()</code>是c标注库函数，在这里是将数字转成字符串，具体可参考<a href="https://blog.csdn.net/qq_34707315/article/details/77895735#commentBox">此</a>；</p>
+<p><code>snprintf()</code>是c标准库函数，在这里是将数字转成字符串，具体可参考<a href="https://blog.csdn.net/qq_34707315/article/details/77895735#commentBox">此</a>；</p>
 <p><img src="https://cdn.jsdelivr.net/gh/Richardyu114/PicBed_blog/houjieC++STL/array_test1.JPG" alt="在固定大小的array中随机生成数并出初始化填充，然后快排再二分查找指定的数字，并打印出消耗的时间"></p>
 <p><img src="https://cdn.jsdelivr.net/gh/Richardyu114/PicBed_blog/houjieC++STL/array_test2.JPG" alt></p>
 <h2 id="容器与分类之各种测试（2）"><a href="#容器与分类之各种测试（2）" class="headerlink" title="容器与分类之各种测试（2）"></a>容器与分类之各种测试（2）</h2><p>侯捷老师给的一些建议：</p>
@@ -3242,7 +3242,7 @@ R & t^{\wedge}R\\
 <p><img src="https://cdn.jsdelivr.net/gh/Richardyu114/PicBed_blog/houjieC++STL/vector_test1.JPG" alt="定义一个vector，然后不断填充随机数初始化，然后利用模板函数find和二分查找去搜索指定的数，比较两者的时间差异"></p>
 <p><img src="https://cdn.jsdelivr.net/gh/Richardyu114/PicBed_blog/houjieC++STL/vector_test2.JPG" alt></p>
 <h2 id="容器与分类之各种测试（3）"><a href="#容器与分类之各种测试（3）" class="headerlink" title="容器与分类之各种测试（3）"></a>容器与分类之各种测试（3）</h2><p>1.使用容器list:</p>
-<p>容器的第二个参数是分配器，一般我们不写使用默认的默认器分配内容；</p>
+<p>容器的第二个参数是分配器，一般我们不写，使用默认的分配器分配内容；</p>
 <p><code>list.max_size()</code></p>
 <p><code>list.size()</code></p>
 <p><code>list.front()</code></p>
@@ -3253,7 +3253,7 @@ R & t^{\wedge}R\\
 <p><code>forward_list.push_front</code>只提供单向的放数据</p>
 <p><code>forward_list.max_size()</code></p>
 <p><code>forward_list.front()</code></p>
-<p>没有<code>forward_list.back()</code>和<code>forward_list.szie()</code></p>
+<p>没有<code>forward_list.back()</code>和<code>forward_list.size()</code></p>
 <p><img src="https://cdn.jsdelivr.net/gh/Richardyu114/PicBed_blog/houjieC++STL/forward_list_test.JPG" alt></p>
 <p>3.使用容器slist:</p>
 <p>非C++11标准库；</p>
